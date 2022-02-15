@@ -1,12 +1,15 @@
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
+import { isBrowser } from '../misc/util'
 
 export const useDebug = () => {
-  const debug = useMemo(() => {
-    return (
-      window.location.pathname.includes('#debug') ||
-      process.env.NODE_ENV === 'development'
-    )
-  }, [window.location.pathname])
+  const [debug, setDebug] = useState(false)
 
-  return debug
+  useEffect(() => {
+    setDebug(
+      window.pathname.current.includes('#debug') ||
+        process.env.NODE_ENV === 'development'
+    )
+  }, [])
+
+  return isBrowser ? debug : false
 }
