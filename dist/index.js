@@ -250,39 +250,39 @@ function offsetLeft(e, t = 0) {
   t += e.offsetLeft
   return e.offsetParent ? offsetLeft(e.offsetParent, t) : t
 }
-const useRect = (c = { y: 0 }) => {
+const useRect = () => {
     const e = react.useRef(),
       [t, { width: r, height: s }] = useMeasure(),
-      [f, { height: h }] = useMeasure(),
-      { width: u, height: o } = useWindowSize(),
-      [n, d] = react.useState({ top: void 0, left: void 0 }),
+      [u, { height: f }] = useMeasure(),
+      { width: o, height: n } = useWindowSize(),
+      [c, h] = react.useState({ top: void 0, left: void 0 }),
       a = react.useRef({}),
       i = react.useRef({})
     return (
       react.useEffect(() => {
-        f(document.body), t(e.current)
+        u(document.body), t(e.current)
       }, []),
       useDebounce(
         () => {
-          d({ top: offsetTop(e.current), left: offsetLeft(e.current) })
+          h({ top: offsetTop(e.current), left: offsetLeft(e.current) })
         },
         1e3,
-        [h]
+        [f]
       ),
       react.useEffect(() => {
-        a.current = { top: n.top, left: n.left, width: r, height: s }
-      }, [n, r, s]),
+        a.current = { top: c.top, left: c.left, width: r, height: s }
+      }, [c, r, s]),
       useDebounce(
         () => {
-          i.current = { width: u, height: o }
+          i.current = { width: o, height: n }
         },
         1e3,
-        [u, o]
+        [o, n]
       ),
       [
         e,
-        () => {
-          var e = c.y,
+        (e) => {
+          var e = e.y,
             { top: t, left: r, width: s, height: u } = a.current,
             { width: o, height: n } = i.current
           if (
