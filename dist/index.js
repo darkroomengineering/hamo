@@ -1,34 +1,33 @@
 Object.defineProperty(exports, '__esModule', { value: !0 })
 var react = require('react'),
   rafz = require('@react-spring/rafz'),
-  uuid = require('uuid'),
-  store = require('lib/store')
+  uuid = require('uuid')
 const useTimeoutFn = (e, t = 0) => {
     const r = react.useRef(!1),
-      o = react.useRef(),
-      s = react.useRef(e)
-    var u = react.useCallback(() => r.current, [])
+      s = react.useRef(),
+      u = react.useRef(e)
+    var o = react.useCallback(() => r.current, [])
     const n = react.useCallback(() => {
         ;(r.current = !1),
-          o.current && clearTimeout(o.current),
-          (o.current = setTimeout(() => {
-            ;(r.current = !0), s.current()
+          s.current && clearTimeout(s.current),
+          (s.current = setTimeout(() => {
+            ;(r.current = !0), u.current()
           }, t))
       }, [t]),
       c = react.useCallback(() => {
-        ;(r.current = null), o.current && clearTimeout(o.current)
+        ;(r.current = null), s.current && clearTimeout(s.current)
       }, [])
     return (
       react.useEffect(() => {
-        s.current = e
+        u.current = e
       }, [e]),
       react.useEffect(() => (n(), c), [t]),
-      [u, c, n]
+      [o, c, n]
     )
   },
   useDebounce = (e, t = 0, r = []) => {
-    var [e, t, o] = useTimeoutFn(e, t)
-    return react.useEffect(o, r), [e, t]
+    var [e, t, s] = useTimeoutFn(e, t)
+    return react.useEffect(s, r), [e, t]
   },
   useDebug = () => {
     return react.useMemo(
@@ -37,6 +36,9 @@ const useTimeoutFn = (e, t = 0) => {
         'development' === process.env.NODE_ENV,
       [window.location.pathname]
     )
+  },
+  useEffectOnce = (e) => {
+    react.useEffect(e, [])
   },
   isBrowser = 'undefined' != typeof window,
   noop = () => {},
@@ -51,16 +53,16 @@ const useTimeoutFn = (e, t = 0) => {
     : react.useEffect,
   callbacks = {}
 function useFrame(e, t = 0, r = []) {
-  const o = react.useMemo(() => uuid.v4(), [])
+  const s = react.useMemo(() => uuid.v4(), [])
   useIsomorphicLayoutEffect(() => {
     if (e)
       return (
-        (callbacks[o] = { callback: e, priority: t }),
+        (callbacks[s] = { callback: e, priority: t }),
         () => {
-          delete callbacks[o]
+          delete callbacks[s]
         }
       )
-  }, [e, o, t, ...r])
+  }, [e, s, t, ...r])
 }
 rafz.raf.onFrame(
   () => (
@@ -108,39 +110,6 @@ const useInterval = (e, t) => {
       e
     )
   },
-  useMediaQuery = (e) => {
-    const [t, r] = react.useState(void 0),
-      o = (e) => {
-        r(e.matches)
-      }
-    return (
-      react.useEffect(() => {
-        const t = window.matchMedia(e)
-        o(t)
-        try {
-          t?.addEventListener('change', o)
-        } catch (e) {
-          try {
-            t?.addListener(o)
-          } catch (e) {
-            console.error(e)
-          }
-        }
-        return () => {
-          try {
-            t?.removeEventListener('change', o)
-          } catch (e) {
-            try {
-              t?.removeListener(o)
-            } catch (e) {
-              console.error(e)
-            }
-          }
-        }
-      }),
-      t
-    )
-  },
   defaultState = {
     x: 0,
     y: 0,
@@ -154,18 +123,18 @@ const useInterval = (e, t) => {
   useMeasure = () => {
     const [e, t] = react.useState(null),
       [r, a] = react.useState(defaultState),
-      o = react.useMemo(
+      s = react.useMemo(
         () =>
           new window.ResizeObserver((e) => {
-            var t, r, o, s, u, n, c
+            var t, r, s, u, o, n, c
             e[0] &&
               (({
                 x: e,
                 y: t,
                 width: r,
-                height: o,
-                top: s,
-                left: u,
+                height: s,
+                top: u,
+                left: o,
                 bottom: n,
                 right: c,
               } = e[0].contentRect),
@@ -173,9 +142,9 @@ const useInterval = (e, t) => {
                 x: e,
                 y: t,
                 width: r,
-                height: o,
-                top: s,
-                left: u,
+                height: s,
+                top: u,
+                left: o,
                 bottom: n,
                 right: c,
               }))
@@ -186,9 +155,9 @@ const useInterval = (e, t) => {
       useIsomorphicLayoutEffect(() => {
         if (e)
           return (
-            o.observe(e),
+            s.observe(e),
             () => {
-              o.disconnect()
+              s.disconnect()
             }
           )
       }, [e]),
@@ -197,8 +166,38 @@ const useInterval = (e, t) => {
         : () => [noop, defaultState]
     )
   },
-  useEffectOnce = (e) => {
-    react.useEffect(e, [])
+  useMediaQuery = (e) => {
+    const [t, r] = react.useState(void 0),
+      s = (e) => {
+        r(e.matches)
+      }
+    return (
+      react.useEffect(() => {
+        const t = window.matchMedia(e)
+        s(t)
+        try {
+          t?.addEventListener('change', s)
+        } catch (e) {
+          try {
+            t?.addListener(s)
+          } catch (e) {
+            console.error(e)
+          }
+        }
+        return () => {
+          try {
+            t?.removeEventListener('change', s)
+          } catch (e) {
+            try {
+              t?.removeListener(s)
+            } catch (e) {
+              console.error(e)
+            }
+          }
+        }
+      }),
+      t
+    )
   },
   useUnmount = (e) => {
     const t = react.useRef(e)
@@ -206,9 +205,9 @@ const useInterval = (e, t) => {
   },
   useRafState = (e) => {
     const t = react.useRef(0),
-      [r, o] = react.useState(e)
+      [r, s] = react.useState(e)
     e = react.useCallback((e) => {
-      rafz.raf.cancel(t.current), rafz.raf(o(e))
+      rafz.raf.cancel(t.current), rafz.raf(s(e))
     }, [])
     return (
       useUnmount(() => {
@@ -218,7 +217,7 @@ const useInterval = (e, t) => {
     )
   },
   useWindowSize = (e = 1 / 0, t = 1 / 0) => {
-    const [r, o] = useRafState({
+    const [r, s] = useRafState({
       width: isBrowser ? window.innerWidth : e,
       height: isBrowser ? window.innerHeight : t,
     })
@@ -226,7 +225,7 @@ const useInterval = (e, t) => {
       react.useEffect(() => {
         if (isBrowser) {
           const e = () => {
-            o({ width: window.innerWidth, height: window.innerHeight })
+            s({ width: window.innerWidth, height: window.innerHeight })
           }
           return (
             on(window, 'resize', e),
@@ -247,12 +246,12 @@ function offsetLeft(e, t = 0) {
   t += e.offsetLeft
   return e.offsetParent ? offsetLeft(e.offsetParent, t) : t
 }
-const useRect = (c = !0) => {
+const useRect = (c = { y: 0 }) => {
     const e = react.useRef(),
-      [t, { width: r, height: o }] = useMeasure(),
+      [t, { width: r, height: s }] = useMeasure(),
       [f, { height: h }] = useMeasure(),
-      { width: s, height: u } = useWindowSize(),
-      [n, l] = react.useState({ top: void 0, left: void 0 }),
+      { width: u, height: o } = useWindowSize(),
+      [n, d] = react.useState({ top: void 0, left: void 0 }),
       a = react.useRef({}),
       i = react.useRef({})
     return (
@@ -261,55 +260,44 @@ const useRect = (c = !0) => {
       }, []),
       useDebounce(
         () => {
-          l({ top: offsetTop(e.current), left: offsetLeft(e.current) })
+          d({ top: offsetTop(e.current), left: offsetLeft(e.current) })
         },
         1e3,
         [h]
       ),
       react.useEffect(() => {
-        a.current = { top: n.top, left: n.left, width: r, height: o }
-      }, [n, r, o]),
+        a.current = { top: n.top, left: n.left, width: r, height: s }
+      }, [n, r, s]),
       useDebounce(
         () => {
-          i.current = { width: s, height: u }
+          i.current = { width: u, height: o }
         },
         1e3,
-        [s, u]
+        [u, o]
       ),
       [
         e,
         () => {
-          var e =
-              store.useStore.getState().locomotive?.scroll?.instance.scroll.y ||
-              0,
-            { top: t, left: r, width: o, height: s } = a.current,
-            { width: u, height: n } = i.current
+          var e = c.y,
+            { top: t, left: r, width: s, height: u } = a.current,
+            { width: o, height: n } = i.current
           if (
             'number' == typeof t &&
             'number' == typeof r &&
-            'number' == typeof o &&
-            'number' == typeof s
+            'number' == typeof s &&
+            'number' == typeof u
           )
             return (
-              (n = c
-                ? {
-                    top: t - e,
-                    left: r,
-                    height: s,
-                    width: o,
-                    bottom: n - (t - e + s),
-                    right: u - (r + o),
-                  }
-                : {
-                    top: t,
-                    left: r,
-                    height: s,
-                    width: o,
-                    bottom: t + s,
-                    right: r + o,
-                  }),
-              (e = 0 < n.top + n.height && 0 < n.bottom + n.height),
-              { ...n, inView: e }
+              (n = {
+                top: t - e,
+                left: r,
+                height: u,
+                width: s,
+                bottom: n - (t - e + u),
+                right: o - (r + s),
+              }),
+              (t = 0 < n.top + n.height && 0 < n.bottom + n.height),
+              { ...n, inView: t }
             )
         },
       ]
@@ -317,20 +305,26 @@ const useRect = (c = !0) => {
   },
   useSlots = (e = [], t = []) => {
     const r = react.useMemo(() => t && [t].flat(), [t]),
-      o = react.useMemo(() => e && [e].flat(), [e])
-    var s = react.useMemo(
-      () => r && o && o.map((t) => r.find((e) => e.type === t)?.props.children),
-      [r, o]
+      s = react.useMemo(() => e && [e].flat(), [e])
+    var u = react.useMemo(
+      () => r && s && s.map((t) => r.find((e) => e.type === t)?.props.children),
+      [r, s]
     )
-    return e[0] ? s : s[0]
+    return e[0] ? u : u[0]
   }
 ;(exports.useDebounce = useDebounce),
   (exports.useDebug = useDebug),
+  (exports.useEffectOnce = useEffectOnce),
   (exports.useFrame = useFrame),
   (exports.useInterval = useInterval),
   (exports.useIsTouchDevice = useIsTouchDevice),
+  (exports.useIsomorphicLayoutEffect = useIsomorphicLayoutEffect),
+  (exports.useMeasure = useMeasure),
   (exports.useMediaQuery = useMediaQuery),
+  (exports.useRafState = useRafState),
   (exports.useRect = useRect),
   (exports.useSlots = useSlots),
-  (exports.useTimeoutFn = useTimeoutFn)
+  (exports.useTimeoutFn = useTimeoutFn),
+  (exports.useUnmount = useUnmount),
+  (exports.useWindowSize = useWindowSize)
 //# sourceMappingURL=index.js.map
