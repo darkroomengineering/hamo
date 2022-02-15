@@ -19,7 +19,7 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
-export const useRect = (scroll = { y: 0 }) => {
+export const useRect = () => {
   const ref = useRef()
   const [refMeasure, { width, height }] = useMeasure()
   const [bodyRef, { height: bodyHeight }] = useMeasure()
@@ -28,7 +28,7 @@ export const useRect = (scroll = { y: 0 }) => {
   const rect = useRef({})
   const windowSize = useRef({})
 
-  const compute = () => {
+  const compute = (scroll) => {
     const scrollY = scroll.y
 
     const { top, left, width, height } = rect.current
