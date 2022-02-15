@@ -1,4 +1,3 @@
-import { useStore } from 'lib/store'
 import { useEffect, useRef, useState } from 'react'
 import { useDebounce } from './use-debounce'
 import { useMeasure } from './use-measure'
@@ -20,7 +19,7 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
-export const useRect = (scroll = false) => {
+export const useRect = (scroll = { y: 0 }) => {
   const ref = useRef()
   const [refMeasure, { width, height }] = useMeasure()
   const [bodyRef, { height: bodyHeight }] = useMeasure()
@@ -30,9 +29,7 @@ export const useRect = (scroll = false) => {
   const windowSize = useRef({})
 
   const compute = () => {
-    const scrollY = scroll
-      ? useStore.getState().locomotive?.scroll?.instance.scroll.y || 0
-      : 0
+    const scrollY = scroll.y
 
     const { top, left, width, height } = rect.current
     const { width: windowWidth, height: windowHeight } = windowSize.current
