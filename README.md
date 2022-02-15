@@ -1,4 +1,4 @@
-[![SATUS](https://assets.studiofreight.com/satus/header.png)](https://github.com/studio-freight/satus)
+[![HAMO](https://assets.studiofreight.com/hamo/header.png)](https://github.com/studio-freight/hamo)
 
 <!-- <p align="center">
   <a aria-label="Vercel logo" href="https://vercel.com">
@@ -18,52 +18,49 @@
 
 ## Introduction
 
-Satūs means start, beginning, planting, it's a set of tools we use as a template when starting a new project.
-
-<br/>
-
-## Composition
-
-This starter kit is composed of:
-
-- [Next.js](https://nextjs.org)
-- [Zustand](https://github.com/pmndrs/zustand)
-- [React Spring](https://github.com/pmndrs/react-spring)
-- [Embla](https://embla-carousel.com)
-- [Lenis](https://github.com/studio-freight/lenis)
-- [Clsx](https://www.npmjs.com/package/clsx)
-- From [Radix UI](https://www.radix-ui.com/):
-  - [Accordion](https://www.radix-ui.com/docs/primitives/components/accordion)
+Hamo means hook, you do the math
 
 <br/>
 
 ## Features
 
-This starter kit is composed of:
+This toolkit is composed of:
 
-- SVG import through [@svgr/webpack](https://www.npmjs.com/package/@svgr/webpack)
-- Sass architecture and tooling:
-  - To VW Functions
-  - Reset
-  - Easings
-- Hooks:
-  - useDebug
-  - useFrame
-  - useInterval
-  - useIsTouchDevice
-  - useMediaQuery
-  - useRect
-  - useSlots
-- Custom Cursor support
-- Real Viewport component
-- Grid Debugger
-- Stats
+`useDebounce` – debounce goodness
+
+`useDebug` – returns true if #debug is present in the url
+
+`useEffectOnce` – runs a function through react's useEffect with an empty dependency array
+
+`useFrame` – use `@react-spring/rafz` animation frame
+
+`useInterval` – create and dispose intervals
+
+`useIsTouchDevice` – duh
+
+`useIsomophicLayoutEffect` – runs react's `useLayoutEffect` if in browser, if not, runs a plain `useEffect` instead
+
+`useMeasure` – measure anything in the dom
+
+`useMediaQuery` – css-like media query support in Javascript.
+
+`useRafState` – modify state in sync with `@react-spring/rafz`
+
+`useRect` – getboundingclientrect with scrollY sauce if using our (lenis)[https://github.com/studio-freight/lenis] smooth scroll
+
+`useSlots` – brings vue `slots` to react
+
+`useTimeoutFn` – timeout a function
+
+`useUnmount` – calls `unmount` callbacks.
+
+`useWindowSize` – window sizing updated in sync with `@react-spring/rafz`
 
 <br/>
 
 ## Authors
 
-This toolkit is curated and maintained by the Studio Freight Things team:
+This set of hooks is curated and maintained by the Studio Freight Darkroom team:
 
 - Clement Roche ([@clementroche\_](https://twitter.com/clementroche_)) – [Studio Freight](https://studiofreight.com)
 - Guido Fier ([@uido15](https://twitter.com/uido15)) – [Studio Freight](https://studiofreight.com)

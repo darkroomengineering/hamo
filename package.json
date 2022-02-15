@@ -1,53 +1,54 @@
 {
-  "name": "satus",
-  "version": "1.0.0",
-  "private": true,
+  "name": "@studio-freight/hamo",
+  "version": "0.0.1",
+  "description": "hamo means hook, do the math.",
+  "author": "studio-freight",
+  "repository": "studio-freight/hamo",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "analyze": "cross-env ANALYZE=true next build",
-    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
-    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
+    "build": "rollup -c",
+    "start": "rollup -c -w",
     "prepare": "husky install"
   },
-  "dependencies": {
-    "@radix-ui/react-accordion": "^0.1.5",
-    "@react-spring/rafz": "^9.4.2",
-    "@studio-freight/locomotive-scroll": "^0.0.8",
-    "clsx": "^1.1.1",
-    "cross-env": "^7.0.3",
-    "embla-carousel-autoplay": "^6.1.1",
-    "embla-carousel-react": "^6.1.1",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.1",
-    "next": "12.0.10",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-spring": "^9.4.2",
-    "react-use": "^17.3.2",
-    "resize-observer-polyfill": "^1.5.1",
-    "sass": "^1.49.0",
-    "stats.js": "^0.17.0",
-    "use-dark-mode": "^2.3.1",
-    "uuid": "^8.3.2",
-    "zustand": "^3.6.9"
+  "peerDependencies": {
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^12.0.8",
-    "@svgr/webpack": "^6.2.0",
-    "critters": "^0.0.15",
-    "eslint": "8.6.0",
-    "eslint-config-next": "12.0.7",
+    "@babel/core": "^7.17.3",
+    "@babel/eslint-parser": "^7.17.0",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
-    "next-compose-plugins": "^2.2.1",
-    "next-transpile-modules": "^9.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^7.0.4",
     "prettier": "^2.5.1",
-    "prettier-eslint": "^13.0.0"
+    "prettier-eslint": "^13.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rollup": "^2.67.2",
+    "rollup-plugin-uglify": "^6.0.4"
   },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "react hooks",
+    "npm"
+  ],
   "lint-staged": {
     "*.js": "eslint --cache --fix",
-    "*.{js,css,scss,md}": "prettier --write"
+    "*.{js,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@react-spring/rafz": "^9.4.3",
+    "uuid": "^8.3.2"
   }
 }
