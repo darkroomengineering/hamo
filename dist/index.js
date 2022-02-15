@@ -29,17 +29,6 @@ const useTimeoutFn = (e, t = 0) => {
     var [e, t, s] = useTimeoutFn(e, t)
     return react.useEffect(s, r), [e, t]
   },
-  useDebug = () => {
-    return react.useMemo(
-      () =>
-        window.location.pathname.includes('#debug') ||
-        'development' === process.env.NODE_ENV,
-      [window.location.pathname]
-    )
-  },
-  useEffectOnce = (e) => {
-    react.useEffect(e, [])
-  },
   isBrowser = 'undefined' != typeof window,
   noop = () => {},
   on = (e, ...t) => {
@@ -47,6 +36,21 @@ const useTimeoutFn = (e, t = 0) => {
   },
   off = (e, ...t) => {
     e && e.removeEventListener && e.removeEventListener(...t)
+  },
+  useDebug = () => {
+    const [e, t] = react.useState(!1)
+    return (
+      react.useEffect(() => {
+        t(
+          window.pathname.current.includes('#debug') ||
+            'development' === process.env.NODE_ENV
+        )
+      }, []),
+      !!isBrowser && e
+    )
+  },
+  useEffectOnce = (e) => {
+    react.useEffect(e, [])
   },
   useIsomorphicLayoutEffect = isBrowser
     ? react.useLayoutEffect
