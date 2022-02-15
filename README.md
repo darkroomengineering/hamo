@@ -46,7 +46,7 @@ This toolkit is composed of:
 
 `useRafState` – modify state in sync with `@react-spring/rafz`
 
-`useRect` – getboundingclientrect with scrollY sauce if using our (lenis)[https://github.com/studio-freight/lenis] smooth scroll
+`useRect` – getboundingclientrect with scrollY sauce if using our [lenis](https://github.com/studio-freight/lenis) smooth scroll
 
 `useSlots` – brings vue `slots` to react
 
