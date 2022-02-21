@@ -50,6 +50,8 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@react-spring/rafz": "^9.4.3",
+    "debounce": "^1.2.1",
+    "react-use": "^17.3.2",
     "uuid": "^8.3.2"
   }
 }
