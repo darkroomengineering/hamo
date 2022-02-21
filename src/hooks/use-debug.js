@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react'
-import { isBrowser } from '../misc/util'
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 
 export const useDebug = () => {
-  const [debug, setDebug] = useState(false)
+  const router = useRouter()
 
-  useEffect(() => {
-    setDebug(
-      window.pathname.current.includes('#debug') ||
-        process.env.NODE_ENV === 'development'
+  const debug = useMemo(() => {
+    return (
+      router.asPath.includes('#debug') || process.env.NODE_ENV === 'development'
     )
-  }, [])
+  }, [router])
 
-  return isBrowser ? debug : false
+  return debug
 }
