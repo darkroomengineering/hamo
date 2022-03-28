@@ -1,5 +1,6 @@
 Object.defineProperty(exports, '__esModule', { value: !0 })
 var debounce = require('debounce'),
+  useIsomorphicLayoutEffect = require('hooks/use-isomorphic-layout-effect'),
   react = require('react'),
   reactUse = require('react-use')
 function offsetTop(e, t = 0) {
@@ -13,11 +14,11 @@ function offsetLeft(e, t = 0) {
 function _useRect(o = 1e3) {
   const t = react.useRef(),
     [r, { width: f, height: s }] = reactUse.useMeasure(),
-    { width: u, height: n } = reactUse.useWindowSize(),
-    [c, e] = react.useState(),
-    [i, d] = react.useState(),
+    { width: u, height: c } = reactUse.useWindowSize(),
+    [n, e] = react.useState(),
+    [i, h] = react.useState(),
     a =
-      (react.useLayoutEffect(() => {
+      (useIsomorphicLayoutEffect.useLayoutEffect(() => {
         const e = debounce.debounce(a, o),
           t = new ResizeObserver(e)
         return (
@@ -28,20 +29,20 @@ function _useRect(o = 1e3) {
         )
       }, [o]),
       () => {
-        t.current && (d(offsetTop(t.current)), e(offsetLeft(t.current)))
+        t.current && (h(offsetTop(t.current)), e(offsetLeft(t.current)))
       })
   return [
     (e) => {
-      ;(t.current = e), r(e), a()
+      t.current || ((t.current = e), r(e), a())
     },
     (e = 0) => {
       var e = {
           top: i - e,
-          left: c,
+          left: n,
           height: s,
           width: f,
-          bottom: n - (i - e + s),
-          right: u - (c + f),
+          bottom: c - (i - e + s),
+          right: u - (n + f),
         },
         t = 0 < e.top + e.height && 0 < e.bottom + e.height
       return { ...e, inView: t }

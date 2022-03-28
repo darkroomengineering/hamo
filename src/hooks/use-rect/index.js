@@ -67,6 +67,10 @@ function _useRect(debounce = 1000) {
     }
   }
 
+  useLayoutEffect(() => {
+    resize()
+  }, [windowWidth, windowHeight])
+
   return [setRef, compute]
 }
 
