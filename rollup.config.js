@@ -1,12 +1,13 @@
 import { uglify } from 'rollup-plugin-uglify'
-import pkg from './package.json'
 
 export default {
   input: 'src/index.js',
   output: [
     {
-      file: pkg.main,
+      // file: pkg.main,
+      dir: 'dist',
       format: 'cjs',
+      preserveModules: true,
       exports: 'named',
       sourcemap: true,
       strict: false,
