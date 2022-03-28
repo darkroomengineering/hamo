@@ -1,8 +1,8 @@
 Object.defineProperty(exports, '__esModule', { value: !0 })
 var debounce = require('debounce'),
-  useIsomorphicLayoutEffect = require('hooks/use-isomorphic-layout-effect'),
   react = require('react'),
-  reactUse = require('react-use')
+  reactUse = require('react-use'),
+  useIsomorphicLayoutEffect = require('../use-isomorphic-layout-effect.js')
 function offsetTop(e, t = 0) {
   t += e.offsetTop
   return e.offsetParent ? offsetTop(e.offsetParent, t) : t
