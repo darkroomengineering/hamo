@@ -1,5 +1,6 @@
 import { debounce as _debounce } from 'debounce'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect } from 'hooks/use-isomorphic-layout-effect'
+import { useRef, useState } from 'react'
 import { useMeasure, useWindowSize } from 'react-use'
 
 export function offsetTop(element, accumulator = 0) {
@@ -59,9 +60,11 @@ function _useRect(debounce = 1000) {
   }
 
   const setRef = (node) => {
-    ref.current = node
-    refMeasure(node)
-    resize()
+    if (!ref.current) {
+      ref.current = node
+      refMeasure(node)
+      resize()
+    }
   }
 
   return [setRef, compute]
