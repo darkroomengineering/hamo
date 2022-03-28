@@ -13,7 +13,7 @@ function offsetLeft(e, t = 0) {
 }
 function _useRect(o = 1e3) {
   const t = react.useRef(),
-    [r, { width: f, height: s }] = reactUse.useMeasure(),
+    [f, { width: r, height: s }] = reactUse.useMeasure(),
     { width: u, height: c } = reactUse.useWindowSize(),
     [n, e] = react.useState(),
     [i, h] = react.useState(),
@@ -31,23 +31,28 @@ function _useRect(o = 1e3) {
       () => {
         t.current && (h(offsetTop(t.current)), e(offsetLeft(t.current)))
       })
-  return [
-    (e) => {
-      t.current || ((t.current = e), r(e), a())
-    },
-    (e = 0) => {
-      var e = {
-          top: i - e,
-          left: n,
-          height: s,
-          width: f,
-          bottom: c - (i - e + s),
-          right: u - (n + f),
-        },
-        t = 0 < e.top + e.height && 0 < e.bottom + e.height
-      return { ...e, inView: t }
-    },
-  ]
+  return (
+    useIsomorphicLayoutEffect.useLayoutEffect(() => {
+      a()
+    }, [u, c]),
+    [
+      (e) => {
+        t.current || ((t.current = e), f(e), a())
+      },
+      (e = 0) => {
+        var e = {
+            top: i - e,
+            left: n,
+            height: s,
+            width: r,
+            bottom: c - (i - e + s),
+            right: u - (n + r),
+          },
+          t = 0 < e.top + e.height && 0 < e.bottom + e.height
+        return { ...e, inView: t }
+      },
+    ]
+  )
 }
 const useRect =
   'undefined' != typeof window ? _useRect : () => [() => {}, void 0]
