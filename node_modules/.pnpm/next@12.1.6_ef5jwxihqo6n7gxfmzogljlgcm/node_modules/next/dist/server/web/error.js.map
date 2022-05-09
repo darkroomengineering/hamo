@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../server/web/error.ts"],"names":["DeprecationError","Error","page"],"mappings":"Y;;;E;MAAaA,gBAAgB,SAASC,KAAK;gBAC7B,CAAC,CAACC,IAAI,EAAmB,CAAC,CAAE,CAAC;QACvC,KAAK,EAAE,gBAAgB,EAAEA,IAAI,CAAC;;;;;;;EAOhC,E;IACA,CAAC;;QAVUF,gBAAgB,GAAhBA,gBAAgB,A"}

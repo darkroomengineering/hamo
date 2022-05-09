@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../build/polyfills/fetch/index.js"],"names":["fetch","self","bind","module","exports","default"],"mappings":"Y;AAAA,EAAkB,AAAlB,cAAkB,AAAlB,EAAkB,CAClB,GAAG,CAACA,KAAK,GAAGC,IAAI,CAACD,KAAK,CAACE,IAAI,CAACD,IAAI;AAChCE,MAAM,CAACC,OAAO,GAAGJ,KAAK,A;AACtBG,MAAM,CAACC,OAAO,CAACC,OAAO,GAAGF,MAAM,CAACC,OAAO,A"}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../trace/shared.ts"],"names":["traceGlobals","Map","setGlobal","key","val","set"],"mappings":"Y;;;E;iD;AAEO,KAAK,CAACA,YAAY,GAAkB,GAAG,CAACC,GAAG;QAArCD,YAAY,GAAZA,YAAY,A;AAClB,KAAK,CAACE,SAAS,IAAIC,GAAQ,EAAEC,GAAQ,GAAK,CAAC;IAChDJ,YAAY,CAACK,GAAG,CAACF,GAAG,EAAEC,GAAG,C;AAC3B,CAAC;QAFYF,SAAS,GAATA,SAAS,A"}
