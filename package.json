@@ -21,6 +21,9 @@
     "rollup": "2.72.1",
     "rollup-plugin-uglify": "^6.0.4",
     "rollup-pluginutils": "^2.8.2",
+    "@react-spring/rafz": "^9.4.5",
+    "debounce": "^1.2.1",
+    "react-use": "^17.3.2",
     "terser": "^5.13.1"
   },
   "files": [

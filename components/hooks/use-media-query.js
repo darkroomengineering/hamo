@@ -1,38 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export const useMediaQuery = (queryString) => {
-  const [isMatch, setIsMatch] = useState(undefined);
+  const [isMatch, setIsMatch] = useState(undefined)
 
   const mqChange = (mq) => {
-    setIsMatch(mq.matches);
-  };
+    setIsMatch(mq.matches)
+  }
 
   useEffect(() => {
-    const mq = window.matchMedia(queryString);
-    mqChange(mq);
+    const mq = window.matchMedia(queryString)
+    mqChange(mq)
 
     try {
-      mq?.addEventListener("change", mqChange);
+      mq?.addEventListener('change', mqChange)
     } catch (e1) {
       try {
-        mq?.addListener(mqChange);
+        mq?.addListener(mqChange)
       } catch (e2) {
-        console.error(e2);
+        console.error(e2)
       }
     }
 
     return () => {
       try {
-        mq?.removeEventListener("change", mqChange);
+        mq?.removeEventListener('change', mqChange)
       } catch (e1) {
         try {
-          mq?.removeListener(mqChange);
+          mq?.removeListener(mqChange)
         } catch (e2) {
-          console.error(e2);
+          console.error(e2)
         }
       }
-    };
-  });
+    }
+  })
 
-  return isMatch;
-};
+  return isMatch
+}

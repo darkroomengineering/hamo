@@ -1,12 +1,30 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "jsx": "react",
-    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["dom", "es2017"],
+    "noEmit": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "target": "ESNext"
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
-  "include": ["components/**/*"]
+  "exclude": ["node_modules", "dist"],
+  "include": ["**/*.js"]
 }

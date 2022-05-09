@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "../dist"
+import { useLayoutEffect } from '../dist'
 
 const Home = () => {
   useLayoutEffect(() => {

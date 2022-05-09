@@ -1,10 +1,10 @@
 // https://medium.com/swlh/bring-vue-named-slots-to-react-87684188f18e
 
-import { useMemo } from "react";
+import { useMemo } from 'react'
 
 export const useSlots = (types = [], children = []) => {
-  const _children = useMemo(() => children && [children].flat(), [children]);
-  const _types = useMemo(() => types && [types].flat(), [types]);
+  const _children = useMemo(() => children && [children].flat(), [children])
+  const _types = useMemo(() => types && [types].flat(), [types])
   const slots = useMemo(
     () =>
       _children &&
@@ -13,7 +13,7 @@ export const useSlots = (types = [], children = []) => {
         (type) => _children.find((el) => el.type === type)?.props.children
       ),
     [_children, _types]
-  );
+  )
 
-  return types[0] ? slots : slots[0];
-};
+  return types[0] ? slots : slots[0]
+}
