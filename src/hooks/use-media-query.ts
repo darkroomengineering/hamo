@@ -36,3 +36,5 @@ export const useMediaQuery = (queryString) => {
 
   return isMatch
 }
+
+export default useMediaQuery

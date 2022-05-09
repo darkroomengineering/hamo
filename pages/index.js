@@ -1,4 +1,4 @@
-import { useLayoutEffect } from '../dist'
+import { useLayoutEffect } from '../src/hooks/use-isomorphic-layout-effect'
 
 const Home = () => {
   useLayoutEffect(() => {

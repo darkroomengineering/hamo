@@ -10,6 +10,7 @@ export const useSlots = (types = [], children = []) => {
       _children &&
       _types &&
       _types.map(
+        // @ts-ignore
         (type) => _children.find((el) => el.type === type)?.props.children
       ),
     [_children, _types]
@@ -17,3 +18,5 @@ export const useSlots = (types = [], children = []) => {
 
   return types[0] ? slots : slots[0]
 }
+
+export default useSlots

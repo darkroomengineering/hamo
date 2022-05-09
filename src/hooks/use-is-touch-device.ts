@@ -6,8 +6,11 @@ export const useIsTouchDevice = () => {
   useLayoutEffect(() => {
     const onResize = () => {
       setIsTouchDevice(
+        // @ts-ignore
         'ontouchstart' in window ||
+          // @ts-ignore
           navigator.maxTouchPoints > 0 ||
+          // @ts-ignore
           navigator.msMaxTouchPoints > 0
       )
     }
@@ -22,3 +25,5 @@ export const useIsTouchDevice = () => {
 
   return isTouchDevice
 }
+
+export default useIsTouchDevice

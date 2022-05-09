@@ -22,3 +22,5 @@ function _useDocumentReadyState() {
 
 export const useDocumentReadyState =
   typeof window !== 'undefined' ? _useDocumentReadyState : () => undefined
+
+export default useDocumentReadyState

@@ -23,8 +23,8 @@ function _useRect(debounce = 1000) {
   const ref = useRef()
   const [refMeasure, { width, height }] = useMeasure()
   const { width: windowWidth, height: windowHeight } = useWindowSize()
-  const [left, setLeft] = useState()
-  const [top, setTop] = useState()
+  const [left, setLeft] = useState(0)
+  const [top, setTop] = useState(0)
 
   // resize if body height changes
   useLayoutEffect(() => {
@@ -76,3 +76,5 @@ function _useRect(debounce = 1000) {
 
 export const useRect =
   typeof window !== 'undefined' ? _useRect : () => [() => {}, undefined]
+
+export default useRect

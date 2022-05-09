@@ -1,12 +1,15 @@
 import { raf } from '@react-spring/rafz'
-import { useLayoutEffect, useId } from 'react'
+import { useLayoutEffect } from './use-isomorphic-layout-effect'
+import { useId } from 'react'
 
 // https://github.com/pmndrs/react-spring/tree/master/packages/rafz#readme
 const callbacks = {}
 
 raf.onFrame(() => {
   Object.entries(callbacks)
+    // @ts-ignore
     .sort((a, b) => a[1].priority - b[1].priority)
+    // @ts-ignore
     .forEach(([, { callback }]) => {
       callback(raf.now())
     })
@@ -26,3 +29,5 @@ export function useFrame(callback, priority = 0, deps = []) {
     }
   }, [callback, id, priority, ...deps])
 }
+
+export default useFrame

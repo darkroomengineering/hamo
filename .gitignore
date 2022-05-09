@@ -34,3 +34,9 @@ yarn-error.log*
 # vercel
 .vercel
 .eslintcache
+
+# build output
+lib/
+esm
+
+.DS_Store

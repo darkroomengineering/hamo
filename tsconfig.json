@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "declaration": true,
+    "pretty": false,
+    "rootDir": "src",
+    "sourceMap": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": false,
+    "noImplicitAny": false,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "lib",
+    "lib": ["es2018", "dom"],
+    "importHelpers": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "exclude": ["node_modules", "node_modules/**/*", "lib", "esm"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}
