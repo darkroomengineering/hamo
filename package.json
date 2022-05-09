@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": "studio-freight/hamo",
@@ -10,8 +10,7 @@
     "start": "rollup -c -w rollup.config.ts",
     "prepublishOnly": "npm run build"
   },
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.esm.js",
+  "module": "dist/index.js",
   "devDependencies": {
     "@lopatnov/rollup-plugin-uglify": "^2.1.2",
     "@rollup/plugin-commonjs": "22.0.0",
