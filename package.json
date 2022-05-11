@@ -21,7 +21,8 @@
     "build:cjs": "tsc",
     "build:es": "tsc -m esNext --outDir esm",
     "build": "npm run build:cjs && npm run build:es",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "husky install"
   },
   "peerDependencies": {
     "@babel/plugin-syntax-flow": "^7.14.5",
@@ -76,6 +77,7 @@
     "src/**/**/*.{ts,tsx}": [
       "eslint --fix",
       "git add"
-    ]
+    ],
+    "*.js": "eslint --cache --fix"
   }
 }
