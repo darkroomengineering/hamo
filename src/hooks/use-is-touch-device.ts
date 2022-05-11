@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState } from 'react'
 
 export const useIsTouchDevice = () => {
-  const [isTouchDevice, setIsTouchDevice] = useState(undefined)
+  const [isTouchDevice, setIsTouchDevice] = useState()
 
   useLayoutEffect(() => {
     const onResize = () => {
