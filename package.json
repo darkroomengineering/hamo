@@ -36,6 +36,22 @@
     "*.js": "eslint --cache --fix"
   },
   "dependencies": {
+    "@react-spring/rafz": "^9.4.5",
+    "debounce": "^1.2.1",
+    "next": "^12.1.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-use": "^17.3.2",
+    "uuid": "^8.3.2",
+    "webpack": "^5.72.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.9",
+    "prettier": "^2.6.2",
+    "@typescript-eslint/eslint-plugin": "5.23.0",
+    "@typescript-eslint/parser": "5.23.0",
+    "babel-loader": "8.2.5",
+    "babel-plugin-dynamic-import-node": "2.3.3",
     "@babel/core": "7.17.10",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
@@ -44,13 +60,8 @@
     "@babel/preset-env": "7.17.10",
     "@babel/preset-react": "7.16.7",
     "@babel/preset-typescript": "7.16.7",
-    "@react-spring/rafz": "^9.4.5",
-    "@types/react": "18.0.9",
-    "@typescript-eslint/eslint-plugin": "5.23.0",
-    "@typescript-eslint/parser": "5.23.0",
-    "babel-loader": "8.2.5",
-    "babel-plugin-dynamic-import-node": "2.3.3",
-    "debounce": "^1.2.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4",
     "eslint": "8.15.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-react-app": "7.0.1",
@@ -61,15 +72,6 @@
     "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "4.5.0",
     "fork-ts-checker-webpack-plugin": "7.2.11",
-    "husky": "^8.0.1",
-    "next": "^12.1.6",
-    "prettier": "^2.6.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-use": "^17.3.2",
-    "tslib": "^2.4.0",
-    "typescript": "^4.6.4",
-    "uuid": "^8.3.2",
-    "webpack": "^5.72.1"
+    "husky": "^8.0.1"
   }
 }
