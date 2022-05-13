@@ -1,26 +1,16 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": "studio-freight/hamo",
+  "source": "src/index.js",
   "main": "lib/index.js",
   "module": "esm/index.js",
-  "sideEffects": false,
-  "files": [
-    "lib/",
-    "esm/"
-  ],
-  "types": "lib/index.d.ts",
-  "typings": "lib/index.d.ts",
   "scripts": {
     "dev": "next",
-    "lint": "eslint \"{src,tests,stories}/**/*.{ts,tsx}\"",
-    "lint:fix": "npm run lint --fix",
-    "lint:types": "tsc --noEmit",
-    "build:cjs": "tsc",
-    "build:es": "tsc -m esNext --outDir esm",
-    "build": "npm run build:cjs && npm run build:es",
+    "watch": "parcel watch",
+    "build": "parcel build",
     "prepublishOnly": "npm run build",
     "prepare": "husky install"
   },
@@ -30,48 +20,22 @@
     "npm"
   ],
   "lint-staged": {
-    "src/**/**/*.{ts,tsx}": [
-      "eslint --fix"
+    "src/**/**/*.{js,ts,tsx}": [
+      "prettier"
     ],
-    "*.js": "eslint --cache --fix"
+    "*.js": "prettier"
   },
   "dependencies": {
     "@react-spring/rafz": "^9.4.5",
     "debounce": "^1.2.1",
     "next": "^12.1.6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-use": "^17.3.2",
-    "uuid": "^8.3.2",
-    "webpack": "^5.72.1"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-use": "^17.3.2"
   },
   "devDependencies": {
-    "@types/react": "18.0.9",
-    "prettier": "^2.6.2",
-    "@typescript-eslint/eslint-plugin": "5.23.0",
-    "@typescript-eslint/parser": "5.23.0",
-    "babel-loader": "8.2.5",
-    "babel-plugin-dynamic-import-node": "2.3.3",
-    "@babel/core": "7.17.10",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-syntax-dynamic-import": "7.8.3",
-    "@babel/plugin-syntax-flow": "^7.16.7",
-    "@babel/plugin-transform-react-jsx": "^7.17.3",
-    "@babel/preset-env": "7.17.10",
-    "@babel/preset-react": "7.16.7",
-    "@babel/preset-typescript": "7.16.7",
-    "tslib": "^2.4.0",
-    "typescript": "^4.6.4",
-    "eslint": "8.15.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-config-react-app": "7.0.1",
-    "eslint-plugin-flowtype": "8.0.3",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.29.4",
-    "eslint-plugin-react-hooks": "4.5.0",
-    "fork-ts-checker-webpack-plugin": "7.2.11",
-    "husky": "^8.0.1"
+    "husky": "^8.0.1",
+    "parcel": "^2.5.0",
+    "prettier": "^2.6.2"
   }
 }
