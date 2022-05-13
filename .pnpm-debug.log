@@ -1,0 +1,22 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "@studio-freight/hamo@0.3.2",
+    "stage": "build",
+    "script": "parcel build",
+    "pkgname": "@studio-freight/hamo",
+    "err": {
+      "name": "pnpm",
+      "message": "@studio-freight/hamo@0.3.2 build: `parcel build`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: @studio-freight/hamo@0.3.2 build: `parcel build`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/Users/frz/.nvm/versions/node/v17.0.1/pnpm-global/5/node_modules/.pnpm/pnpm@7.0.0/node_modules/pnpm/dist/pnpm.cjs:93294:22)\n    at ChildProcess.emit (node:events:390:28)\n    at maybeClose (node:internal/child_process:1062:16)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:301:5)"
+    }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+}
