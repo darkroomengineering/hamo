@@ -20,7 +20,7 @@
     "npm"
   ],
   "lint-staged": {
-    "src/**/**/*.{js}": [
+    "src/**/**/*.js": [
       "prettier"
     ],
     "*.js": "prettier"
