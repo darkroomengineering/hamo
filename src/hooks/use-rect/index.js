@@ -1,8 +1,7 @@
 import { debounce as _debounce } from 'debounce'
 import { useRef, useState } from 'react'
+import { useMeasure, useWindowSize } from 'react-use'
 import { useLayoutEffect } from '../use-isomorphic-layout-effect'
-import { useMeasure } from '../use-measure'
-import { useWindowSize } from '../use-window-size'
 
 export function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
