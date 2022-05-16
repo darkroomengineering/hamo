@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useLayoutEffect } from '../hooks/use-isomorphic-layout-effect'
 import { isBrowser, noop } from '../misc/util'
 
 
@@ -28,7 +29,7 @@ export function useMeasure() {
     []
   )
 
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!element) return
     observer.observe(element)
     return () => {
