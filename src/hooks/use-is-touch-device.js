@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export const useIsTouchDevice = () => {
-  const [isTouchDevice, setIsTouchDevice] = useState()
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useLayoutEffect(() => {
     const onResize = () => {
