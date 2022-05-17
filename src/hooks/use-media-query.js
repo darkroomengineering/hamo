@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export const useMediaQuery = (queryString) => {
   const [isMatch, setIsMatch] = useState()
@@ -7,7 +8,7 @@ export const useMediaQuery = (queryString) => {
     setIsMatch(mq.matches)
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mq = window.matchMedia(queryString)
     mqChange(mq)
 
