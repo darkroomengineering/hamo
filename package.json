@@ -5,7 +5,8 @@
   "author": "studio-freight",
   "repository": "studio-freight/hamo",
   "source": "src/index.js",
-  "main": "esm/index.js",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
   "sideEffects": false,
   "scripts": {
     "dev": "next",
