@@ -1,12 +1,12 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": "studio-freight/hamo",
   "source": "src/index.js",
-  "main": "lib/index.js",
-  "module": "esm/index.js",
+  "main": "esm/index.js",
+  "sideEffects": false,
   "scripts": {
     "dev": "next",
     "watch": "parcel watch",
