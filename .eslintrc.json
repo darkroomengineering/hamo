@@ -1,5 +1,5 @@
 {
-  "extends": ["prettier"],
+  "extends": ["plugin:react/recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
