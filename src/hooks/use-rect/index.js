@@ -48,9 +48,9 @@ function _useRect(debounce = 1000) {
   const compute = (scrollY = 0) => {
     const rect = {
       top: top - scrollY,
-      left: left,
-      height: height,
-      width: width,
+      left,
+      height,
+      width,
       bottom: windowHeight - (top - scrollY + height),
       right: windowWidth - (left + width),
     }
@@ -75,6 +75,6 @@ function _useRect(debounce = 1000) {
 }
 
 export const useRect =
-  typeof window !== 'undefined' ? _useRect : () => [() => { }, undefined]
+  typeof window !== 'undefined' ? _useRect : () => [() => {}, undefined]
 
 export default useRect

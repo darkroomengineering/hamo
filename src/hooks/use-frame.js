@@ -7,9 +7,7 @@ const callbacks = {}
 
 raf.onFrame(() => {
   Object.entries(callbacks)
-    // @ts-ignore
     .sort((a, b) => a[1].priority - b[1].priority)
-    // @ts-ignore
     .forEach(([, { callback }]) => {
       callback(raf.now())
     })

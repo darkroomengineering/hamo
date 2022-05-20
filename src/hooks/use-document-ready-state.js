@@ -1,5 +1,5 @@
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
 import { useState } from 'react'
+import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 function _useDocumentReadyState() {
   const [readyState, setReadyState] = useState(document.readyState)

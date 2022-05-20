@@ -6,7 +6,6 @@ const subscribe = (filter, callbackFn) => {
   if (filter === undefined || filter === null) return undefined
   if (callbackFn === undefined || callbackFn === null) return undefined
 
-  //@ts-ignore
   subscribers = [...subscribers, [filter, callbackFn]]
 
   return () => {
@@ -21,16 +20,12 @@ export const dispatch = (event) => {
   if (typeof event === 'string') type = event
 
   const args = []
-  //@ts-ignore
   if (typeof event === 'string') args.push({ type })
-  //@ts-ignore
   else args.push(event)
 
   subscribers.forEach(([filter, callbackFn]) => {
     if (typeof filter === 'string' && filter !== type) return
-    //@ts-ignore
     if (typeof filter === 'function' && !filter(...args)) return
-    //@ts-ignore
     callbackFn(...args)
   })
 }
