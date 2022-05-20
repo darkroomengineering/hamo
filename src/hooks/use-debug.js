@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useDebug = () => {
-  const router = useRouter()
+  const [debug, setDebug] = useState()
 
-  const debug = useMemo(() => {
-    router.asPath.includes('#debug') || process.env.NODE_ENV === 'development'
-  }, [router])
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash)
+    setDebug(params.get('debug') || process.env.NODE_ENV === 'development')
+  }, [])
 
   return debug
 }
