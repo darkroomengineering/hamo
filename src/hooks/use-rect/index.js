@@ -41,7 +41,7 @@ function _useRect(debounce = 1000) {
 
     return () => {
       resizeObserver.disconnect()
-      callback.flush()
+      callback.cancel({ upcomingOnly: true })
     }
   }, [debounce])
 
