@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
@@ -9,9 +9,9 @@
   },
   "type": "module",
   "source": "src/index.js",
-  "main": "dist/hamo.cjs",
+  "main": "dist/hamo.mjs",
   "umd:main": "dist/hamo.umd.js",
-  "module": "dist/hamo.mjs",
+  "commonjs": "dist/hamo.cjs",
   "exports": {
     "require": "./dist/hamo.js",
     "default": "./dist/hamo.modern.mjs"

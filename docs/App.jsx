@@ -2,6 +2,7 @@ import React from 'react'
 import {
   useDebug,
   useDocumentReadyState,
+  useId,
   useIsTouchDevice,
   useRect,
 } from '../src'
@@ -11,6 +12,7 @@ function App() {
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
   const ready = useDocumentReadyState()
+  const id = useId()
 
   const rect = compute()
 
@@ -20,6 +22,7 @@ function App() {
       <p>is debug? {debug ? 'yes' : 'no'}</p>
       <p>is document ready? {ready ? 'yes' : 'no'}</p>
       <div ref={ref}>top: {rect.top}</div>
+      <p>id: {id}</p>
     </main>
   )
 }
