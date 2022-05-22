@@ -1,6 +1,6 @@
-import { debounce as _debounce } from 'debounce'
 import { useRef, useState } from 'react'
 import { useMeasure, useWindowSize } from 'react-use'
+import { debounce as _debounce } from 'throttle-debounce'
 import { useLayoutEffect } from '../use-isomorphic-layout-effect'
 
 export function offsetTop(element, accumulator = 0) {
@@ -75,6 +75,6 @@ function _useRect(debounce = 1000) {
 }
 
 export const useRect =
-  typeof window !== 'undefined' ? _useRect : () => [() => {}, undefined]
+  typeof window !== 'undefined' ? _useRect : () => [() => { }, undefined]
 
 export default useRect

@@ -1,5 +1,5 @@
 import { raf } from '@react-spring/rafz'
-import { v4 as uuidv4 } from 'uuid'
+import { nanoid } from 'nanoid'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 // https://github.com/pmndrs/react-spring/tree/master/packages/rafz#readme
@@ -15,7 +15,7 @@ raf.onFrame(() => {
 })
 
 export function useFrame(callback, priority = 0, deps = []) {
-  const id = uuidv4()
+  const id = nanoid()
 
   useLayoutEffect(() => {
     if (callback) {

@@ -4,9 +4,6 @@ const react = require('@vitejs/plugin-react')
 
 module.exports = defineConfig({
   root: resolve(__dirname, 'docs/'),
-  build: {
-    outDir: '../dist',
-  },
   define: {
     'process.env.NODE_ENV': process.env.NODE_ENV
   },

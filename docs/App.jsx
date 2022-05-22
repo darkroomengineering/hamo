@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDebug, useDocumentReadyState, useIsTouchDevice } from '../index.mjs'
+import { useDebug, useDocumentReadyState, useIsTouchDevice } from '../src/index'
 
 function App() {
   const isTouch = useIsTouchDevice()
