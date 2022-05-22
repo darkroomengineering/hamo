@@ -7,11 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/studio-freight/hamo.git"
   },
+  "type": "module",
   "source": "src/index.js",
-  "main": "dist/hamo.js",
-  "exports": "./dist/hamo.modern.js",
-  "module": "dist/hamo.module.js",
-  "unpkg": "dist/hamo.umd.js",
+  "module": "dist/hamo.esm.js",
   "scripts": {
     "dev": "vite docs",
     "build": "microbundle src/index.js",
