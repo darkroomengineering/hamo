@@ -5,7 +5,7 @@ import {
   useId,
   useIsTouchDevice,
   useRect,
-} from '../src'
+} from '../src/index'
 
 function App() {
   const [ref, compute] = useRect(1000)

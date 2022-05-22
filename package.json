@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
@@ -8,14 +8,13 @@
     "url": "git+https://github.com/studio-freight/hamo.git"
   },
   "type": "module",
-  "source": "src/index.js",
-  "main": "dist/hamo.modern.js",
-  "umd:main": "dist/hamo.umd.js",
-  "module": "dist/hamo.mjs",
+  "sideEffects": false,
+  "source": "./src/index.js",
   "exports": {
-    "require": "./dist/hamo.js",
-    "default": "./dist/hamo.modern.mjs"
+    "require": "./dist/hamo.cjs",
+    "default": "./dist/hamo.modern.js"
   },
+  "module": "./dist/hamo.modern.js",
   "scripts": {
     "dev": "vite docs",
     "build": "microbundle",
