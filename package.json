@@ -9,9 +9,9 @@
   },
   "type": "module",
   "source": "src/index.js",
-  "main": "dist/hamo.mjs",
+  "main": "dist/hamo.modern.js",
   "umd:main": "dist/hamo.umd.js",
-  "commonjs": "dist/hamo.cjs",
+  "module": "dist/hamo.mjs",
   "exports": {
     "require": "./dist/hamo.js",
     "default": "./dist/hamo.modern.mjs"
