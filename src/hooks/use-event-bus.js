@@ -30,7 +30,7 @@ export const dispatch = (event) => {
   })
 }
 
-const useEventBus = (type, callback, deps = []) => {
+export const useEventBus = (type, callback, deps = []) => {
   /* eslint-disable */
   useEffect(() => subscribe(type, callback), [...deps, callback, type])
   /* eslint-enable */

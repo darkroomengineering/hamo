@@ -7,17 +7,14 @@
     "type": "git",
     "url": "git+https://github.com/studio-freight/hamo.git"
   },
-  "type": "module",
-  "sideEffects": false,
-  "source": "./src/index.js",
-  "exports": {
-    "require": "./dist/hamo.cjs",
-    "default": "./dist/hamo.modern.js"
-  },
-  "module": "./dist/hamo.modern.js",
+  "source": "src/index.js",
+  "main": "dist/hamo.js",
+  "exports": "./dist/hamo.modern.js",
+  "module": "dist/hamo.module.js",
+  "unpkg": "dist/hamo.umd.js",
   "scripts": {
     "dev": "vite docs",
-    "build": "microbundle",
+    "build": "microbundle src/index.js",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {

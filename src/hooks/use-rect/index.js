@@ -26,9 +26,16 @@ function _useRect(debounce = 1000) {
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
+  const resize = () => {
+    if (ref.current) {
+      setTop(offsetTop(ref.current))
+      setLeft(offsetLeft(ref.current))
+    }
+  }
+
   // resize if body height changes
   useLayoutEffect(() => {
-    const callback = _debounce(resize, debounce)
+    const callback = _debounce(debounce, resize)
     const resizeObserver = new ResizeObserver(callback)
     resizeObserver.observe(document.body)
 
@@ -37,13 +44,6 @@ function _useRect(debounce = 1000) {
       callback.flush()
     }
   }, [debounce])
-
-  const resize = () => {
-    if (ref.current) {
-      setTop(offsetTop(ref.current))
-      setLeft(offsetLeft(ref.current))
-    }
-  }
 
   const compute = (scrollY = 0) => {
     const rect = {
