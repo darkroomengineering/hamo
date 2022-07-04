@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.8",
+  "version": "0.4.10",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "@studio-freight/tempus": "^0.0.5",
+    "@studio-freight/tempus": "^0.0.9",
     "debounce": "^1.2.1",
     "nanoid": "^4.0.0",
     "react-use": "^17.3.2",
