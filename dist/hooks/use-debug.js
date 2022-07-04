@@ -1,11 +1,12 @@
 Object.defineProperty(exports, '__esModule', { value: !0 })
-var router = require('next/router'),
-  react = require('react')
+var react = require('react')
 const useDebug = () => {
-  const e = router.useRouter()
   return react.useMemo(
-    () => e.asPath.includes('#debug') || 'development' === process.env.NODE_ENV,
-    [e]
+    () =>
+      'undefined' != typeof window &&
+      (window.location.href.includes('#debug') ||
+        'development' === process.env.NODE_ENV),
+    []
   )
 }
 exports.useDebug = useDebug
