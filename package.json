@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
@@ -9,12 +9,9 @@
   },
   "type": "module",
   "sideEffects": false,
-  "source": "src/index.js",
-  "module": "dist/hamo.esm.js",
+  "main": "src/index.mjs",
   "scripts": {
-    "dev": "vite docs",
-    "build": "microbundle src/index.js",
-    "prepublishOnly": "npm run build"
+    "dev": "vite docs"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.3.2",
