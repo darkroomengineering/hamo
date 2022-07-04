@@ -34,3 +34,11 @@ yarn-error.log*
 # vercel
 .vercel
 .eslintcache
+.parcel-cache
+
+# build output
+lib/
+esm
+tsconfig.tsbuildinfo
+.DS_Store
+dist

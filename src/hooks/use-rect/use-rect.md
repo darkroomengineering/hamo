@@ -3,7 +3,7 @@
 Compute element bounding rect
 
 ```javascript
-import { useRect } from 'hooks/use-rect'
+import { useRect } from '@studio-freight/hamo'
 
 const [ref, compute] = useRect(1000)
 

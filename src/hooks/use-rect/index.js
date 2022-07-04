@@ -1,6 +1,6 @@
-import { debounce as _debounce } from 'debounce'
 import { useRef, useState } from 'react'
 import { useMeasure, useWindowSize } from 'react-use'
+import { debounce as _debounce } from 'throttle-debounce'
 import { useLayoutEffect } from '../use-isomorphic-layout-effect'
 
 export function offsetTop(element, accumulator = 0) {
@@ -23,20 +23,8 @@ function _useRect(debounce = 1000) {
   const ref = useRef()
   const [refMeasure, { width, height }] = useMeasure()
   const { width: windowWidth, height: windowHeight } = useWindowSize()
-  const [left, setLeft] = useState()
-  const [top, setTop] = useState()
-
-  // resize if body height changes
-  useLayoutEffect(() => {
-    const callback = _debounce(resize, debounce)
-    const resizeObserver = new ResizeObserver(callback)
-    resizeObserver.observe(document.body)
-
-    return () => {
-      resizeObserver.disconnect()
-      callback.flush()
-    }
-  }, [debounce])
+  const [left, setLeft] = useState(0)
+  const [top, setTop] = useState(0)
 
   const resize = () => {
     if (ref.current) {
@@ -45,12 +33,24 @@ function _useRect(debounce = 1000) {
     }
   }
 
+  // resize if body height changes
+  useLayoutEffect(() => {
+    const callback = _debounce(debounce, resize)
+    const resizeObserver = new ResizeObserver(callback)
+    resizeObserver.observe(document.body)
+
+    return () => {
+      resizeObserver.disconnect()
+      callback.cancel({ upcomingOnly: true })
+    }
+  }, [debounce])
+
   const compute = (scrollY = 0) => {
     const rect = {
       top: top - scrollY,
-      left: left,
-      height: height,
-      width: width,
+      left,
+      height,
+      width,
       bottom: windowHeight - (top - scrollY + height),
       right: windowWidth - (left + width),
     }
@@ -75,4 +75,6 @@ function _useRect(debounce = 1000) {
 }
 
 export const useRect =
-  typeof window !== 'undefined' ? _useRect : () => [() => {}, undefined]
+  typeof window !== 'undefined' ? _useRect : () => [() => { }, undefined]
+
+export default useRect

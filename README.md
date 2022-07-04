@@ -22,6 +22,15 @@ Hamo means hook, you do the math
 
 <br/>
 
+## Setup
+
+```bash
+$ npm i @studio-freight/hamo
+```
+or use whatever package manager you like the most
+
+<br/>
+
 ## Features
 
 This toolkit is composed of:
