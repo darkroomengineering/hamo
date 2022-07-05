@@ -6,7 +6,8 @@ import {
   useIsTouchDevice,
   useRect,
   useIsVisible,
-} from '../src/index'
+  useFrame,
+} from '../dist/hamo.module.js'
 
 function App() {
   const [ref, compute] = useRect(1000)
@@ -16,6 +17,9 @@ function App() {
   const id = useId()
   const { setRef, inView } = useIsVisible()
   const rect = compute()
+  useFrame((time, deltaTime) => {
+    console.log({ time, deltaTime })
+  })
 
   return (
     <main className="main" ref={setRef}>
