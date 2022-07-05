@@ -7,7 +7,7 @@ import {
   useRect,
   useIsVisible,
   useFrame,
-} from '../dist/hamo.module.js'
+} from '../src/index.js'
 
 function App() {
   const [ref, compute] = useRect(1000)

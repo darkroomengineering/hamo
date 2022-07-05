@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.18",
+  "version": "0.4.22",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
@@ -10,11 +10,10 @@
   "type": "module",
   "sideEffects": false,
   "source": "src/index.js",
-  "main": "dist/hamo.cjs",
-  "module": "dist/hamo.module.js",
+  "module": "dist/hamo.esm.js",
   "scripts": {
     "dev": "vite docs",
-    "build": "microbundle",
+    "build": "microbundle src/index.js",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -33,7 +32,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "@studio-freight/tempus": "^0.0.13",
+    "@studio-freight/tempus": "^0.0.25",
     "nanoid": "^4.0.0",
     "react-use": "^17.3.2",
     "throttle-debounce": "^5.0.0"
