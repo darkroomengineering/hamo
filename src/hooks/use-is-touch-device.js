@@ -2,13 +2,13 @@ import { useCallback, useState } from 'react'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export const useIsTouchDevice = () => {
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(undefined)
 
   const onResize = useCallback(() => {
     setIsTouchDevice(
       'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 ||
-      navigator.msMaxTouchPoints > 0
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0
     )
   }, [])
 
