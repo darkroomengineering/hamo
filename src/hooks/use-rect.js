@@ -18,7 +18,7 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
-export function useRect({ debounce = 1000 } = {}) {
+export default function useRect({ debounce = 1000 } = {}) {
   const element = useRef()
 
   const [rect, setRect] = useState({
