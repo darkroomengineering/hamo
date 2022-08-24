@@ -59,5 +59,10 @@
       "@semantic-release/release-notes-generator",
       "@semantic-release/npm"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
   }
 }
