@@ -1,0 +1,23 @@
+{
+  "extends": ["plugin:react/recommended", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react",
+            "importNames": ["useLayoutEffect"],
+            "message": "Please import from @studio-freight/hamo instead."
+          }
+        ]
+      }
+    ]
+  }
+}

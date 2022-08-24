@@ -1,59 +1,51 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.25",
+  "version": "0.4.24",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/studio-freight/bibliotheca.git"
+    "url": "git+https://github.com/studio-freight/hamo.git"
   },
   "type": "module",
-  "main": "dist/index.js",
+  "sideEffects": false,
+  "source": "src/index.js",
+  "module": "dist/hamo.esm.js",
   "scripts": {
     "dev": "vite docs",
-    "size": "size-limit",
-    "clean": "rimraf dist",
-    "build": "tsc",
-    "prebuild": "npm run clean",
-    "preversion": "npm run build",
-    "postversion": "git push --follow-tags"
-  },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "nanoid": "^4.0.0",
-    "@studio-freight/tempus": "^0.0.25",
-    "throttle-debounce": "^5.0.0"
+    "build": "microbundle src/index.js",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.0.1",
-    "@studio-freight/tempus": "^0.0.25",
-    "nanoid": "^4.0.0",
+    "@vitejs/plugin-react": "^2.0.1",
+    "eslint": "8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.1",
+    "microbundle": "^0.15.1",
     "path": "^0.12.7",
+    "prettier": "^2.7.1",
+    "prettier-eslint": "^15.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^4.7.4",
-    "rimraf": "^3.0.2",
-    "size-limit": "^8.0.1",
-    "throttle-debounce": "^5.0.0",
     "vite": "^3.0.9"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@studio-freight/tempus": "^0.0.25",
+    "nanoid": "^4.0.0",
+    "react-use": "^17.4.0",
+    "throttle-debounce": "^5.0.0"
   },
   "bugs": {
     "url": "https://github.com/studio-freight/hamo/issues"
   },
   "homepage": "https://github.com/studio-freight/hamo#readme",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "directories": {
+    "doc": "docs"
+  },
   "keywords": [
     "hooks",
     "react"
-  ],
-  "size-limit": [
-    {
-      "limit": "2 kB",
-      "path": "dist/index.js"
-    }
   ]
 }
