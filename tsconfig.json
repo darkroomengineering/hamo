@@ -1,0 +1,15 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "target": "es2018",
+    "outDir": "dist",
+    "lib": ["dom", "esnext"],
+    "declaration": false,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": false
+  }
+}
