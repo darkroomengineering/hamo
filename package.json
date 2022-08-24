@@ -14,7 +14,8 @@
   "scripts": {
     "dev": "vite docs",
     "build": "microbundle src/index.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "semantic-release"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.0.1",
@@ -27,6 +28,7 @@
     "prettier-eslint": "^15.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "semantic-release": "^19.0.5",
     "vite": "^3.0.9"
   },
   "dependencies": {
@@ -47,5 +49,15 @@
   "keywords": [
     "hooks",
     "react"
-  ]
+  ],
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm"
+    ]
+  }
 }
