@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import { useEffect, useLayoutEffect as vanillaUseLayoutEffect } from 'react'
 import { isBrowser } from '../misc/util'
 
