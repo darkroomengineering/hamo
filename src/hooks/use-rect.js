@@ -1,6 +1,6 @@
-import { useLayoutEffect } from '@studio-freight/hamo'
 import { useRef, useState } from 'react'
 import { throttle } from 'throttle-debounce'
+import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
