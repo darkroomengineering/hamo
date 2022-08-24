@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.0.0-development",
+  "version": "0.4.24",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "repository": {
@@ -15,8 +15,7 @@
     "dev": "vite docs",
     "build": "microbundle src/index.js",
     "prepublishOnly": "npm run build",
-    "release": "semantic-release",
-    "semantic-release": "semantic-release"
+    "release": "semantic-release"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.0.1",
