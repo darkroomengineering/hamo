@@ -1,9 +1,10 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.33",
+  "version": "0.4.34",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "dev": "vite docs",
     "size": "size-limit",
