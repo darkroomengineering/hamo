@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@size-limit/preset-small-lib': ^8.0.1
-  '@studio-freight/tempus': ^0.0.26
+  '@studio-freight/tempus': ^0.0.27
   nanoid: ^4.0.0
   path: ^0.12.7
   react: ^18.2.0
@@ -15,7 +15,7 @@ specifiers:
 
 devDependencies:
   '@size-limit/preset-small-lib': 8.0.1_size-limit@8.0.1
-  '@studio-freight/tempus': 0.0.26
+  '@studio-freight/tempus': 0.0.27_nanoid@4.0.0
   nanoid: 4.0.0
   path: 0.12.7
   react: 18.2.0
@@ -98,8 +98,12 @@ packages:
       size-limit: 8.0.1
     dev: true
 
-  /@studio-freight/tempus/0.0.26:
-    resolution: {integrity: sha512-GjYenr4DwelEfyyLo/BV9KDibieUDZxe3SpJmMLiRYJ0nO1eK1ISaG8UnsjM6oMu0ZVKguYAxqOXaBzdEGY2dw==}
+  /@studio-freight/tempus/0.0.27_nanoid@4.0.0:
+    resolution: {integrity: sha512-i5QF5kdU766y8kKpfHwpGBQnSIggwekOF5gxEE4EGCd12HN1j3NKrdc5hi/i2Cgbc63WAjWqI4+hW6qXdfsnEw==}
+    peerDependencies:
+      nanoid: ^4.0.0
+    dependencies:
+      nanoid: 4.0.0
     dev: true
 
   /anymatch/3.1.2:
