@@ -3,11 +3,14 @@
 })(this, function(exports2, react, tempus, nanoid, throttleDebounce) {
   "use strict";
   function useOutsideClickEvent(ref, callback) {
-    const handleClickOutside = react.useCallback((event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        callback();
-      }
-    }, [ref, callback]);
+    const handleClickOutside = react.useCallback(
+      (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback();
+        }
+      },
+      [ref, callback]
+    );
     react.useEffect(() => {
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
@@ -16,7 +19,10 @@
     }, [handleClickOutside]);
   }
   const useDebug = () => {
-    const debug = react.useMemo(() => typeof window !== "undefined" ? window.location.href.includes("#debug") || process.env.NODE_ENV === "development" : false, []);
+    const debug = react.useMemo(
+      () => typeof window !== "undefined" ? window.location.href.includes("#debug") || process.env.NODE_ENV === "development" : false,
+      []
+    );
     return debug;
   };
   const isBrowser = typeof window !== "undefined";
@@ -42,7 +48,9 @@
       return void 0;
     subscribers = [...subscribers, [filter, callbackFn]];
     return () => {
-      subscribers = subscribers.filter((subscriber) => subscriber[1] !== callbackFn);
+      subscribers = subscribers.filter(
+        (subscriber) => subscriber[1] !== callbackFn
+      );
     };
   };
   const dispatch = (event) => {
@@ -98,7 +106,9 @@
   const useIsTouchDevice = () => {
     const [isTouchDevice, setIsTouchDevice] = react.useState(void 0);
     const onResize = react.useCallback(() => {
-      setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
+      setIsTouchDevice(
+        "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+      );
     }, []);
     useLayoutEffect(() => {
       onResize();
@@ -220,10 +230,15 @@
   const useSlots = (types = [], children = []) => {
     const _children = react.useMemo(() => children && [children].flat(), [children]);
     const _types = react.useMemo(() => types && [types].flat(), [types]);
-    const slots = react.useMemo(() => _children && _types && _types.map((type) => {
-      var _a;
-      return (_a = _children.find((el) => el.type === type)) == null ? void 0 : _a.props.children;
-    }), [_children, _types]);
+    const slots = react.useMemo(
+      () => _children && _types && _types.map(
+        (type) => {
+          var _a;
+          return (_a = _children.find((el) => el.type === type)) == null ? void 0 : _a.props.children;
+        }
+      ),
+      [_children, _types]
+    );
     return types[0] ? slots : slots[0];
   };
   exports2.dispatch = dispatch;

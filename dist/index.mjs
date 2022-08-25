@@ -3,11 +3,14 @@ import { raf } from "@studio-freight/tempus";
 import { nanoid } from "nanoid";
 import { throttle } from "throttle-debounce";
 function useOutsideClickEvent(ref, callback) {
-  const handleClickOutside = useCallback((event) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      callback();
-    }
-  }, [ref, callback]);
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback();
+      }
+    },
+    [ref, callback]
+  );
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -16,7 +19,10 @@ function useOutsideClickEvent(ref, callback) {
   }, [handleClickOutside]);
 }
 const useDebug = () => {
-  const debug = useMemo(() => typeof window !== "undefined" ? window.location.href.includes("#debug") || process.env.NODE_ENV === "development" : false, []);
+  const debug = useMemo(
+    () => typeof window !== "undefined" ? window.location.href.includes("#debug") || process.env.NODE_ENV === "development" : false,
+    []
+  );
   return debug;
 };
 const isBrowser = typeof window !== "undefined";
@@ -42,7 +48,9 @@ const subscribe = (filter, callbackFn) => {
     return void 0;
   subscribers = [...subscribers, [filter, callbackFn]];
   return () => {
-    subscribers = subscribers.filter((subscriber) => subscriber[1] !== callbackFn);
+    subscribers = subscribers.filter(
+      (subscriber) => subscriber[1] !== callbackFn
+    );
   };
 };
 const dispatch = (event) => {
@@ -98,7 +106,9 @@ const useInterval = (callback, delay) => {
 const useIsTouchDevice = () => {
   const [isTouchDevice, setIsTouchDevice] = useState(void 0);
   const onResize = useCallback(() => {
-    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
+    setIsTouchDevice(
+      "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+    );
   }, []);
   useLayoutEffect(() => {
     onResize();
@@ -220,10 +230,15 @@ function useRect({ debounce = 1e3 } = {}) {
 const useSlots = (types = [], children = []) => {
   const _children = useMemo(() => children && [children].flat(), [children]);
   const _types = useMemo(() => types && [types].flat(), [types]);
-  const slots = useMemo(() => _children && _types && _types.map((type) => {
-    var _a;
-    return (_a = _children.find((el) => el.type === type)) == null ? void 0 : _a.props.children;
-  }), [_children, _types]);
+  const slots = useMemo(
+    () => _children && _types && _types.map(
+      (type) => {
+        var _a;
+        return (_a = _children.find((el) => el.type === type)) == null ? void 0 : _a.props.children;
+      }
+    ),
+    [_children, _types]
+  );
   return types[0] ? slots : slots[0];
 };
 export {

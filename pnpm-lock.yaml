@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@size-limit/preset-small-lib': ^8.0.1
-  '@studio-freight/tempus': ^0.0.27
+  '@studio-freight/tempus': ^0.0.28
   nanoid: ^4.0.0
   path: ^0.12.7
   react: ^18.2.0
@@ -10,12 +10,11 @@ specifiers:
   rimraf: ^3.0.2
   size-limit: ^8.0.1
   throttle-debounce: ^5.0.0
-  typescript: ^4.7.4
   vite: ^3.0.9
 
 devDependencies:
   '@size-limit/preset-small-lib': 8.0.1_size-limit@8.0.1
-  '@studio-freight/tempus': 0.0.27_nanoid@4.0.0
+  '@studio-freight/tempus': 0.0.28_nanoid@4.0.0
   nanoid: 4.0.0
   path: 0.12.7
   react: 18.2.0
@@ -23,7 +22,6 @@ devDependencies:
   rimraf: 3.0.2
   size-limit: 8.0.1
   throttle-debounce: 5.0.0
-  typescript: 4.7.4
   vite: 3.0.9
 
 packages:
@@ -98,8 +96,8 @@ packages:
       size-limit: 8.0.1
     dev: true
 
-  /@studio-freight/tempus/0.0.27_nanoid@4.0.0:
-    resolution: {integrity: sha512-i5QF5kdU766y8kKpfHwpGBQnSIggwekOF5gxEE4EGCd12HN1j3NKrdc5hi/i2Cgbc63WAjWqI4+hW6qXdfsnEw==}
+  /@studio-freight/tempus/0.0.28_nanoid@4.0.0:
+    resolution: {integrity: sha512-8j5PgP64UKo1CO722vLvKzyASnN47mnPJ57uFjgV1v14sd0BcFrRmfMo6n2zEmM6UI3qrHE7xaIcjVfXuhSwrQ==}
     peerDependencies:
       nanoid: ^4.0.0
     dependencies:
@@ -960,12 +958,6 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
-    dev: true
-
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
     dev: true
 
   /util/0.10.4:
