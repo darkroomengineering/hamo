@@ -7,7 +7,7 @@ import {
   useIsTouchDevice,
   useIsVisible,
   useRect,
-} from '../dist/index.js'
+} from '../dist/index.mjs'
 
 function App() {
   const [setRectRef, rect] = useRect(1000)

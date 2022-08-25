@@ -14,7 +14,6 @@
 
 # production
 /build
-dist
 
 # misc
 .DS_Store
@@ -42,4 +41,3 @@ lib/
 esm
 tsconfig.tsbuildinfo
 .DS_Store
-dist

@@ -1,23 +1,22 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.34",
+  "version": "0.4.35",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
-  "main": "dist/index.js",
-  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "scripts": {
     "dev": "vite docs",
     "size": "size-limit",
     "clean": "rimraf dist",
-    "build": "tsc",
+    "build": "vite build",
     "prebuild": "npm run clean",
     "preversion": "npm run build",
     "postversion": "git push --follow-tags"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/studio-freight/bibliotheca.git"
@@ -30,6 +29,7 @@
   "homepage": "https://github.com/studio-freight/bibliotheca#readme",
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.0.1",
+    "@studio-freight/tempus": "^0.0.25",
     "nanoid": "^4.0.0",
     "path": "^0.12.7",
     "react": "^18.2.0",
@@ -38,20 +38,20 @@
     "size-limit": "^8.0.1",
     "throttle-debounce": "^5.0.0",
     "typescript": "^4.7.4",
-    "vite": "^3.0.9",
-    "@studio-freight/tempus": "^0.0.25"
+    "vite": "^3.0.9"
   },
   "peerDependencies": {
-    "nanoid": "^4.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "throttle-debounce": "^5.0.0",
-    "@studio-freight/tempus": "^0.0.25"
+    "react-dom": "^18.2.0"
   },
   "size-limit": [
     {
-      "limit": "2 kB",
+      "limit": "3 kB",
       "path": "dist/index.js"
+    },
+    {
+      "limit": "2 kB",
+      "path": "dist/index.mjs"
     }
   ]
 }
