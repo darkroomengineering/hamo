@@ -12,16 +12,18 @@ specifiers:
   throttle-debounce: ^5.0.0
   vite: ^3.0.9
 
-devDependencies:
-  '@size-limit/preset-small-lib': 8.0.1_size-limit@8.0.1
+dependencies:
   '@studio-freight/tempus': 0.0.28_nanoid@4.0.0
   nanoid: 4.0.0
+  throttle-debounce: 5.0.0
+
+devDependencies:
+  '@size-limit/preset-small-lib': 8.0.1_size-limit@8.0.1
   path: 0.12.7
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   rimraf: 3.0.2
   size-limit: 8.0.1
-  throttle-debounce: 5.0.0
   vite: 3.0.9
 
 packages:
@@ -102,7 +104,7 @@ packages:
       nanoid: ^4.0.0
     dependencies:
       nanoid: 4.0.0
-    dev: true
+    dev: false
 
   /anymatch/3.1.2:
     resolution: {integrity: sha512-P43ePfOAIupkguHUycrc4qJ9kz8ZiuOUijaETwX7THt0Y/GNK7v0aa8rY816xWjZ7rJdA5XdMcpVFTKMq+RvWg==}
@@ -778,7 +780,7 @@ packages:
     resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
-    dev: true
+    dev: false
 
   /nanospinner/1.1.0:
     resolution: {integrity: sha512-yFvNYMig4AthKYfHFl1sLj7B2nkHL4lzdig4osvl9/LdGbXwrdFRoqBS98gsEsOakr0yH+r5NZ/1Y9gdVB8trA==}
@@ -951,7 +953,7 @@ packages:
   /throttle-debounce/5.0.0:
     resolution: {integrity: sha512-2iQTSgkkc1Zyk0MeVrt/3BvuOXYPl/R8Z0U2xxo9rjwNciaHDG3R+Lm6dh4EeUci49DanvBnuqI6jshoQQRGEg==}
     engines: {node: '>=12.22'}
-    dev: true
+    dev: false
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
