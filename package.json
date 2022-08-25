@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.39",
+  "version": "0.4.40",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "files": [
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "throttle-debounce": "^5.0.0",
-    "@studio-freight/tempus": "^0.0.28",
+    "@studio-freight/tempus": "^0.0.29",
     "nanoid": "^4.0.0"
   },
   "peerDependencies": {
