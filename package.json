@@ -1,19 +1,26 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.40",
+  "version": "0.4.41",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "files": [
     "dist"
   ],
   "sideEffects": true,
+  "source": "src/index.js",
   "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
   "module": "dist/index.mjs",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "require": "./dist/index.js",
+    "default": "./dist/index.modern.mjs"
+  },
   "scripts": {
     "dev": "vite docs",
     "size": "size-limit",
     "clean": "rimraf dist",
-    "build": "vite build",
+    "build": "microbundle",
     "prebuild": "npm run clean",
     "preversion": "npm run build",
     "postversion": "git push --follow-tags"
@@ -38,9 +45,10 @@
     "vite": "^3.0.9"
   },
   "dependencies": {
-    "throttle-debounce": "^5.0.0",
     "@studio-freight/tempus": "^0.0.29",
-    "nanoid": "^4.0.0"
+    "microbundle": "^0.15.1",
+    "nanoid": "^4.0.0",
+    "throttle-debounce": "^5.0.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",
