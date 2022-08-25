@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.4.41",
+  "version": "0.4.42",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "files": [
@@ -12,7 +12,6 @@
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.mjs",
   "exports": {
-    "types": "./dist/index.d.ts",
     "require": "./dist/index.js",
     "default": "./dist/index.modern.mjs"
   },
@@ -42,11 +41,11 @@
     "react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
     "size-limit": "^8.0.1",
+    "microbundle": "^0.15.1",
     "vite": "^3.0.9"
   },
   "dependencies": {
-    "@studio-freight/tempus": "^0.0.29",
-    "microbundle": "^0.15.1",
+    "@studio-freight/tempus": "^0.0.30",
     "nanoid": "^4.0.0",
     "throttle-debounce": "^5.0.0"
   },
