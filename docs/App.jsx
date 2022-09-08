@@ -7,7 +7,7 @@ import {
   useIsTouchDevice,
   useIsVisible,
   useRect,
-} from '../dist/index.mjs'
+} from '../src/index'
 
 function App() {
   const [setRectRef, rect] = useRect(1000)
@@ -15,14 +15,14 @@ function App() {
   const debug = useDebug()
   const ready = useDocumentReadyState()
   const id = useId()
-  const { setRef, inView } = useIsVisible()
+  const { setRef, inView } = useIsVisible({ once: true })
 
   useFrame((time, deltaTime) => {
-    console.log({ time, deltaTime })
+    // console.log({ time, deltaTime })
   })
 
   return (
-    <main className="main" ref={setRef}>
+    <main className="main" ref={(node) => setRef(node)}>
       <p>is touch? {isTouch ? 'yes' : 'no'}</p>
       <p>is debug? {debug ? 'yes' : 'no'}</p>
       <p>is document ready? {ready ? 'yes' : 'no'}</p>
