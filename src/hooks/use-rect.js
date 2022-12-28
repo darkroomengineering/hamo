@@ -1,6 +1,5 @@
-import { useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { throttle } from 'throttle-debounce'
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
@@ -18,28 +17,31 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
-export default function useRect({ debounce = 1000 } = {}) {
+export function useRect({
+  // ignoreTransform = true,
+  lazy = false,
+  debounce = 1000,
+} = {}) {
   const element = useRef()
+  const resizeObserver = useRef()
 
-  const [rect, setRect] = useState({
-    top: undefined,
-    left: undefined,
-    width: undefined,
-    height: undefined,
-  })
+  const [rect, setRect] = useState({})
+  const lazyRect = useRef(rect)
 
-  const resize = () => {
+  const resize = useCallback(() => {
     if (element.current) {
-      setRect((prev) => ({
-        ...prev,
-        top: offsetTop(element.current),
-        left: offsetLeft(element.current),
-      }))
+      const top = offsetTop(element.current)
+      const left = offsetLeft(element.current)
+
+      lazyRect.current = { ...lazyRect.current, top, left }
+      if (!lazy) {
+        setRect(lazyRect.current)
+      }
     }
-  }
+  }, [lazy])
 
   // resize if body height changes
-  useLayoutEffect(() => {
+  useEffect(() => {
     const callback = throttle(debounce, resize)
     const resizeObserver = new ResizeObserver(callback)
     resizeObserver.observe(document.body)
@@ -48,34 +50,46 @@ export default function useRect({ debounce = 1000 } = {}) {
       resizeObserver.disconnect()
       callback.cancel({ upcomingOnly: true })
     }
-  }, [debounce])
+  }, [debounce, resize])
 
-  const onResizeObserver = ([entry]) => {
-    const { width, height } = entry.contentRect
+  const onResizeObserver = useCallback(
+    ([entry]) => {
+      const { width, height } = entry.contentRect
+      // const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
 
-    setRect((prev) => ({
-      ...prev,
-      width,
-      height,
-    }))
-  }
+      lazyRect.current = { ...lazyRect.current, width, height }
+      if (!lazy) {
+        setRect(lazyRect.current)
+      }
+    },
+    [lazy]
+  )
 
-  const resizeObserver = useRef()
+  const getRect = useCallback(() => lazyRect.current, [])
 
-  const setRef = (node) => {
-    if (!node || node === element.current) return
+  useEffect(() => {
+    return () => {
+      // avoid strict mode double execution
+      if (process.env.NODE_ENV !== 'development') {
+        // disconnect resizeObserver on unmount
+        resizeObserver.current?.disconnect()
+      }
+    }
+  }, [])
 
-    resizeObserver.current?.disconnect()
-    resizeObserver.current = new ResizeObserver(onResizeObserver)
+  const setRef = useCallback(
+    (node) => {
+      if (!node || node === element.current) return
 
-    resizeObserver.current.observe(node)
+      resizeObserver.current?.disconnect()
+      resizeObserver.current = new ResizeObserver(onResizeObserver)
+      resizeObserver.current.observe(node)
+      element.current = node
+    },
+    [resize]
+  )
 
-    element.current = node
-  }
-
-  const getRect = (x = 0, y = 0) => {
-    return rect
-  }
-
-  return [setRef, rect, getRect]
+  return [setRef, lazy ? getRect : rect]
 }
+
+export default useRect
