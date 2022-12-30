@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { isClient } from '../utils'
 
 const useIsTouchDevice = () => {
