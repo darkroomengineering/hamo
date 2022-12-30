@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from 'react'
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
+import { isClient } from '../utils'
 
-export const useMediaQuery = (queryString) => {
+const useMediaQuery = (queryString) => {
   const mediaQuery = useMemo(
-    () => typeof window !== 'undefined' && window.matchMedia(queryString),
+    () => window.matchMedia(queryString),
     [queryString]
   )
   const [isMatch, setIsMatch] = useState(mediaQuery.matches)
@@ -12,7 +12,7 @@ export const useMediaQuery = (queryString) => {
     setIsMatch(matches)
   }, [])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     onChange(mediaQuery)
 
     mediaQuery.addEventListener('change', onChange, { passive: true })
@@ -25,4 +25,4 @@ export const useMediaQuery = (queryString) => {
   return isMatch
 }
 
-export default useMediaQuery
+export default isClient ? useMediaQuery : () => undefined

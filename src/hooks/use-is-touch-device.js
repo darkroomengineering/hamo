@@ -1,23 +1,22 @@
 import { useCallback, useState } from 'react'
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
+import { isClient } from '../utils'
 
-export const useIsTouchDevice = () => {
-  const checkTouchDevice = useCallback(
+const useIsTouchDevice = () => {
+  const check = useCallback(
     () =>
-      typeof window !== 'undefined' &&
-      ('ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        navigator.msMaxTouchPoints > 0),
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0,
     []
   )
 
-  const [isTouchDevice, setIsTouchDevice] = useState(checkTouchDevice())
+  const [isTouchDevice, setIsTouchDevice] = useState(check())
 
   const onResize = useCallback(() => {
-    setIsTouchDevice(checkTouchDevice())
-  }, [checkTouchDevice])
+    setIsTouchDevice(check())
+  }, [check])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     onResize()
     window.addEventListener('resize', onResize, { passive: true })
 
@@ -29,4 +28,4 @@ export const useIsTouchDevice = () => {
   return isTouchDevice
 }
 
-export default useIsTouchDevice
+export default isClient ? useIsTouchDevice : () => undefined
