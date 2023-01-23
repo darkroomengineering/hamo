@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isBrowser } from '../misc/util'
 
-const useMediaQuery = (queryString) => {
+export const useMediaQuery = (queryString) => {
   const mediaQuery = useMemo(() => {
     if (isBrowser) {
       try {
@@ -45,5 +45,3 @@ const useMediaQuery = (queryString) => {
 
   return isMatch
 }
-
-export default useMediaQuery

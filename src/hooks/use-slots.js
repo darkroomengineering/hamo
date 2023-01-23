@@ -23,5 +23,3 @@ export const useSlots = (types = [], children = []) => {
 
   return slots
 }
-
-export default useSlots

@@ -96,5 +96,3 @@ export function useRect({
 
   return [setRef, lazy ? getRect : rect]
 }
-
-export default useRect

@@ -25,5 +25,3 @@ export function useOutsideClickEvent(ref, callback) {
     }
   }, [handleClickOutside, ref])
 }
-
-export default useOutsideClickEvent

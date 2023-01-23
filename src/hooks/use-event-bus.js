@@ -41,5 +41,3 @@ export const useEventBus = (type, callback, deps = []) => {
 
   return dispatch
 }
-
-export default useEventBus

@@ -27,5 +27,3 @@ export const useInterval = (callback, delay) => {
 
   return () => clearInterval(intervalId.current)
 }
-
-export default useInterval

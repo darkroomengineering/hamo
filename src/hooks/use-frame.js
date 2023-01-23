@@ -19,5 +19,3 @@ export function useFrame(callback, priority = 0) {
     }
   }, [callback, priority])
 }
-
-export default useFrame

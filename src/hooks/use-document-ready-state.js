@@ -24,5 +24,3 @@ function _useDocumentReadyState() {
 export const useDocumentReadyState = isBrowser
   ? _useDocumentReadyState
   : () => undefined
-
-export default useDocumentReadyState

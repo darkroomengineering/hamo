@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { isBrowser } from '../misc/util'
 
-const useIsTouchDevice = () => {
+const _useIsTouchDevice = () => {
   const check = useCallback(() => {
     try {
       return (
@@ -38,4 +38,4 @@ const useIsTouchDevice = () => {
   return isTouchDevice
 }
 
-export default isBrowser ? useIsTouchDevice : () => undefined
+export const useIsTouchDevice = isBrowser ? _useIsTouchDevice : () => undefined

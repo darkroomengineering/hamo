@@ -18,5 +18,3 @@ export const useDebug = () => {
   )
   return debug
 }
-
-export default useDebug

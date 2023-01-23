@@ -47,5 +47,3 @@ export const useIsVisible = ({
 
   return { setRef, inView }
 }
-
-export default useIsVisible
