@@ -16,7 +16,7 @@ function App() {
   const { setRef, inView } = useIsVisible({ once: true })
 
   useFrame((time, deltaTime) => {
-    console.log({ time, deltaTime })
+    // console.log({ time, deltaTime })
   })
 
   return (
