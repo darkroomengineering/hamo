@@ -24,6 +24,12 @@ export function useInterval(callback, delay) {
       return () => clearInterval(intervalId.current)
     }
   }, [delay])
+<<<<<<< HEAD
+=======
+
+  return () => clearInterval(intervalId.current)
+}
+>>>>>>> 77f4ee0 (updates)
 
   return () => clearInterval(intervalId.current)
 }
