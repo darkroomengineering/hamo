@@ -3,7 +3,6 @@ import {
   useDebug,
   useDocumentReadyState,
   useFrame,
-  useId,
   useIsTouchDevice,
   useIsVisible,
   useRect,
@@ -14,11 +13,10 @@ function App() {
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
   const ready = useDocumentReadyState()
-  const id = useId()
   const { setRef, inView } = useIsVisible({ once: true })
 
   useFrame((time, deltaTime) => {
-    // console.log({ time, deltaTime })
+    console.log({ time, deltaTime })
   })
 
   return (
@@ -38,7 +36,6 @@ function App() {
         <br />
         width: {rect?.width}
       </div>
-      <p>id: {id}</p>
     </main>
   )
 }

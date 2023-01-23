@@ -19,7 +19,7 @@
     "dev": "vite docs",
     "size": "size-limit",
     "clean": "rimraf dist",
-    "build": "microbundle",
+    "build": "microbundle build",
     "prebuild": "npm run clean",
     "preversion": "npm run build",
     "postversion": "git push --follow-tags"
@@ -35,14 +35,13 @@
   },
   "homepage": "https://github.com/studio-freight/bibliotheca#readme",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.1.0",
+    "@size-limit/preset-small-lib": "^8.1.2",
     "microbundle": "^0.15.1",
-    "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^3.0.2",
-    "size-limit": "^8.1.0",
-    "vite": "^3.2.2"
+    "rimraf": "^4.1.1",
+    "size-limit": "^8.1.2",
+    "vite": "^4.0.4"
   },
   "dependencies": {
     "@studio-freight/tempus": "^0.0.30",

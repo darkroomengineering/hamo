@@ -6,29 +6,18 @@
  */
 
 import { raf } from '@studio-freight/tempus'
-import { useEffect, useState } from 'react'
+import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export function useFrame(callback, priority = 0) {
-  const [id, setId] = useState()
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (callback) {
       const id = raf.add(callback, priority)
-      setId(id)
 
       return () => {
         raf.remove(id)
       }
     }
   }, [callback, priority])
-
-  useEffect(() => {
-    return () => {
-      if (id) {
-        raf.remove(id)
-      }
-    }
-  }, [id])
 }
 
 export default useFrame
