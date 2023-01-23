@@ -1,12 +1,12 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "hamo means hook, do the math.",
   "author": "studio-freight",
   "files": [
     "dist"
   ],
-  "sideEffects": true,
+  "sideEffects": false,
   "source": "src/index.js",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
