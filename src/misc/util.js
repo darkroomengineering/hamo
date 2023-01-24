@@ -1,7 +1,7 @@
-// This code exports the functions isBrowser, noop, on, and off
+// This code exports the functions isClient, noop, on, and off
 
-// isBrowser is a variable that is a boolean, it checks if window is defined
-export const isBrowser = typeof window !== 'undefined'
+// isClient is a variable that is a boolean, it checks if window is defined
+export const isClient = typeof window !== 'undefined'
 
 // noop is an empty function
 export const noop = () => {}

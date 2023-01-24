@@ -6,11 +6,11 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { isBrowser } from '../misc/util'
+import { isClient } from '../misc/util'
 
 export const useMediaQuery = (queryString) => {
   const mediaQuery = useMemo(() => {
-    if (isBrowser) {
+    if (isClient) {
       try {
         return window.matchMedia(queryString)
       } catch (error) {

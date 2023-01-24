@@ -6,15 +6,17 @@
  */
 
 import { useMemo } from 'react'
+import { isClient } from '../misc/util'
 
-export const useDebug = () => {
+function _useDebug() {
   const debug = useMemo(
     () =>
-      typeof window !== 'undefined'
-        ? window.location.href.includes('#debug') ||
-          process.env.NODE_ENV === 'development'
-        : false,
+      (window.location.href.includes('#debug') ||
+        process.env.NODE_ENV === 'development') &&
+      !window.location.href.includes('#production'),
     []
   )
   return debug
 }
+
+export const useDebug = isClient ? _useDebug : () => undefined

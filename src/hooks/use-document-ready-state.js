@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { isBrowser } from '../misc/util'
+import { isClient } from '../misc/util'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 function _useDocumentReadyState() {
@@ -21,6 +21,6 @@ function _useDocumentReadyState() {
   return readyState
 }
 
-export const useDocumentReadyState = isBrowser
+export const useDocumentReadyState = isClient
   ? _useDocumentReadyState
   : () => undefined

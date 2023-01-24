@@ -7,6 +7,6 @@
  */
 
 import { useEffect, useLayoutEffect as vanillaUseLayoutEffect } from 'react'
-import { isBrowser } from '../misc/util'
+import { isClient } from '../misc/util'
 
-export const useLayoutEffect = isBrowser ? vanillaUseLayoutEffect : useEffect
+export const useLayoutEffect = isClient ? vanillaUseLayoutEffect : useEffect
