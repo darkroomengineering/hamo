@@ -1,7 +1,14 @@
-import { useMemo } from 'react'
-import { isClient } from '../utils'
+/**
+ * @summary A hook that returns true if the current window URL contains the
+ *   string #debug or if we're in development mode.
+ * @returns {Boolean} True if current window URL contains the string #debug or
+ *   if we're in development mode, false otherwise.
+ */
 
-export const useDebug = () => {
+import { useMemo } from 'react'
+import { isClient } from '../misc/util'
+
+function _useDebug() {
   const debug = useMemo(
     () =>
       (window.location.href.includes('#debug') ||
@@ -12,4 +19,4 @@ export const useDebug = () => {
   return debug
 }
 
-export default isClient ? useDebug : () => undefined
+export const useDebug = isClient ? _useDebug : () => undefined

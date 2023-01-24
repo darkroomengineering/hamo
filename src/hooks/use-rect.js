@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { throttle } from 'throttle-debounce'
 
+// offsetTop function returns the offsetTop value of a DOM element.
+// The offsetTop value is the distance between the top of the element
+// and the top of the viewport.
 export function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
   if (element.offsetParent) {
@@ -9,6 +12,9 @@ export function offsetTop(element, accumulator = 0) {
   return top
 }
 
+// offsetLeft function returns the offsetLeft value of a DOM element.
+// The offsetLeft value is the distance between the left of the element
+// and the left of the viewport.
 export function offsetLeft(element, accumulator = 0) {
   const left = accumulator + element.offsetLeft
   if (element.offsetParent) {
@@ -55,7 +61,6 @@ export function useRect({
   const onResizeObserver = useCallback(
     ([entry]) => {
       const { width, height } = entry.contentRect
-      // const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
 
       lazyRect.current = { ...lazyRect.current, width, height }
       if (!lazy) {
@@ -91,5 +96,3 @@ export function useRect({
 
   return [setRef, lazy ? getRect : rect]
 }
-
-export default useRect

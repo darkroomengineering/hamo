@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { isClient } from '../misc/util'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 function _useDocumentReadyState() {
@@ -20,7 +21,6 @@ function _useDocumentReadyState() {
   return readyState
 }
 
-export const useDocumentReadyState =
-  typeof window !== 'undefined' ? _useDocumentReadyState : () => undefined
-
-export default useDocumentReadyState
+export const useDocumentReadyState = isClient
+  ? _useDocumentReadyState
+  : () => undefined
