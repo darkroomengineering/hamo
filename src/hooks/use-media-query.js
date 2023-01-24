@@ -4,7 +4,6 @@
  * @param {string} queryString - The media query to test against.
  * @returns {boolean} - Whether the media query is true or false.
  */
-<<<<<<< HEAD
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isClient } from '../misc/util'
@@ -12,15 +11,6 @@ import { isClient } from '../misc/util'
 export function useMediaQuery(queryString) {
   const mediaQuery = useMemo(() => {
     if (isClient) {
-=======
-
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { isBrowser } from '../misc/util'
-
-const useMediaQuery = (queryString) => {
-  const mediaQuery = useMemo(() => {
-    if (isBrowser) {
->>>>>>> 77f4ee0 (updates)
       try {
         return window.matchMedia(queryString)
       } catch (error) {
@@ -55,8 +45,3 @@ const useMediaQuery = (queryString) => {
 
   return isMatch
 }
-<<<<<<< HEAD
-=======
-
-export default useMediaQuery
->>>>>>> 77f4ee0 (updates)

@@ -4,11 +4,6 @@
  * @returns {Boolean} True if current window URL contains the string #debug or
  *   if we're in development mode, false otherwise.
  */
-<<<<<<< HEAD
-=======
-
-import { useMemo } from 'react'
->>>>>>> 77f4ee0 (updates)
 
 import { useMemo } from 'react'
 import { isClient } from '../misc/util'

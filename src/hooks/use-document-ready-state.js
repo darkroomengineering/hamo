@@ -1,14 +1,10 @@
-<<<<<<< HEAD
-import { useState } from 'react'
-import { isClient } from '../misc/util'
-=======
 // useDocumentReadyState.js
 // This code is a custom hook that returns the current document.readyState
 // The useLayoutEffect hook is used to set the state of the document
 // The useEffect hook is used to set the state of the document to 'complete' when the document is ready
 
 import { useEffect, useState } from 'react'
->>>>>>> 77f4ee0 (updates)
+import { isClient } from '../misc/util'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 function _useDocumentReadyState() {

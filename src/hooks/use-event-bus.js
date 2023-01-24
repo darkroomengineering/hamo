@@ -5,11 +5,7 @@ import { useEffect } from 'react'
 let subscribers = []
 
 // The subscribe function is used to subscribe to an event. It returns a function that can be used to unsubscribe from the event. The subscribe function takes a filter and a callback function. The filter can be a string or a function. If the filter is a string, the event will be delivered to the callback if the event type matches the string. If the filter is a function, the event will be delivered to the callback if the function returns true when called with the event.
-<<<<<<< HEAD
 function subscribe(filter, callbackFn) {
-=======
-const subscribe = (filter, callbackFn) => {
->>>>>>> 77f4ee0 (updates)
   if (filter === undefined || filter === null) throw new Error('Invalid filter')
   if (callbackFn === undefined || callbackFn === null)
     throw new Error('Invalid callback')
@@ -24,11 +20,7 @@ const subscribe = (filter, callbackFn) => {
 }
 
 // The dispatch function is used to send an event to all subscribers that have subscribed to the event.
-<<<<<<< HEAD
 export function dispatch(event) {
-=======
-export const dispatch = (event) => {
->>>>>>> 77f4ee0 (updates)
   let { type } = event
   if (typeof event === 'string') type = event
 
@@ -44,11 +36,7 @@ export const dispatch = (event) => {
 }
 
 // The custom hook also takes dependencies. The dependencies are used to determine when the subscribe function should be called again. This is useful if you want to subscribe to an event only once. The custom hook returns the dispatch function.
-<<<<<<< HEAD
 export function useEventBus(type, callback, deps = []) {
-=======
-export const useEventBus = (type, callback, deps = []) => {
->>>>>>> 77f4ee0 (updates)
   useEffect(() => subscribe(type, callback), [...deps, callback, type])
 
   return dispatch

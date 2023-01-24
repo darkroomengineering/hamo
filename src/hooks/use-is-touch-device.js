@@ -3,19 +3,11 @@
   as well as the maxTouchPoints property on the navigator object. It also checks the
   msMaxTouchPoints property, which is specific to Microsoft browsers.
 */
-<<<<<<< HEAD
 
 import { useCallback, useEffect, useState } from 'react'
 import { isClient } from '../misc/util'
 
 function _useIsTouchDevice() {
-=======
-
-import { useCallback, useEffect, useState } from 'react'
-import { isBrowser } from '../misc/util'
-
-const useIsTouchDevice = () => {
->>>>>>> 77f4ee0 (updates)
   const check = useCallback(() => {
     try {
       return (
@@ -46,8 +38,4 @@ const useIsTouchDevice = () => {
   return isTouchDevice
 }
 
-<<<<<<< HEAD
 export const useIsTouchDevice = isClient ? _useIsTouchDevice : () => undefined
-=======
-export default isBrowser ? useIsTouchDevice : () => undefined
->>>>>>> 77f4ee0 (updates)
