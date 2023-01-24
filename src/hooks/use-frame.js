@@ -11,8 +11,6 @@ export function useFrame(callback, priority = 0) {
   useLayoutEffect(() => {
     if (callback) {
       const id = raf.add(callback, priority)
-      setId(id)
-
       return () => {
         raf.remove(id)
       }
