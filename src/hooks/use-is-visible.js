@@ -4,12 +4,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const useIsVisible = ({
+export function useIsVisible({
   root = null,
   rootMargin = '0px',
   threshold = 1.0,
   once = false,
-} = {}) => {
+} = {}) {
   const observer = useRef()
   const ref = useRef()
   const [inView, setInView] = useState(false)

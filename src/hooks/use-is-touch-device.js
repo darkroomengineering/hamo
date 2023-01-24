@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { isClient } from '../misc/util'
 
-const _useIsTouchDevice = () => {
+function _useIsTouchDevice() {
   const check = useCallback(() => {
     try {
       return (

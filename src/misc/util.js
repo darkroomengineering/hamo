@@ -4,10 +4,10 @@
 export const isClient = typeof window !== 'undefined'
 
 // noop is an empty function
-export const noop = () => {}
+export function noop() {}
 
 // on is a function that takes an object as the first argument and calls the addEventListener method on it
-export const on = (obj, ...args) => {
+export function on(obj, ...args) {
   if (obj && obj.addEventListener) {
     obj.addEventListener(...args)
   } else {
@@ -16,7 +16,7 @@ export const on = (obj, ...args) => {
 }
 
 // off is a function that takes an object as the first argument and calls the removeEventListener method on it
-export const off = (obj, ...args) => {
+export function off(obj, ...args) {
   if (obj && obj.removeEventListener) {
     obj.removeEventListener(...args)
   } else {

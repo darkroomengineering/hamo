@@ -6,7 +6,7 @@
 
 import { useMemo } from 'react'
 
-export const useSlots = (types = [], children = []) => {
+export function useSlots(types = [], children = []) {
   const _children = useMemo(() => children && [children].flat(), [children])
   const _types = useMemo(() => types && [types].flat(), [types])
   const slots = useMemo(() => {

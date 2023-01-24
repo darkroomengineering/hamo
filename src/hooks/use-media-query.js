@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isClient } from '../misc/util'
 
-export const useMediaQuery = (queryString) => {
+export function useMediaQuery(queryString) {
   const mediaQuery = useMemo(() => {
     if (isClient) {
       try {
