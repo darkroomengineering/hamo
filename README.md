@@ -48,6 +48,8 @@ This toolkit is composed of:
 
 `useInterval` – create and dispose intervals.
 
+`useIsClient` – returns true if window is defined.
+
 `useIsTouchDevice` – returns true if client is using a touch-capable device.
 
 `useIsVisible` – returns true if a reference node is in the viewport.

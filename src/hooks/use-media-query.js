@@ -6,9 +6,11 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { isClient } from '../misc/util'
+import { useIsClient } from './use-is-client'
 
 export function useMediaQuery(queryString) {
+  const isClient = useIsClient()
+
   const mediaQuery = useMemo(() => {
     if (isClient) {
       try {
@@ -23,9 +25,7 @@ export function useMediaQuery(queryString) {
     return null
   }, [queryString])
 
-  const [isMatch, setIsMatch] = useState(
-    mediaQuery ? mediaQuery.matches : false
-  )
+  const [isMatch, setIsMatch] = useState(mediaQuery ? mediaQuery.matches : false)
 
   const onChange = useCallback(({ matches }) => {
     setIsMatch(matches)

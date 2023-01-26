@@ -5,16 +5,13 @@
 */
 
 import { useCallback, useEffect, useState } from 'react'
-import { isClient } from '../misc/util'
+import { useIsClient } from './use-is-client'
 
-function _useIsTouchDevice() {
+export function useIsTouchDevice() {
+  const isClient = useIsClient()
   const check = useCallback(() => {
     try {
-      return (
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        navigator.msMaxTouchPoints > 0
-      )
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
     } catch (error) {
       return false
     }
@@ -35,7 +32,5 @@ function _useIsTouchDevice() {
     }
   }, [onResize])
 
-  return isTouchDevice
+  return isClient ? isTouchDevice : undefined
 }
-
-export const useIsTouchDevice = isClient ? _useIsTouchDevice : () => undefined

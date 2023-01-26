@@ -14,9 +14,7 @@ export function useSlots(types = [], children = []) {
       return
     }
 
-    const slots = _types.map(
-      (type) => _children.find((el) => el.type === type)?.props.children
-    )
+    const slots = _types.map((type) => _children.find((el) => el.type === type)?.props.children)
 
     return types[0] ? slots : slots[0]
   }, [_children, _types])
