@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.0.0-semantic-release",
+  "version": "0.6.3",
   "description": "hamo means hook, do the math.",
   "files": [
     "dist"
@@ -24,13 +24,14 @@
     "clean": "npm-run-all --parallel clean:bundled clean:dist",
     "clean:bundled": "rm -rf bundled",
     "clean:dist": "rm -rf dist",
+    "prepublishOnly": "npm version patch",
+    "preversion": "npm run build",
     "build": "npm-run-all --parallel clean build:dist build:bundle build:types",
     "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
     "build:dist": "microbundle build -i src/ --o ./dist",
     "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
     "build:bundle-full": "microbundle build -i src/ --o ./bundled/hamo.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd  --no-compress",
-    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd",
-    "prepare": "husky install"
+    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd"
   },
   "keywords": [],
   "author": "@studio-freight",
@@ -42,8 +43,6 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
-    "@semantic-release/changelog": "^6.0.2",
-    "@semantic-release/git": "^10.0.1",
     "@size-limit/preset-small-lib": "^8.1.2",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.6.0",

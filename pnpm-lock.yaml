@@ -3,8 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@commitlint/cli': ^17.4.2
   '@commitlint/config-conventional': ^17.4.2
-  '@semantic-release/changelog': ^6.0.2
-  '@semantic-release/git': ^10.0.1
+  '@semantic-release/github': ^8.0.7
   '@size-limit/preset-small-lib': ^8.1.2
   '@studio-freight/tempus': ^0.0.30
   eslint: ^8.0.1
@@ -31,8 +30,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli': 17.4.2
   '@commitlint/config-conventional': 17.4.2
-  '@semantic-release/changelog': 6.0.2_semantic-release@20.1.0
-  '@semantic-release/git': 10.0.1_semantic-release@20.1.0
+  '@semantic-release/github': 8.0.7_semantic-release@20.1.0
   '@size-limit/preset-small-lib': 8.1.2_size-limit@8.1.2
   eslint: 8.32.0
   eslint-config-prettier: 8.6.0_eslint@8.32.0
@@ -2231,19 +2229,6 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@semantic-release/changelog/6.0.2_semantic-release@20.1.0:
-    resolution: {integrity: sha512-jHqfTkoPbDEOAgAP18mGP53IxeMwxTISN+GwTRy9uLu58UjARoZU8ScCgWGeO2WPkEsm57H8AkyY02W2ntIlIw==}
-    engines: {node: '>=14.17'}
-    peerDependencies:
-      semantic-release: '>=18.0.0'
-    dependencies:
-      '@semantic-release/error': 3.0.0
-      aggregate-error: 3.1.0
-      fs-extra: 11.1.0
-      lodash: 4.17.21
-      semantic-release: 20.1.0
-    dev: true
-
   /@semantic-release/commit-analyzer/9.0.2_semantic-release@20.1.0:
     resolution: {integrity: sha512-E+dr6L+xIHZkX4zNMe6Rnwg4YQrWNXK+rNsvwOPpdFppvZO1olE2fIgWhv89TkQErygevbjsZFSIxp+u6w2e5g==}
     engines: {node: '>=14.17'}
@@ -2265,25 +2250,6 @@ packages:
   /@semantic-release/error/3.0.0:
     resolution: {integrity: sha512-5hiM4Un+tpl4cKw3lV4UgzJj+SmfNIDCLLw0TepzQxz9ZGV5ixnqkzIVF+3tp0ZHgcMKE+VNGHJjEeyFG2dcSw==}
     engines: {node: '>=14.17'}
-    dev: true
-
-  /@semantic-release/git/10.0.1_semantic-release@20.1.0:
-    resolution: {integrity: sha512-eWrx5KguUcU2wUPaO6sfvZI0wPafUKAMNC18aXY4EnNcrZL86dEmpNVnC9uMpGZkmZJ9EfCVJBQx4pV4EMGT1w==}
-    engines: {node: '>=14.17'}
-    peerDependencies:
-      semantic-release: '>=18.0.0'
-    dependencies:
-      '@semantic-release/error': 3.0.0
-      aggregate-error: 3.1.0
-      debug: 4.3.4
-      dir-glob: 3.0.1
-      execa: 5.1.1
-      lodash: 4.17.21
-      micromatch: 4.0.5
-      p-reduce: 2.1.0
-      semantic-release: 20.1.0
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@semantic-release/github/8.0.7_semantic-release@20.1.0:
@@ -5620,11 +5586,6 @@ packages:
     dependencies:
       eventemitter3: 4.0.7
       p-timeout: 3.2.0
-    dev: true
-
-  /p-reduce/2.1.0:
-    resolution: {integrity: sha512-2USApvnsutq8uoxZBGbbWM0JIYLiEMJ9RlaN7fAzVNb9OZN0SHjjTTfIcb667XynS5Y1VhwDJVDa72TnPzAYWw==}
-    engines: {node: '>=8'}
     dev: true
 
   /p-reduce/3.0.0:
