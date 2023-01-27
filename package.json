@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.6.3",
+  "version": "0.0.0-semantic-release",
   "description": "hamo means hook, do the math.",
   "files": [
     "dist"
@@ -21,13 +21,16 @@
   },
   "scripts": {
     "dev": "vite",
-    "clean": "rm -rf bundled",
-    "build": "npm-run-all --parallel build:dist build:bundle build:types",
+    "clean": "npm-run-all --parallel clean:bundled clean:dist",
+    "clean:bundled": "rm -rf bundled",
+    "clean:dist": "rm -rf dist",
+    "build": "npm-run-all --parallel clean build:dist build:bundle build:types",
     "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
     "build:dist": "microbundle build -i src/ --o ./dist",
     "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
     "build:bundle-full": "microbundle build -i src/ --o ./bundled/hamo.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd  --no-compress",
-    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd"
+    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "@studio-freight",
@@ -37,6 +40,8 @@
   },
   "homepage": "https://github.com/studio-freight/bibliotheca#readme",
   "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@size-limit/preset-small-lib": "^8.1.2",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.6.0",
@@ -45,12 +50,12 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.32.1",
+    "husky": "^8.0.3",
     "microbundle": "^0.15.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "semantic-release": "^20.1.0",
     "typescript": "^4.9.4",
     "vite": "^4.0.4"
   },
