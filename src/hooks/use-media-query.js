@@ -1,13 +1,12 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useIsClient } from './use-is-client'
+
 /**
  * @name useMediaQuery
  * @description A React hook that detects whether a media query is true or false.
  * @param {string} queryString - The media query to test against.
  * @returns {boolean} - Whether the media query is true or false.
  */
-
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useIsClient } from './use-is-client'
-
 export function useMediaQuery(queryString) {
   const isClient = useIsClient()
 
@@ -41,7 +40,7 @@ export function useMediaQuery(queryString) {
         mediaQuery.removeEventListener('change', onChange, { passive: true })
       }
     }
-  }, [mediaQuery, onChange])
+  }, [mediaQuery, onChange, isClient])
 
   return isMatch
 }

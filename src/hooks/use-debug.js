@@ -12,10 +12,11 @@ export function useDebug() {
   const isClient = useIsClient()
   const debug = useMemo(
     () =>
+      isClient &&
       (window.location.href.includes('#debug') || process.env.NODE_ENV === 'development') &&
       !window.location.href.includes('#production'),
-    []
+    [isClient]
   )
 
-  return isClient ? debug : undefined
+  return debug
 }
