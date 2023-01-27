@@ -4,12 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export function useIsVisible({
-  root = null,
-  rootMargin = '0px',
-  threshold = 1.0,
-  once = false,
-} = {}) {
+export function useIsVisible({ root = null, rootMargin = '0px', threshold = 1.0, once = false } = {}) {
   const observer = useRef()
   const ref = useRef()
   const [inView, setInView] = useState(false)
@@ -26,12 +21,14 @@ export function useIsVisible({
   }, [])
 
   useEffect(() => {
-    observer.current = new IntersectionObserver(callbackFunction, {
-      root,
-      rootMargin,
-      threshold,
-    })
-    if (ref.current) observer.current.observe(ref.current)
+    if (ref.current) {
+      observer.current = new IntersectionObserver(callbackFunction, {
+        root,
+        rootMargin,
+        threshold,
+      })
+      observer.current.observe(ref.current)
+    }
     return () => {
       if (observer.current) {
         observer.current.disconnect()

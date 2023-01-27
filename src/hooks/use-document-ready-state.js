@@ -4,10 +4,11 @@
 // The useEffect hook is used to set the state of the document to 'complete' when the document is ready
 
 import { useEffect, useState } from 'react'
-import { isClient } from '../misc/util'
+import { useIsClient } from './use-is-client'
 import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
-function _useDocumentReadyState() {
+export function useDocumentReadyState() {
+  const isClient = useIsClient()
   const [readyState, setReadyState] = useState(() => {
     if (typeof document !== 'undefined') {
       return document.readyState
@@ -26,8 +27,7 @@ function _useDocumentReadyState() {
 
     document.addEventListener('readystatechange', onStateChange, false)
 
-    return () =>
-      document.removeEventListener('readystatechange', onStateChange, false)
+    return () => document.removeEventListener('readystatechange', onStateChange, false)
   }, [])
 
   useEffect(() => {
@@ -38,9 +38,5 @@ function _useDocumentReadyState() {
     }
   }, [])
 
-  return readyState
+  return isClient ? readyState : undefined
 }
-
-export const useDocumentReadyState = isClient
-  ? _useDocumentReadyState
-  : () => undefined

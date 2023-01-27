@@ -7,6 +7,14 @@
  */
 
 import { useEffect, useLayoutEffect as vanillaUseLayoutEffect } from 'react'
-import { isClient } from '../misc/util'
+import { useIsClient } from './use-is-client'
 
-export const useLayoutEffect = isClient ? vanillaUseLayoutEffect : useEffect
+export function useLayoutEffect(effect, deps) {
+  const isClient = useIsClient()
+
+  if (isClient) {
+    vanillaUseLayoutEffect(effect, deps)
+  } else {
+    useEffect(effect, deps)
+  }
+}

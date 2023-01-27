@@ -1,46 +1,62 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.6.2",
+  "version": "0.0.0-semantic-release",
   "description": "hamo means hook, do the math.",
-  "author": "studio-freight",
   "files": [
     "dist"
   ],
   "sideEffects": false,
-  "source": "src/index.js",
-  "main": "dist/index.js",
-  "umd:main": "dist/index.umd.js",
-  "module": "dist/index.mjs",
+  "source": "src/hamo.js",
+  "main": "dist/hamo.js",
+  "umd:main": "dist/hamo.umd.js",
+  "module": "dist/hamo.mjs",
+  "types": "dist/types/index.d.ts",
   "exports": {
-    "require": "./dist/index.js",
-    "default": "./dist/index.modern.mjs"
-  },
-  "scripts": {
-    "dev": "vite docs",
-    "size": "size-limit",
-    "clean": "rimraf dist",
-    "build": "microbundle build",
-    "prebuild": "npm run clean",
-    "preversion": "npm run build",
-    "postversion": "git push --follow-tags"
+    "require": "./dist/hamo.js",
+    "default": "./dist/hamo.modern.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/studio-freight/bibliotheca.git"
+    "url": "https://github.com/studio-freight/bibliotheca.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "clean": "npm-run-all --parallel clean:bundled clean:dist",
+    "clean:bundled": "rm -rf bundled",
+    "clean:dist": "rm -rf dist",
+    "build": "npm-run-all --parallel clean build:dist build:bundle build:types",
+    "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
+    "build:dist": "microbundle build -i src/ --o ./dist",
+    "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
+    "build:bundle-full": "microbundle build -i src/ --o ./bundled/hamo.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd  --no-compress",
+    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd",
+    "prepare": "husky install"
   },
   "keywords": [],
+  "author": "@studio-freight",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/studio-freight/bibliotheca/issues"
   },
   "homepage": "https://github.com/studio-freight/bibliotheca#readme",
   "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@size-limit/preset-small-lib": "^8.1.2",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.32.1",
+    "husky": "^8.0.3",
     "microbundle": "^0.15.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^4.1.1",
-    "size-limit": "^8.1.2",
+    "typescript": "^4.9.4",
     "vite": "^4.0.4"
   },
   "dependencies": {
@@ -51,14 +67,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "size-limit": [
-    {
-      "limit": "3 kB",
-      "path": "dist/index.js"
-    },
-    {
-      "limit": "2 kB",
-      "path": "dist/index.mjs"
-    }
-  ]
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
