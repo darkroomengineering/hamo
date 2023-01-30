@@ -4,10 +4,8 @@
 // The useEffect hook is used to set the state of the document to 'complete' when the document is ready
 
 import { useEffect, useState } from 'react'
-import { useIsClient } from './use-is-client'
 
 export function useDocumentReadyState() {
-  const isClient = useIsClient()
   const [readyState, setReadyState] = useState(() => {
     if (typeof document !== 'undefined') {
       return document.readyState
@@ -29,13 +27,5 @@ export function useDocumentReadyState() {
     return () => document.removeEventListener('readystatechange', onStateChange, false)
   }, [])
 
-  useEffect(() => {
-    if (typeof document === 'undefined') return
-
-    if (document.readyState === 'complete') {
-      setReadyState('complete')
-    }
-  }, [])
-
-  return isClient ? readyState : undefined
+  return readyState
 }

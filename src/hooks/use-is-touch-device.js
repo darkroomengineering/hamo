@@ -7,7 +7,10 @@
 import { useCallback, useEffect, useState } from 'react'
 
 export function useIsTouchDevice() {
-  const check = useCallback(() => 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0, [])
+  const check = useCallback(
+    () => 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
+    []
+  )
 
   const [isTouchDevice, setIsTouchDevice] = useState(undefined)
 

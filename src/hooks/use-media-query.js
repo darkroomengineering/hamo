@@ -7,6 +7,7 @@ import { useIsClient } from './use-is-client'
  * @param {string} queryString - The media query to test against.
  * @returns {boolean} - Whether the media query is true or false.
  */
+
 export function useMediaQuery(queryString) {
   const isClient = useIsClient()
 

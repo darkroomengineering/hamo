@@ -1,10 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-<<<<<<< HEAD
-  "version": "0.5.4",
-=======
   "version": "0.6.8",
->>>>>>> 94b1e2012cd0514b4dba468a442e9de3e4a8c2fc
   "description": "hamo means hook, do the math.",
   "files": [
     "dist"
@@ -35,7 +31,8 @@
     "build:dist": "microbundle build -i src/ --o ./dist",
     "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
     "build:bundle-full": "microbundle build -i src/ --o ./bundled/hamo.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd  --no-compress",
-    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd"
+    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "@studio-freight",
@@ -46,13 +43,14 @@
   "homepage": "https://github.com/studio-freight/bibliotheca#readme",
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.1.2",
-    "eslint": "^8.0.1",
+    "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.32.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
     "microbundle": "^0.15.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.3",
