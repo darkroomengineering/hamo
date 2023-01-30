@@ -10,7 +10,6 @@ specifiers:
   eslint-plugin-n: ^15.6.1
   eslint-plugin-promise: ^6.1.1
   eslint-plugin-react: ^7.32.2
-  husky: ^8.0.3
   microbundle: ^0.15.1
   npm-run-all: ^4.1.5
   prettier: ^2.8.3
@@ -33,7 +32,6 @@ devDependencies:
   eslint-plugin-n: 15.6.1_eslint@8.33.0
   eslint-plugin-promise: 6.1.1_eslint@8.33.0
   eslint-plugin-react: 7.32.2_eslint@8.33.0
-  husky: 8.0.3
   microbundle: 0.15.1
   npm-run-all: 4.1.5
   prettier: 2.8.3
@@ -3404,12 +3402,6 @@ packages:
 
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
-    dev: true
-
-  /husky/8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
-    hasBin: true
     dev: true
 
   /icss-replace-symbols/1.1.0:
