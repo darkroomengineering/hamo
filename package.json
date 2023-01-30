@@ -3,7 +3,8 @@
   "version": "0.6.8",
   "description": "hamo means hook, do the math.",
   "files": [
-    "dist"
+    "dist/**/*",
+    "bundled/**/*"
   ],
   "sideEffects": false,
   "source": "src/hamo.js",
