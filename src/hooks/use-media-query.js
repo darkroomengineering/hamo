@@ -22,7 +22,7 @@ export function useMediaQuery(queryString) {
     }
 
     return null
-  }, [queryString])
+  }, [queryString, isClient])
 
   const [isMatch, setIsMatch] = useState(mediaQuery ? mediaQuery.matches : false)
 

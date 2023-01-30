@@ -7,6 +7,7 @@ import {
   useIsTouchDevice,
   useIsVisible,
   useRect,
+  useMediaQuery,
 } from '../src/index'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const isclient = useIsClient()
   const ready = useDocumentReadyState()
   const { setRef, inView } = useIsVisible({ threshold: 0.5 })
+  const isMobile = useMediaQuery('(max-width: 800px)')
 
   useFrame((time, deltaTime) => {
     // console.log({ time, deltaTime })
@@ -28,6 +30,7 @@ function App() {
       <p>is document ready? {ready ? 'yes' : 'no'}</p>
       <p>is in viewport? {inView ? 'yes' : 'no'}</p>
       <p>is client? {isclient ? 'yes' : 'no'}</p>
+      <p>is Mobile? {isMobile ? 'yes' : 'no'}</p>
       <div ref={setRectRef}>
         top: {rect?.top}
         <br />
