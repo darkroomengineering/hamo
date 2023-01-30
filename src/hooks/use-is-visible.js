@@ -1,20 +1,19 @@
+// useIsVisible is a custom hook that allows you to detect when an element is
+// visible on the screen. It takes an object as an argument, and returns an object
+// with two properties: setRef and inView.
+
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const useIsVisible = ({
-  root = null,
-  rootMargin = '0px',
-  threshold = 1.0,
-  once = false,
-} = {}) => {
+export function useIsVisible({ root = null, rootMargin = '0px', threshold = 1.0, once = false } = {}) {
   const observer = useRef()
   const ref = useRef()
   const [inView, setInView] = useState(false)
 
-  const setRef = (node) => {
+  const setRef = useCallback((node) => {
     if (!ref.current) {
       ref.current = node
     }
-  }
+  }, [])
 
   const callbackFunction = useCallback((entries) => {
     const [entry] = entries
@@ -22,14 +21,18 @@ export const useIsVisible = ({
   }, [])
 
   useEffect(() => {
-    observer.current = new IntersectionObserver(callbackFunction, {
-      root,
-      rootMargin,
-      threshold,
-    })
-    if (ref.current) observer.current.observe(ref.current)
+    if (ref.current) {
+      observer.current = new IntersectionObserver(callbackFunction, {
+        root,
+        rootMargin,
+        threshold,
+      })
+      observer.current.observe(ref.current)
+    }
     return () => {
-      observer.current.disconnect()
+      if (observer.current) {
+        observer.current.disconnect()
+      }
     }
   }, [callbackFunction])
 
@@ -41,5 +44,3 @@ export const useIsVisible = ({
 
   return { setRef, inView }
 }
-
-export default useIsVisible

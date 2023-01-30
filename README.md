@@ -27,6 +27,7 @@ Hamo means hook, you do the math
 ```bash
 $ npm i @studio-freight/hamo
 ```
+
 or use whatever package manager you like the most
 
 <br/>
@@ -35,35 +36,31 @@ or use whatever package manager you like the most
 
 This toolkit is composed of:
 
-`useDebounce` – debounce goodness
+`useClickOutsideEvent` – trigger a callback when user clicks outside of a reference node.
 
-`useDebug` – returns true if #debug is present in the url
+`useDebug` – returns true if #debug is present in the url.
 
-`useEffectOnce` – runs a function through react's useEffect with an empty dependency array
+`useDocumentReadyState` – returns true if document is ready.
 
-`useFrame` – use `@react-spring/rafz` animation frame
+`useEventBus, { dipatch }` – creates a global event bus.
 
-`useInterval` – create and dispose intervals
+`useFrame` – use `@studio-freight/tempus` animation frame.
 
-`useIsTouchDevice` – duh
+`useInterval` – create and dispose intervals.
 
-`useIsomophicLayoutEffect` – runs react's `useLayoutEffect` if in browser, if not, runs a plain `useEffect` instead
+`useIsClient` – returns true if window is defined.
 
-`useMeasure` – measure anything in the dom
+`useIsTouchDevice` – returns true if client is using a touch-capable device.
+
+`useIsVisible` – returns true if a reference node is in the viewport.
+
+`useLayoutEffect` – runs react's `useLayoutEffect` if in browser, if not, runs a plain `useEffect` instead
 
 `useMediaQuery` – css-like media query support in Javascript.
-
-`useRafState` – modify state in sync with `@react-spring/rafz`
 
 `useRect` – getboundingclientrect with scrollY sauce if using our [lenis](https://github.com/studio-freight/lenis) smooth scroll
 
 `useSlots` – brings vue `slots` to react
-
-`useTimeoutFn` – timeout a function
-
-`useUnmount` – calls `unmount` callbacks.
-
-`useWindowSize` – window sizing updated in sync with `@react-spring/rafz`
 
 <br/>
 

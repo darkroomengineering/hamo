@@ -1,28 +1,46 @@
-import { useCallback, useMemo, useState, useEffect } from 'react'
-import { isClient } from '../utils'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useIsClient } from './use-is-client'
 
-const useMediaQuery = (queryString) => {
-  const mediaQuery = useMemo(
-    () => window.matchMedia(queryString),
-    [queryString]
-  )
-  const [isMatch, setIsMatch] = useState(mediaQuery.matches)
+/**
+ * @name useMediaQuery
+ * @description A React hook that detects whether a media query is true or false.
+ * @param {string} queryString - The media query to test against.
+ * @returns {boolean} - Whether the media query is true or false.
+ */
+export function useMediaQuery(queryString) {
+  const isClient = useIsClient()
+
+  const mediaQuery = useMemo(() => {
+    if (isClient) {
+      try {
+        return window.matchMedia(queryString)
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.error(error)
+        }
+      }
+    }
+
+    return null
+  }, [queryString, isClient])
+
+  const [isMatch, setIsMatch] = useState(mediaQuery ? mediaQuery.matches : false)
 
   const onChange = useCallback(({ matches }) => {
     setIsMatch(matches)
   }, [])
 
   useEffect(() => {
-    onChange(mediaQuery)
+    if (mediaQuery) {
+      onChange(mediaQuery)
 
-    mediaQuery.addEventListener('change', onChange, { passive: true })
+      mediaQuery.addEventListener('change', onChange, { passive: true })
 
-    return () => {
-      mediaQuery.removeEventListener('change', onChange, { passive: true })
+      return () => {
+        mediaQuery.removeEventListener('change', onChange, { passive: true })
+      }
     }
-  }, [mediaQuery, onChange])
+  }, [mediaQuery, onChange, isClient])
 
   return isMatch
 }
-
-export default isClient ? useMediaQuery : () => undefined

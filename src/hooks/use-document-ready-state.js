@@ -1,10 +1,23 @@
-import { useState } from 'react'
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
+// useDocumentReadyState.js
+// This code is a custom hook that returns the current document.readyState
+// The useLayoutEffect hook is used to set the state of the document
+// The useEffect hook is used to set the state of the document to 'complete' when the document is ready
 
-function _useDocumentReadyState() {
-  const [readyState, setReadyState] = useState(document.readyState)
+import { useEffect, useState } from 'react'
+import { useIsClient } from './use-is-client'
 
-  useLayoutEffect(() => {
+export function useDocumentReadyState() {
+  const isClient = useIsClient()
+  const [readyState, setReadyState] = useState(() => {
+    if (typeof document !== 'undefined') {
+      return document.readyState
+    }
+    return 'loading'
+  })
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
     setReadyState(document.readyState)
 
     function onStateChange() {
@@ -13,14 +26,16 @@ function _useDocumentReadyState() {
 
     document.addEventListener('readystatechange', onStateChange, false)
 
-    return () =>
-      document.removeEventListener('readystatechange', onStateChange, false)
+    return () => document.removeEventListener('readystatechange', onStateChange, false)
   }, [])
 
-  return readyState
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
+    if (document.readyState === 'complete') {
+      setReadyState('complete')
+    }
+  }, [])
+
+  return isClient ? readyState : undefined
 }
-
-export const useDocumentReadyState =
-  typeof window !== 'undefined' ? _useDocumentReadyState : () => undefined
-
-export default useDocumentReadyState
