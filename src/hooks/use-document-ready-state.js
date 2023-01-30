@@ -5,7 +5,6 @@
 
 import { useEffect, useState } from 'react'
 import { useIsClient } from './use-is-client'
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
 
 export function useDocumentReadyState() {
   const isClient = useIsClient()
@@ -16,7 +15,7 @@ export function useDocumentReadyState() {
     return 'loading'
   })
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof document === 'undefined') return
 
     setReadyState(document.readyState)

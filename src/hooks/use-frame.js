@@ -5,10 +5,10 @@
  * @returns {Number} The ID of the callback.
  */
 import { raf } from '@studio-freight/tempus'
-import { useLayoutEffect } from './use-isomorphic-layout-effect'
+import { useEffect } from 'react'
 
 export function useFrame(callback, priority = 0) {
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (callback) {
       const id = raf.add(callback, priority)
       return () => {
