@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@size-limit/preset-small-lib': ^8.1.2
-  '@studio-freight/tempus': ^0.0.30
+  '@studio-freight/tempus': ^0.0.34
   eslint: ^8.33.0
   eslint-config-prettier: ^8.6.0
   eslint-config-standard: ^17.0.0
@@ -16,11 +16,11 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   throttle-debounce: ^5.0.0
-  typescript: ^4.9.4
+  typescript: ^4.9.5
   vite: ^4.0.4
 
 dependencies:
-  '@studio-freight/tempus': 0.0.30
+  '@studio-freight/tempus': 0.0.34
   throttle-debounce: 5.0.0
 
 devDependencies:
@@ -37,7 +37,7 @@ devDependencies:
   prettier: 2.8.3
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  typescript: 4.9.4
+  typescript: 4.9.5
   vite: 4.0.4
 
 packages:
@@ -1932,8 +1932,8 @@ packages:
       size-limit: 8.1.2
     dev: true
 
-  /@studio-freight/tempus/0.0.30:
-    resolution: {integrity: sha512-zQ6Y3srvKi12G/WunZNwd9mQWlwRTyyB1cC6WvuazIbN8hcx025fhcNhvPRBM8sL/Ly7KBpL1fDFMJu2rBk5Cw==}
+  /@studio-freight/tempus/0.0.34:
+    resolution: {integrity: sha512-wf5oflAg3uJ0CFY9ryeO6k8e8HTTwv7Ld6BusRnveL/GdQ9YjxI/H/USN7Vh2G2UQXjx+SGIlimqnI9QH2j2uA==}
     dependencies:
       nanoid: 4.0.0
     dev: false
@@ -3893,13 +3893,13 @@ packages:
       rollup-plugin-bundle-size: 1.0.3
       rollup-plugin-postcss: 4.0.2_postcss@8.4.21
       rollup-plugin-terser: 7.0.2_rollup@2.79.1
-      rollup-plugin-typescript2: 0.32.1_ntuob3xud5wukob6phfmz2mbyy
+      rollup-plugin-typescript2: 0.32.1_zptcx3kz3uwp66hzhyyt545weq
       rollup-plugin-visualizer: 5.9.0_rollup@2.79.1
       sade: 1.8.1
       terser: 5.16.2
       tiny-glob: 0.2.9
       tslib: 2.5.0
-      typescript: 4.9.4
+      typescript: 4.9.5
     transitivePeerDependencies:
       - '@types/babel__core'
       - supports-color
@@ -4868,7 +4868,7 @@ packages:
       terser: 5.16.2
     dev: true
 
-  /rollup-plugin-typescript2/0.32.1_ntuob3xud5wukob6phfmz2mbyy:
+  /rollup-plugin-typescript2/0.32.1_zptcx3kz3uwp66hzhyyt545weq:
     resolution: {integrity: sha512-RanO8bp1WbeMv0bVlgcbsFNCn+Y3rX7wF97SQLDxf0fMLsg0B/QFF005t4AsGUcDgF3aKJHoqt4JF2xVaABeKw==}
     peerDependencies:
       rollup: '>=1.26.3'
@@ -4880,7 +4880,7 @@ packages:
       resolve: 1.22.1
       rollup: 2.79.1
       tslib: 2.5.0
-      typescript: 4.9.4
+      typescript: 4.9.5
     dev: true
 
   /rollup-plugin-visualizer/5.9.0_rollup@2.79.1:
@@ -5289,8 +5289,8 @@ packages:
       is-typed-array: 1.1.10
     dev: true
 
-  /typescript/4.9.4:
-    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
+  /typescript/4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
