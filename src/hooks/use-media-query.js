@@ -25,7 +25,7 @@ export function useMediaQuery(queryString) {
     return null
   }, [queryString, isClient])
 
-  const [isMatch, setIsMatch] = useState(mediaQuery ? mediaQuery.matches : false)
+  const [isMatch, setIsMatch] = useState(undefined)
 
   const onChange = useCallback(({ matches }) => {
     setIsMatch(matches)
