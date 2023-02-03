@@ -54,8 +54,6 @@ This toolkit is composed of:
 
 `useIsVisible` – returns true if a reference node is in the viewport.
 
-`useLayoutEffect` – runs react's `useLayoutEffect` if in browser, if not, runs a plain `useEffect` instead
-
 `useMediaQuery` – css-like media query support in Javascript.
 
 `useRect` – getboundingclientrect with scrollY sauce if using our [lenis](https://github.com/studio-freight/lenis) smooth scroll
