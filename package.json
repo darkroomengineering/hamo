@@ -23,8 +23,8 @@
   "scripts": {
     "dev": "vite",
     "clean": "npm-run-all --parallel clean:bundled clean:dist",
-    "clean:bundled": "rm -rf bundled",
-    "clean:dist": "rm -rf dist",
+    "clean:bundled": "rimraf bundled",
+    "clean:dist": "rimraf dist",
     "prepublishOnly": "npm version patch",
     "postpublish": "git push --follow-tags",
     "preversion": "npm run build",
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@studio-freight/tempus": "^0.0.36",
+    "rimraf": "^4.1.2",
     "throttle-debounce": "^5.0.0"
   },
   "peerDependencies": {
