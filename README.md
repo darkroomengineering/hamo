@@ -20,6 +20,8 @@
 
 Hamo means hook, you do the math
 
+🚧API might change at any time🚧
+
 <br/>
 
 ## Setup
