@@ -4,26 +4,11 @@
  * @param {number} delay - The delay between each interval
  */
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
-export function useInterval(callback, delay) {
-  const savedCallback = useRef()
-  const intervalId = useRef()
-
+export function useInterval(callback, delay = 1000, deps = []) {
   useEffect(() => {
-    savedCallback.current = callback
-  })
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current()
-    }
-
-    if (delay !== null) {
-      intervalId.current = setInterval(tick, delay)
-      return () => clearInterval(intervalId.current)
-    }
-  }, [delay])
-
-  return () => clearInterval(intervalId.current)
+    const interval = setInterval(callback, delay)
+    return () => clearInterval(interval)
+  }, [delay, ...deps])
 }
