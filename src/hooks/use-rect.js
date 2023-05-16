@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { throttle } from 'throttle-debounce'
+import { useResizeObserver } from './use-resize-observer'
 
 // offsetTop function returns the offsetTop value of a DOM element.
 // The offsetTop value is the distance between the top of the element
@@ -23,76 +24,78 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
-export function useRect({
-  // ignoreTransform = true,
-  lazy = false,
-  debounce = 1000,
-} = {}) {
-  const element = useRef()
-  const resizeObserver = useRef()
-
+export function useRect(
+  {
+    // ignoreTransform = true,
+    lazy = false,
+    debounce = 1000,
+  } = {},
+  deps = []
+) {
+  const [element, setElement] = useState()
   const [rect, setRect] = useState({})
-  const lazyRect = useRef(rect)
+  const rectRef = useRef({})
+  const [setResizeObserverElement] = useResizeObserver(
+    {
+      lazy: true,
+      callback: (entry) => {
+        // includes padding and border
+        const width = entry.borderBoxSize[0].inlineSize
+        const height = entry.borderBoxSize[0].blockSize
 
-  const resize = useCallback(() => {
-    if (element.current) {
-      const top = offsetTop(element.current)
-      const left = offsetLeft(element.current)
-
-      lazyRect.current = { ...lazyRect.current, top, left }
-      if (!lazy) {
-        setRect(lazyRect.current)
-      }
-    }
-  }, [lazy])
+        if (lazy) {
+          rectRef.current.width = width
+          rectRef.current.height = height
+        } else {
+          setRect((rect) => ({
+            ...rect,
+            width,
+            height,
+          }))
+        }
+      },
+    },
+    [lazy, ...deps]
+  )
 
   // resize if body height changes
   useEffect(() => {
-    const callback = throttle(debounce, resize)
+    if (!element) return
+
+    const callback = throttle(debounce, () => {
+      // TODO: ignoreTransform: true/false
+      // ignoreTransform: true rely on offset technique
+      // ignoreTransform: false rely on getBoundingClientRect
+      const top = offsetTop(element)
+      const left = offsetLeft(element)
+
+      if (lazy) {
+        rectRef.current.top = top
+        rectRef.current.left = left
+      } else {
+        setRect((rect) => ({
+          ...rect,
+          top,
+          left,
+        }))
+      }
+    })
     const resizeObserver = new ResizeObserver(callback)
-    resizeObserver.observe(document.body)
+    resizeObserver.observe(document.body, { box: 'border-box' })
 
     return () => {
       resizeObserver.disconnect()
-      callback.cancel({ upcomingOnly: true })
+      callback.cancel()
     }
-  }, [debounce, resize])
+  }, [element, lazy, debounce])
 
-  const onResizeObserver = useCallback(
-    ([entry]) => {
-      const { width, height } = entry.contentRect
+  const getRect = useCallback(() => rectRef.current, [])
 
-      lazyRect.current = { ...lazyRect.current, width, height }
-      if (!lazy) {
-        setRect(lazyRect.current)
-      }
-    },
-    [lazy]
-  )
-
-  const getRect = useCallback(() => lazyRect.current, [])
-
-  useEffect(() => {
-    return () => {
-      // avoid strict mode double execution
-      if (process.env.NODE_ENV !== 'development') {
-        // disconnect resizeObserver on unmount
-        resizeObserver.current?.disconnect()
-      }
-    }
-  }, [])
-
-  const setRef = useCallback(
+  return [
     (node) => {
-      if (!node || node === element.current) return
-
-      resizeObserver.current?.disconnect()
-      resizeObserver.current = new ResizeObserver(onResizeObserver)
-      resizeObserver.current.observe(node)
-      element.current = node
+      setElement(node)
+      setResizeObserverElement(node)
     },
-    [resize]
-  )
-
-  return [setRef, lazy ? getRect : rect]
+    lazy ? getRect : rect,
+  ]
 }

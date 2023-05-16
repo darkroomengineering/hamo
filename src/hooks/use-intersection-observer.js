@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export function useIntersectionObserver({
-  root = null,
-  rootMargin = '0px',
-  threshold = 0,
-  once = false,
-  lazy = false,
-  callback = () => {},
-  deps = [],
-} = {}) {
+export function useIntersectionObserver(
+  { root = null, rootMargin = '0px', threshold = 0, once = false, lazy = false, callback = () => {} } = {},
+  deps = []
+) {
   const entryRef = useRef({})
   const [entry, setEntry] = useState({})
   const [element, setElement] = useState()
@@ -23,7 +18,9 @@ export function useIntersectionObserver({
         } else {
           setEntry(entry)
         }
+
         callback(entry)
+
         if (once && entry.isIntersecting) intersection.disconnect()
       },
       {

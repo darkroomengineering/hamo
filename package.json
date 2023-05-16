@@ -60,7 +60,7 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
-    "@studio-freight/tempus": "^0.0.36",
+    "@studio-freight/tempus": "^0.0.37",
     "rimraf": "^4.1.2",
     "throttle-debounce": "^5.0.0"
   },

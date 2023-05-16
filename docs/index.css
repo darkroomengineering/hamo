@@ -4,9 +4,18 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 100%;
+  padding-top: 80vh;
+  padding-bottom: 120vh;
 }
 
 .main {
   padding: 5vw;
-  margin-top: 100vh;
+}
+
+.rect {
+  padding: 10px;
+  background: red;
+  border: 2px solid yellow;
 }
