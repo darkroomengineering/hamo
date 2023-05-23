@@ -24,12 +24,18 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
+/**
+ * useRect - observe elements BoundingRect
+ * @param {Boolean} ignoreTransform - should include transform in the returned rect or not
+ * @param {Boolean} lazy - should return a state or not
+ * @param {Number} debounce - minimum delay between two rect computations
+ * @param {Number} resizeDebounce - minimum delay between two ResizeObserver computations
+ * @param {Function} callback - called on value change
+ * @param {Array} deps - props that should trigger a new rect computation
+ */
+
 export function useRect(
-  {
-    // ignoreTransform = true,
-    lazy = false,
-    debounce = 1000,
-  } = {},
+  { ignoreTransform = false, lazy = false, debounce = 1000, resizeDebounce = debounce, callback = () => {} } = {},
   deps = []
 ) {
   const [element, setElement] = useState()
@@ -38,15 +44,18 @@ export function useRect(
   const [setResizeObserverElement] = useResizeObserver(
     {
       lazy: true,
+      debounce: resizeDebounce,
       callback: (entry) => {
         // includes padding and border
         const width = entry.borderBoxSize[0].inlineSize
         const height = entry.borderBoxSize[0].blockSize
 
-        if (lazy) {
-          rectRef.current.width = width
-          rectRef.current.height = height
-        } else {
+        rectRef.current.width = width
+        rectRef.current.height = height
+
+        callback(rectRef.current)
+
+        if (!lazy) {
           setRect((rect) => ({
             ...rect,
             width,
@@ -55,24 +64,31 @@ export function useRect(
         }
       },
     },
-    [lazy, ...deps]
+    [lazy, resizeDebounce, ...deps]
   )
 
   // resize if body height changes
   useEffect(() => {
     if (!element) return
 
-    const callback = throttle(debounce, () => {
-      // TODO: ignoreTransform: true/false
-      // ignoreTransform: true rely on offset technique
-      // ignoreTransform: false rely on getBoundingClientRect
-      const top = offsetTop(element)
-      const left = offsetLeft(element)
+    const onBodyResize = throttle(debounce, () => {
+      let top, left
 
-      if (lazy) {
-        rectRef.current.top = top
-        rectRef.current.left = left
+      if (ignoreTransform) {
+        top = offsetTop(element)
+        left = offsetLeft(element)
       } else {
+        const rect = element.getBoundingClientRect()
+        top = rect.top + window.scrollY
+        left = rect.left + window.scrollX
+      }
+
+      rectRef.current.top = top
+      rectRef.current.left = left
+
+      callback(rectRef.current)
+
+      if (!lazy) {
         setRect((rect) => ({
           ...rect,
           top,
@@ -80,14 +96,14 @@ export function useRect(
         }))
       }
     })
-    const resizeObserver = new ResizeObserver(callback)
-    resizeObserver.observe(document.body, { box: 'border-box' })
+    const resizeObserver = new ResizeObserver(onBodyResize)
+    resizeObserver.observe(document.body)
 
     return () => {
       resizeObserver.disconnect()
-      callback.cancel()
+      onBodyResize.cancel()
     }
-  }, [element, lazy, debounce])
+  }, [element, lazy, debounce, ignoreTransform, ...deps])
 
   const getRect = useCallback(() => rectRef.current, [])
 

@@ -12,13 +12,15 @@ import {
 } from '../src/index'
 
 function App() {
-  // const [setRectRef, rect] = useRect(1000)
-  const [setRectRef, rect] = useRect({ lazy: false })
+  const [setRectRef, rect] = useRect({
+    lazy: false,
+    ignoreTransform: true,
+  })
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
   const isClient = useIsClient()
   const readyState = useDocumentReadyState()
-  const [setRef, intersection] = useIntersectionObserver({ lazy: false })
+  const [setIntersectionRef, intersection] = useIntersectionObserver({ lazy: false })
   const isMobile = useMediaQuery('(max-width: 800px)')
 
   useFrame((time, deltaTime) => {
@@ -26,7 +28,7 @@ function App() {
   })
 
   return (
-    <main className="main" ref={setRef}>
+    <main className="main" ref={setIntersectionRef}>
       <p>is touch? {isTouch ? 'yes' : 'no'}</p>
       <p>is debug? {debug ? 'yes' : 'no'}</p>
       <p>document readyState? {readyState}</p>
