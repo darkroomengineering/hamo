@@ -40,13 +40,13 @@ This toolkit is composed of:
 
 `useClickOutsideEvent` – trigger a callback when user clicks outside of a reference node.
 
-`useDebug` – returns true if #debug is present in the url.
+`useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
 
-`useDocumentReadyState` – returns true if document is ready.
+`useDocumentReadyState` – returns true if document.readyState.
 
 `useFrame` – use `@studio-freight/tempus` animation frame.
 
-`useInterval` – create and dispose intervals.
+`useInterval` – run a callback every x milliseconds.
 
 `useIsClient` – returns true if window is defined.
 
@@ -56,7 +56,7 @@ This toolkit is composed of:
 
 `useMediaQuery` – css-like media query support in Javascript.
 
-`useRect` – getboundingclientrect with scrollY sauce if using our [lenis](https://github.com/studio-freight/lenis) smooth scroll
+`useRect` – return getBoundingClientRect
 
 `useSlots` – brings vue `slots` to react
 

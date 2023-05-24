@@ -5,6 +5,12 @@
 
 import { useEffect, useState } from 'react'
 
+/**
+ * @name useDocumentReadyState
+ * @description A React hook that listen to document.readyState.
+ * @returns {string} document.readyState
+ */
+
 export function useDocumentReadyState() {
   const [readyState, setReadyState] = useState()
 

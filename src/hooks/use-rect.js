@@ -26,10 +26,10 @@ export function offsetLeft(element, accumulator = 0) {
 
 /**
  * useRect - observe elements BoundingRect
- * @param {Boolean} ignoreTransform - should include transform in the returned rect or not
- * @param {Boolean} lazy - should return a state or not
- * @param {Number} debounce - minimum delay between two rect computations
- * @param {Number} resizeDebounce - minimum delay between two ResizeObserver computations
+ * @param {boolean} ignoreTransform - should include transform in the returned rect or not
+ * @param {boolean} lazy - should return a state or not
+ * @param {number} debounce - minimum delay between two rect computations
+ * @param {number} resizeDebounce - minimum delay between two ResizeObserver computations
  * @param {Function} callback - called on value change
  * @param {Array} deps - props that should trigger a new rect computation
  */

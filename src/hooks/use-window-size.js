@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react'
 
+/**
+ * @name useWindowSize
+ * @description A React hook that listens to window size.
+ * @returns {object} { width, height }
+ */
+
 export function useWindowSize() {
   const [width, setWidth] = useState()
   const [height, setHeight] = useState()

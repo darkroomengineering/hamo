@@ -3,6 +3,7 @@
  * @param {Function} callback - A function that is called every frame.
  * @param {Number} priority - A number that determines the order in which the callback is called.
  */
+
 import Tempus from '@studio-freight/tempus'
 import { useEffect } from 'react'
 
