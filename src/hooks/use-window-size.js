@@ -17,5 +17,5 @@ export function useWindowSize() {
     return () => window.removeEventListener('resize', onWindowRezise, false)
   }, [])
 
-  return [width, height]
+  return { width, height }
 }

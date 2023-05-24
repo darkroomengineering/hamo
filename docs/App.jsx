@@ -9,6 +9,7 @@ import {
   useIsTouchDevice,
   useRect,
   useMediaQuery,
+  useWindowSize,
 } from '../src/index'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const readyState = useDocumentReadyState()
   const [setIntersectionRef, intersection] = useIntersectionObserver({ lazy: false })
   const isMobile = useMediaQuery('(max-width: 800px)')
+  const { width: windowWidth, height: windowHeight } = useWindowSize()
 
   useFrame((time, deltaTime) => {
     // console.log({ time, deltaTime })
@@ -29,6 +31,9 @@ function App() {
 
   return (
     <main className="main" ref={setIntersectionRef}>
+      <p>
+        window: {windowWidth} / {windowHeight}
+      </p>
       <p>is touch? {isTouch ? 'yes' : 'no'}</p>
       <p>is debug? {debug ? 'yes' : 'no'}</p>
       <p>document readyState? {readyState}</p>
