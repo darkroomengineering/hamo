@@ -38,7 +38,7 @@ or use whatever package manager you like the most
 
 This toolkit is composed of:
 
-`useClickOutsideEvent` – trigger a callback when user clicks outside of a reference node.
+`useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 
 `useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
 
@@ -52,13 +52,17 @@ This toolkit is composed of:
 
 `useIsTouchDevice` – returns true if client is using a touch-capable device.
 
-`useIsVisible` – returns true if a reference node is in the viewport.
+`useIntersectionObserver` – returns a setRef and the `intersection` object, which will have the method `.intersecting` as true or false depending on the configurations passed to the hook.
 
 `useMediaQuery` – css-like media query support in Javascript.
 
 `useRect` – return getBoundingClientRect
 
 `useSlots` – brings vue `slots` to react
+
+`useResizeObserver` – observe elements dimensions using ResizeObserver
+
+`useWindowSize` – listens to window size and returns width and height.
 
 <br/>
 
