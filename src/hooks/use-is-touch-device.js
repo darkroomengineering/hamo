@@ -4,28 +4,23 @@
   msMaxTouchPoints property, which is specific to Microsoft browsers.
 */
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function useIsTouchDevice() {
-  const check = useCallback(
-    () => 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
-    []
-  )
-
-  const [isTouchDevice, setIsTouchDevice] = useState(undefined)
-
-  const onResize = useCallback(() => {
-    setIsTouchDevice(check())
-  }, [check])
+  const [isTouchDevice, setIsTouchDevice] = useState()
 
   useEffect(() => {
+    function onResize() {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0)
+    }
+
+    window.addEventListener('resize', onResize, false)
     onResize()
-    window.addEventListener('resize', onResize, { passive: true })
 
     return () => {
-      window.removeEventListener('resize', onResize, { passive: true })
+      window.removeEventListener('resize', onResize, false)
     }
-  }, [onResize])
+  }, [])
 
   return isTouchDevice
 }

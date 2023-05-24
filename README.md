@@ -44,8 +44,6 @@ This toolkit is composed of:
 
 `useDocumentReadyState` – returns true if document is ready.
 
-`useEventBus, { dipatch }` – creates a global event bus.
-
 `useFrame` – use `@studio-freight/tempus` animation frame.
 
 `useInterval` – create and dispose intervals.
