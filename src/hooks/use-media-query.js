@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useIsClient } from './use-is-client'
+import { useEffect, useState } from 'react'
 
 /**
  * @name useMediaQuery
@@ -9,39 +8,20 @@ import { useIsClient } from './use-is-client'
  */
 
 export function useMediaQuery(queryString) {
-  const isClient = useIsClient()
-
-  const mediaQuery = useMemo(() => {
-    if (isClient) {
-      try {
-        return window.matchMedia(queryString)
-      } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
-          console.error(error)
-        }
-      }
-    }
-
-    return null
-  }, [queryString, isClient])
-
-  const [isMatch, setIsMatch] = useState(undefined)
-
-  const onChange = useCallback(({ matches }) => {
-    setIsMatch(matches)
-  }, [])
+  const [isMatch, setIsMatch] = useState()
 
   useEffect(() => {
-    if (mediaQuery) {
-      onChange(mediaQuery)
+    const mediaQuery = window.matchMedia(queryString)
 
-      mediaQuery.addEventListener('change', onChange, { passive: true })
-
-      return () => {
-        mediaQuery.removeEventListener('change', onChange, { passive: true })
-      }
+    function onChange() {
+      setIsMatch(mediaQuery.matches)
     }
-  }, [mediaQuery, onChange, isClient])
+
+    mediaQuery.addEventListener('change', onChange, false)
+    onChange()
+
+    return () => mediaQuery.removeEventListener('change', onChange, false)
+  }, [queryString])
 
   return isMatch
 }
