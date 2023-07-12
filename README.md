@@ -20,7 +20,7 @@
 
 Hamo means hook, you do the math
 
-🚧API might change at any time🚧
+🚧 This package is not stable, API might change at any time 🚧
 
 <br/>
 
