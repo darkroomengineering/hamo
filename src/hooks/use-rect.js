@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import throttle from 'just-throttle'
+import debounce from 'just-debounce-it'
 import { useResizeObserver } from './use-resize-observer'
 
 // offsetTop function returns the offsetTop value of a DOM element.
@@ -35,7 +35,13 @@ export function offsetLeft(element, accumulator = 0) {
  */
 
 export function useRect(
-  { ignoreTransform = false, lazy = false, debounce = 1000, resizeDebounce = debounce, callback = () => {} } = {},
+  {
+    ignoreTransform = false,
+    lazy = false,
+    debounce: debounceDelay = 500,
+    resizeDebounce = debounceDelay,
+    callback = () => {},
+  } = {},
   deps = [],
 ) {
   const [element, setElement] = useState()
@@ -71,31 +77,35 @@ export function useRect(
   useEffect(() => {
     if (!element) return
 
-    const onBodyResize = throttle(() => {
-      let top, left
+    const onBodyResize = debounce(
+      () => {
+        let top, left
 
-      if (ignoreTransform) {
-        top = offsetTop(element)
-        left = offsetLeft(element)
-      } else {
-        const rect = element.getBoundingClientRect()
-        top = rect.top + window.scrollY
-        left = rect.left + window.scrollX
-      }
+        if (ignoreTransform) {
+          top = offsetTop(element)
+          left = offsetLeft(element)
+        } else {
+          const rect = element.getBoundingClientRect()
+          top = rect.top + window.scrollY
+          left = rect.left + window.scrollX
+        }
 
-      rectRef.current.top = top
-      rectRef.current.left = left
+        rectRef.current.top = top
+        rectRef.current.left = left
 
-      callback(rectRef.current)
+        callback(rectRef.current)
 
-      if (!lazy) {
-        setRect((rect) => ({
-          ...rect,
-          top,
-          left,
-        }))
-      }
-    }, debounce)
+        if (!lazy) {
+          setRect((rect) => ({
+            ...rect,
+            top,
+            left,
+          }))
+        }
+      },
+      debounceDelay,
+      true,
+    )
     const resizeObserver = new ResizeObserver(onBodyResize)
     resizeObserver.observe(document.body)
 
@@ -103,7 +113,7 @@ export function useRect(
       resizeObserver.disconnect()
       onBodyResize.cancel()
     }
-  }, [element, lazy, debounce, ignoreTransform, ...deps])
+  }, [element, lazy, debounceDelay, ignoreTransform, ...deps])
 
   const getRect = useCallback(() => rectRef.current, [])
 

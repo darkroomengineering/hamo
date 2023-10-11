@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import throttle from 'just-throttle'
+import debounce from 'just-debounce-it'
 
 /**
  * useResizeObserver - observe elements dimensions using ResizeObserver
@@ -11,7 +11,7 @@ import throttle from 'just-throttle'
  */
 
 export function useResizeObserver(
-  { lazy = false, debounce = 1000, box = 'border-box', callback = () => {} } = {},
+  { lazy = false, debounce: debounceDelay = 500, box = 'border-box', callback = () => {} } = {},
   deps = [],
 ) {
   const entryRef = useRef({})
@@ -21,15 +21,19 @@ export function useResizeObserver(
   useEffect(() => {
     if (!element) return
 
-    const onResize = throttle(([entry]) => {
-      entryRef.current = entry
+    const onResize = debounce(
+      ([entry]) => {
+        entryRef.current = entry
 
-      callback(entry)
+        callback(entry)
 
-      if (!lazy) {
-        setEntry(entry)
-      }
-    }, debounce)
+        if (!lazy) {
+          setEntry(entry)
+        }
+      },
+      debounceDelay,
+      true,
+    )
 
     const resizeObserver = new ResizeObserver(onResize)
     resizeObserver.observe(element, { box })
@@ -38,7 +42,7 @@ export function useResizeObserver(
       resizeObserver.disconnect()
       onResize.cancel()
     }
-  }, [element, lazy, debounce, box, ...deps])
+  }, [element, lazy, debounceDelay, box, ...deps])
 
   const get = useCallback(() => entryRef.current, [])
 

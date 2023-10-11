@@ -10,7 +10,7 @@ specifiers:
   eslint-plugin-n: ^16.0.1
   eslint-plugin-promise: ^6.1.1
   eslint-plugin-react: ^7.32.2
-  just-throttle: ^4.2.0
+  just-debounce-it: ^3.2.0
   microbundle: ^0.15.1
   npm-run-all: ^4.1.5
   prettier: ^3.0.0
@@ -22,7 +22,7 @@ specifiers:
 
 dependencies:
   '@studio-freight/tempus': 0.0.38
-  just-throttle: 4.2.0
+  just-debounce-it: 3.2.0
   rimraf: 5.0.5
 
 devDependencies:
@@ -3560,8 +3560,8 @@ packages:
       object.assign: 4.1.4
     dev: true
 
-  /just-throttle/4.2.0:
-    resolution: {integrity: sha512-/iAZv1953JcExpvsywaPKjSzfTiCLqeguUTE6+VmK15mOcwxBx7/FHrVvS4WEErMR03TRazH8kcBSHqMagYIYg==}
+  /just-debounce-it/3.2.0:
+    resolution: {integrity: sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==}
     dev: false
 
   /kleur/4.1.5:
