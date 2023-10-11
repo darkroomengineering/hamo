@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { throttle } from 'throttle-debounce'
+import throttle from 'just-throttle'
 import { useResizeObserver } from './use-resize-observer'
 
 // offsetTop function returns the offsetTop value of a DOM element.
@@ -36,7 +36,7 @@ export function offsetLeft(element, accumulator = 0) {
 
 export function useRect(
   { ignoreTransform = false, lazy = false, debounce = 1000, resizeDebounce = debounce, callback = () => {} } = {},
-  deps = []
+  deps = [],
 ) {
   const [element, setElement] = useState()
   const [rect, setRect] = useState({})
@@ -64,14 +64,14 @@ export function useRect(
         }
       },
     },
-    [lazy, resizeDebounce, ...deps]
+    [lazy, resizeDebounce, ...deps],
   )
 
   // resize if body height changes
   useEffect(() => {
     if (!element) return
 
-    const onBodyResize = throttle(debounce, () => {
+    const onBodyResize = throttle(() => {
       let top, left
 
       if (ignoreTransform) {
@@ -95,7 +95,7 @@ export function useRect(
           left,
         }))
       }
-    })
+    }, debounce)
     const resizeObserver = new ResizeObserver(onBodyResize)
     resizeObserver.observe(document.body)
 

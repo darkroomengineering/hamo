@@ -61,8 +61,8 @@
   },
   "dependencies": {
     "@studio-freight/tempus": "^0.0.38",
-    "rimraf": "^5.0.1",
-    "throttle-debounce": "^5.0.0"
+    "just-throttle": "^4.2.0",
+    "rimraf": "^5.0.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",

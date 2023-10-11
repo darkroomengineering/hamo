@@ -42,7 +42,7 @@ This toolkit is composed of:
 
 `useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
 
-`useDocumentReadyState` – returns true if document.readyState.
+`useDocumentReadyState` – returns `document.readyState`.
 
 `useFrame` – use `@studio-freight/tempus` animation frame.
 

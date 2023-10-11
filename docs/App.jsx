@@ -29,6 +29,8 @@ function App() {
     // console.log({ time, deltaTime })
   })
 
+  console.log(rect)
+
   return (
     <main className="main" ref={setIntersectionRef}>
       <p>
