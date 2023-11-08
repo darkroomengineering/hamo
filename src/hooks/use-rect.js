@@ -1,12 +1,41 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import debounce from 'just-debounce-it'
 import { useResizeObserver } from './use-resize-observer'
+import debounce from 'just-debounce-it'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 // offsetTop function returns the offsetTop value of a DOM element.
 // The offsetTop value is the distance between the top of the element
 // and the top of the viewport.
+
+function removeParentSticky(element) {
+  const position = getComputedStyle(element).position
+
+  const isSticky = position === 'sticky'
+
+  if (isSticky) {
+    element.style.setProperty('position', 'static')
+    element.dataset.sticky = 'true'
+  }
+
+  if (element.offsetParent) {
+    removeParentSticky(element.offsetParent)
+  }
+}
+
+function addParentSticky(element) {
+  if (element?.dataset?.sticky === 'true') {
+    element.style.removeProperty('position')
+    element.dataset.sticky = 'true'
+    delete element.dataset.sticky
+  }
+
+  if (element.parentNode) {
+    addParentSticky(element.parentNode)
+  }
+}
+
 export function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
+
   if (element.offsetParent) {
     return offsetTop(element.offsetParent, top)
   }
@@ -27,7 +56,8 @@ export function offsetLeft(element, accumulator = 0) {
 /**
  * useRect - observe elements BoundingRect
  * @param {boolean} ignoreTransform - should include transform in the returned rect or not
- * @param {boolean} lazy - should return a state or not
+ * @param {boolean} ignoreSticky - should ingnore parent sticky elements or not
+ * @param {boolean} lazy - should return a state or a getter
  * @param {number} debounce - minimum delay between two rect computations
  * @param {number} resizeDebounce - minimum delay between two ResizeObserver computations
  * @param {Function} callback - called on value change
@@ -37,6 +67,7 @@ export function offsetLeft(element, accumulator = 0) {
 export function useRect(
   {
     ignoreTransform = false,
+    ignoreSticky = true,
     lazy = false,
     debounce: debounceDelay = 500,
     resizeDebounce = debounceDelay,
@@ -81,6 +112,7 @@ export function useRect(
       () => {
         let top, left
 
+        if (ignoreSticky) removeParentSticky(element)
         if (ignoreTransform) {
           top = offsetTop(element)
           left = offsetLeft(element)
@@ -89,6 +121,7 @@ export function useRect(
           top = rect.top + window.scrollY
           left = rect.left + window.scrollX
         }
+        if (ignoreSticky) addParentSticky(element)
 
         rectRef.current.top = top
         rectRef.current.left = left
@@ -113,7 +146,7 @@ export function useRect(
       resizeObserver.disconnect()
       onBodyResize.cancel()
     }
-  }, [element, lazy, debounceDelay, ignoreTransform, ...deps])
+  }, [element, lazy, debounceDelay, ignoreTransform, ignoreSticky, ...deps])
 
   const getRect = useCallback(() => rectRef.current, [])
 
