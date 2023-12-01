@@ -15,7 +15,7 @@ import {
 function App() {
   const [setRectRef, rect] = useRect({
     lazy: false,
-    ignoreTransform: true,
+    // ignoreTransform: true,
   })
   const isTouch = useIsTouchDevice()
   const debug = useDebug()

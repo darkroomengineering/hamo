@@ -2,10 +2,6 @@ import { useResizeObserver } from './use-resize-observer'
 import debounce from 'just-debounce-it'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-// offsetTop function returns the offsetTop value of a DOM element.
-// The offsetTop value is the distance between the top of the element
-// and the top of the viewport.
-
 function removeParentSticky(element) {
   const position = getComputedStyle(element).position
 
@@ -35,22 +31,34 @@ function addParentSticky(element) {
 
 export function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
-
   if (element.offsetParent) {
     return offsetTop(element.offsetParent, top)
   }
   return top
 }
 
-// offsetLeft function returns the offsetLeft value of a DOM element.
-// The offsetLeft value is the distance between the left of the element
-// and the left of the viewport.
 export function offsetLeft(element, accumulator = 0) {
   const left = accumulator + element.offsetLeft
   if (element.offsetParent) {
     return offsetLeft(element.offsetParent, left)
   }
   return left
+}
+
+export function scrollTop(element, accumulator = 0) {
+  const top = accumulator + element.scrollTop
+  if (element.offsetParent) {
+    return scrollTop(element.offsetParent, top)
+  }
+  return top + window.scrollY
+}
+
+export function scrollLeft(element, accumulator = 0) {
+  const left = accumulator + element.scrollLeft
+  if (element.offsetParent) {
+    return scrollLeft(element.offsetParent, left)
+  }
+  return left + window.scrollX
 }
 
 /**
@@ -118,8 +126,8 @@ export function useRect(
           left = offsetLeft(element)
         } else {
           const rect = element.getBoundingClientRect()
-          top = rect.top + window.scrollY
-          left = rect.left + window.scrollX
+          top = rect.top + scrollTop(element)
+          left = rect.left + scrollLeft(element)
         }
         if (ignoreSticky) addParentSticky(element)
 
