@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useIntersectionObserver } from '../src/hooks/use-intersection-observer'
 import { useResizeObserver } from '../src/hooks/use-resize-observer'
 import {
@@ -29,10 +29,24 @@ function App() {
     // console.log({ time, deltaTime })
   })
 
-  console.log(rect)
+  const contentRef = useRef()
+
+  useEffect(() => {
+    useRect.observe(contentRef.current)
+
+    return () => {
+      useRect.unobserve(contentRef.current)
+    }
+  }, [])
 
   return (
-    <main className="main" ref={setIntersectionRef}>
+    <main
+      className="main"
+      ref={(node) => {
+        setIntersectionRef(node)
+        contentRef.current = node
+      }}
+    >
       <p>
         window: {windowWidth} / {windowHeight}
       </p>

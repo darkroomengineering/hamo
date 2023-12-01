@@ -1,6 +1,7 @@
 import { useResizeObserver } from './use-resize-observer'
 import debounce from 'just-debounce-it'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { create } from 'zustand'
 
 function removeParentSticky(element) {
   const position = getComputedStyle(element).position
@@ -61,6 +62,28 @@ export function scrollLeft(element, accumulator = 0) {
   return left + window.scrollX
 }
 
+const useStore = create((set) => ({
+  elements: [],
+  addElement: (element) => {
+    set((state) => ({
+      elements: [...state.elements, element],
+    }))
+  },
+  removeElement: (element) => {
+    set((state) => ({
+      elements: state.elements.filter((el) => el !== element),
+    }))
+  },
+}))
+
+function observe(element) {
+  useStore.getState().addElement(element)
+}
+
+function unobserve(element) {
+  useStore.getState().removeElement(element)
+}
+
 /**
  * useRect - observe elements BoundingRect
  * @param {boolean} ignoreTransform - should include transform in the returned rect or not
@@ -112,11 +135,13 @@ export function useRect(
     [lazy, resizeDebounce, ...deps],
   )
 
+  const elements = useStore(({ elements }) => elements)
+
   // resize if body height changes
   useEffect(() => {
     if (!element) return
 
-    const onBodyResize = debounce(
+    const onElementsResize = debounce(
       () => {
         let top, left
 
@@ -147,14 +172,18 @@ export function useRect(
       debounceDelay,
       true,
     )
-    const resizeObserver = new ResizeObserver(onBodyResize)
+    const resizeObserver = new ResizeObserver(onElementsResize)
     resizeObserver.observe(document.body)
+
+    elements.forEach((element) => {
+      resizeObserver.observe(element)
+    })
 
     return () => {
       resizeObserver.disconnect()
-      onBodyResize.cancel()
+      onElementsResize.cancel()
     }
-  }, [element, lazy, debounceDelay, ignoreTransform, ignoreSticky, ...deps])
+  }, [element, lazy, debounceDelay, ignoreTransform, ignoreSticky, elements, ...deps])
 
   const getRect = useCallback(() => rectRef.current, [])
 
@@ -166,3 +195,6 @@ export function useRect(
     lazy ? getRect : rect,
   ]
 }
+
+useRect.observe = observe
+useRect.unobserve = unobserve
