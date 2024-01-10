@@ -31,7 +31,7 @@ function addParentSticky(element) {
   }
 }
 
-export function offsetTop(element, accumulator = 0) {
+function offsetTop(element, accumulator = 0) {
   const top = accumulator + element.offsetTop
   if (element.offsetParent) {
     return offsetTop(element.offsetParent, top)
@@ -39,7 +39,7 @@ export function offsetTop(element, accumulator = 0) {
   return top
 }
 
-export function offsetLeft(element, accumulator = 0) {
+function offsetLeft(element, accumulator = 0) {
   const left = accumulator + element.offsetLeft
   if (element.offsetParent) {
     return offsetLeft(element.offsetParent, left)
@@ -47,7 +47,7 @@ export function offsetLeft(element, accumulator = 0) {
   return left
 }
 
-export function scrollTop(element, accumulator = 0) {
+function scrollTop(element, accumulator = 0) {
   const top = accumulator + element.scrollTop
   if (element.offsetParent) {
     return scrollTop(element.offsetParent, top)
@@ -55,7 +55,7 @@ export function scrollTop(element, accumulator = 0) {
   return top + window.scrollY
 }
 
-export function scrollLeft(element, accumulator = 0) {
+function scrollLeft(element, accumulator = 0) {
   const left = accumulator + element.scrollLeft
   if (element.offsetParent) {
     return scrollLeft(element.offsetParent, left)

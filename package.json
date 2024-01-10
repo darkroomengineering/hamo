@@ -3,8 +3,7 @@
   "version": "0.6.24",
   "description": "hamo means hook, do the math.",
   "files": [
-    "dist/**/*",
-    "bundled/**/*"
+    "dist"
   ],
   "sideEffects": false,
   "source": "src/hamo.js",
@@ -14,7 +13,8 @@
   "types": "dist/types/index.d.ts",
   "exports": {
     "require": "./dist/hamo.js",
-    "default": "./dist/hamo.modern.mjs"
+    "default": "./dist/hamo.modern.mjs",
+    "types": "./dist/types/index.d.ts"
   },
   "repository": {
     "type": "git",
@@ -28,12 +28,9 @@
     "prepublishOnly": "npm version patch",
     "postpublish": "git push --follow-tags",
     "preversion": "npm run build",
-    "build": "npm-run-all --parallel clean build:dist build:bundle build:types",
-    "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
-    "build:dist": "microbundle build -i src/ --o ./dist",
-    "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
-    "build:bundle-full": "microbundle build -i src/ --o ./bundled/hamo.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd  --no-compress",
-    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd"
+    "build": "npm-run-all --parallel clean build:dist build:types",
+    "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js --target es6",
+    "build:dist": "microbundle build -i src/ --o ./dist"
   },
   "keywords": [],
   "author": "@studio-freight",
