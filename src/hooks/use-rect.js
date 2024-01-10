@@ -186,6 +186,7 @@ export function useRect({
 
   useEffect(() => {
     function onResize() {
+      if (!element) return
       const elementRect = element.getBoundingClientRect()
 
       rectRef.current.width = elementRect.width
