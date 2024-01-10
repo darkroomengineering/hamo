@@ -12,9 +12,9 @@
   "module": "dist/hamo.mjs",
   "types": "dist/types/index.d.ts",
   "exports": {
+    "types": "./dist/types/index.d.ts",
     "require": "./dist/hamo.js",
-    "default": "./dist/hamo.modern.mjs",
-    "types": "./dist/types/index.d.ts"
+    "default": "./dist/hamo.modern.mjs"
   },
   "repository": {
     "type": "git",
@@ -55,6 +55,7 @@
     "prettier": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rimraf": "^5.0.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.2",
     "vite-plugin-eslint": "^1.8.1"
@@ -63,7 +64,6 @@
     "@studio-freight/tempus": "^0.0.38",
     "just-debounce-it": "^3.2.0",
     "nanoevents": "^9.0.0",
-    "rimraf": "^5.0.1",
     "zustand": "^4.4.7"
   },
   "peerDependencies": {
