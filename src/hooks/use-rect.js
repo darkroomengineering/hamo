@@ -140,6 +140,8 @@ export function useRect({
   const elements = useStore(({ elements }) => elements)
 
   const onParentsResize = useCallback(() => {
+    if (!element) return
+
     let top, left
 
     if (ignoreSticky) removeParentSticky(element)
