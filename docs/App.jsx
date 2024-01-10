@@ -12,11 +12,17 @@ import {
   useWindowSize,
 } from '../src/index'
 
+if (typeof window !== 'undefined') {
+  window.useRect = useRect
+}
+
 function App() {
   const [setRectRef, rect] = useRect({
     lazy: false,
+    debounce: 1000,
     // ignoreTransform: true,
   })
+
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
   const isClient = useIsClient()

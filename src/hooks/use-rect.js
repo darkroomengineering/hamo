@@ -2,6 +2,7 @@ import { useResizeObserver } from './use-resize-observer'
 import debounce from 'just-debounce-it'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { create } from 'zustand'
+import { createNanoEvents } from 'nanoevents'
 
 function removeParentSticky(element) {
   const position = getComputedStyle(element).position
@@ -84,95 +85,89 @@ function unobserve(element) {
   useStore.getState().removeElement(element)
 }
 
+const emitter = createNanoEvents()
+
+function resize() {
+  emitter.emit('resize')
+}
+
 /**
  * useRect - observe elements BoundingRect
  * @param {boolean} ignoreTransform - should include transform in the returned rect or not
  * @param {boolean} ignoreSticky - should ingnore parent sticky elements or not
  * @param {boolean} lazy - should return a state or a getter
  * @param {number} debounce - minimum delay between two rect computations
- * @param {number} resizeDebounce - minimum delay between two ResizeObserver computations
  * @param {Function} callback - called on value change
- * @param {Array} deps - props that should trigger a new rect computation
  */
 
-export function useRect(
-  {
-    ignoreTransform = false,
-    ignoreSticky = true,
-    lazy = false,
-    debounce: debounceDelay = 500,
-    resizeDebounce = debounceDelay,
-    callback = () => {},
-  } = {},
-  deps = [],
-) {
+export function useRect({
+  ignoreTransform = false,
+  ignoreSticky = true,
+  lazy = false,
+  debounce: debounceDelay = 500,
+  callback = () => {},
+} = {}) {
   const [element, setElement] = useState()
   const [rect, setRect] = useState({})
   const rectRef = useRef({})
+
+  const onElementResize = useCallback(
+    (entry) => {
+      const width = entry.borderBoxSize[0].inlineSize
+      const height = entry.borderBoxSize[0].blockSize
+
+      rectRef.current.width = width
+      rectRef.current.height = height
+
+      callback(rectRef.current)
+
+      if (!lazy) {
+        setRect({ ...rectRef.current })
+      }
+    },
+    [lazy],
+  )
+
   const [setResizeObserverElement] = useResizeObserver(
     {
       lazy: true,
-      debounce: resizeDebounce,
-      callback: (entry) => {
-        // includes padding and border
-        const width = entry.borderBoxSize[0].inlineSize
-        const height = entry.borderBoxSize[0].blockSize
-
-        rectRef.current.width = width
-        rectRef.current.height = height
-
-        callback(rectRef.current)
-
-        if (!lazy) {
-          setRect((rect) => ({
-            ...rect,
-            width,
-            height,
-          }))
-        }
-      },
+      debounce: debounceDelay,
+      callback: onElementResize,
     },
-    [lazy, resizeDebounce, ...deps],
+    [debounceDelay, onElementResize],
   )
 
   const elements = useStore(({ elements }) => elements)
 
+  const onParentsResize = useCallback(() => {
+    let top, left
+
+    if (ignoreSticky) removeParentSticky(element)
+    if (ignoreTransform) {
+      top = offsetTop(element)
+      left = offsetLeft(element)
+    } else {
+      const rect = element.getBoundingClientRect()
+      top = rect.top + scrollTop(element)
+      left = rect.left + scrollLeft(element)
+    }
+    if (ignoreSticky) addParentSticky(element)
+
+    rectRef.current.top = top
+    rectRef.current.left = left
+
+    callback(rectRef.current)
+
+    if (!lazy) {
+      setRect({ ...rectRef.current })
+    }
+  }, [ignoreTransform, ignoreSticky, lazy, element])
+
   // resize if body height changes
   useEffect(() => {
-    if (!element) return
+    const debouncedOnParentsResize = debounce(onParentsResize, debounceDelay, true)
 
-    const onElementsResize = debounce(
-      () => {
-        let top, left
-
-        if (ignoreSticky) removeParentSticky(element)
-        if (ignoreTransform) {
-          top = offsetTop(element)
-          left = offsetLeft(element)
-        } else {
-          const rect = element.getBoundingClientRect()
-          top = rect.top + scrollTop(element)
-          left = rect.left + scrollLeft(element)
-        }
-        if (ignoreSticky) addParentSticky(element)
-
-        rectRef.current.top = top
-        rectRef.current.left = left
-
-        callback(rectRef.current)
-
-        if (!lazy) {
-          setRect((rect) => ({
-            ...rect,
-            top,
-            left,
-          }))
-        }
-      },
-      debounceDelay,
-      true,
-    )
-    const resizeObserver = new ResizeObserver(onElementsResize)
+    const resizeObserver = new ResizeObserver(debouncedOnParentsResize)
     resizeObserver.observe(document.body)
 
     elements.forEach((element) => {
@@ -181,11 +176,26 @@ export function useRect(
 
     return () => {
       resizeObserver.disconnect()
-      onElementsResize.cancel()
+      debouncedOnParentsResize.cancel()
     }
-  }, [element, lazy, debounceDelay, ignoreTransform, ignoreSticky, elements, ...deps])
+  }, [elements, debounceDelay, onParentsResize])
 
   const getRect = useCallback(() => rectRef.current, [])
+
+  useEffect(() => {
+    function onResize() {
+      const elementRect = element.getBoundingClientRect()
+
+      rectRef.current.width = elementRect.width
+      rectRef.current.height = elementRect.height
+
+      onParentsResize()
+    }
+
+    const unbind = emitter.on('resize', onResize)
+
+    return unbind
+  }, [element, onParentsResize])
 
   return [
     (node) => {
@@ -198,3 +208,4 @@ export function useRect(
 
 useRect.observe = observe
 useRect.unobserve = unobserve
+useRect.resize = resize
