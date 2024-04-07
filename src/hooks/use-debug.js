@@ -16,6 +16,7 @@ export function useDebug() {
       href.includes('#debug') || // localhost:3000/#debug
       href.includes('/_debug') || // localhost:3000/_debug
       searchParams.has('debug') || // localhost:3000/?debug
+      // eslint-disable-next-line no-undef
       process.env.NODE_ENV === 'development' // localhost:3000
 
     const isProduction =

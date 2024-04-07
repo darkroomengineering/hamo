@@ -1,10 +1,9 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.6.23",
+  "version": "0.6.28",
   "description": "hamo means hook, do the math.",
   "files": [
-    "dist/**/*",
-    "bundled/**/*"
+    "dist"
   ],
   "sideEffects": false,
   "source": "src/hamo.js",
@@ -13,6 +12,7 @@
   "module": "dist/hamo.mjs",
   "types": "dist/types/index.d.ts",
   "exports": {
+    "types": "./dist/types/index.d.ts",
     "require": "./dist/hamo.js",
     "default": "./dist/hamo.modern.mjs"
   },
@@ -28,12 +28,9 @@
     "prepublishOnly": "npm version patch",
     "postpublish": "git push --follow-tags",
     "preversion": "npm run build",
-    "build": "npm-run-all --parallel clean build:dist build:bundle build:types",
-    "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js",
-    "build:dist": "microbundle build -i src/ --o ./dist",
-    "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
-    "build:bundle-full": "microbundle build -i src/ --o ./bundled/hamo.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd  --no-compress",
-    "build:bundle-min": "microbundle build -i src/ --o ./bundled/hamo.min.js --no-sourcemap --no-pkg-main --external none --name Hamo --format umd"
+    "build": "npm-run-all --parallel clean build:dist build:types",
+    "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js --target es6",
+    "build:dist": "microbundle build -i src/ --o ./dist"
   },
   "keywords": [],
   "author": "@studio-freight",
@@ -43,26 +40,31 @@
   },
   "homepage": "https://github.com/studio-freight/bibliotheca#readme",
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
     "@size-limit/preset-small-lib": "^8.2.6",
-    "eslint": "^8.44.0",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "microbundle": "^0.15.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rimraf": "^5.0.1",
     "typescript": "^5.1.6",
-    "vite": "^4.4.2"
+    "vite": "^4.4.2",
+    "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
     "@studio-freight/tempus": "^0.0.38",
     "just-debounce-it": "^3.2.0",
-    "rimraf": "^5.0.1"
+    "nanoevents": "^9.0.0",
+    "zustand": "^4.4.7"
   },
   "peerDependencies": {
     "react": "^18.2.0",
