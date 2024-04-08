@@ -38,7 +38,7 @@ or use whatever package manager you like the most
 
 This toolkit is composed of:
 
-`useRect` – [See documentation]()
+`useRect` – [See documentation](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-rect/README.md)
 
 `useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 
