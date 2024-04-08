@@ -7,7 +7,6 @@ The `useRect` hook is a custom React hook that provides functionality for measur
 To use the `useRect` hook, import it into your React component and invoke it to obtain the necessary measurements and position information of a DOM element.
 
 ```jsx
-import { useState } from 'react'
 import { useRect } from '@studio-freight/hamo'
 
 function MyComponent() {
