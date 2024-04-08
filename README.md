@@ -1,4 +1,4 @@
-[![HAMO](https://assets.studiofreight.com/hamo/header.png)](https://github.com/studio-freight/hamo)
+[![HAMO](https://assets.darkroom.engineering/hamo/header.png)](https://github.com/darkroomengineering/hamo)
 
 <!-- <p align="center">
   <a aria-label="Vercel logo" href="https://vercel.com">
@@ -38,6 +38,8 @@ or use whatever package manager you like the most
 
 This toolkit is composed of:
 
+`useRect` – [See documentation]()
+
 `useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 
 `useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
@@ -55,8 +57,6 @@ This toolkit is composed of:
 `useIntersectionObserver` – returns a setRef and the `intersection` object, which will have the method `.intersecting` as true or false depending on the configurations passed to the hook.
 
 `useMediaQuery` – css-like media query support in Javascript.
-
-`useRect` – return getBoundingClientRect
 
 `useSlots` – brings vue `slots` to react
 

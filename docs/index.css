@@ -26,8 +26,17 @@ body {
   padding-bottom: 120vh;
 }
 
+.rect-wrapper {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 700px;
+  height: 700px;
+}
+
 .rect {
   padding: 10px;
   background: red;
   border: 2px solid yellow;
+  width: 500px;
 }

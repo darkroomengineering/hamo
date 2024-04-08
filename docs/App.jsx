@@ -17,11 +17,11 @@ if (typeof window !== 'undefined') {
 }
 
 function App() {
-  const [setRectRef, rect] = useRect({
-    lazy: false,
-    debounce: 1000,
-    // ignoreTransform: true,
-  })
+  const [setRectRef, rect, setRectWrapperRef] = useRect({})
+
+  useEffect(() => {
+    console.log(rect)
+  }, [rect])
 
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
@@ -37,13 +37,13 @@ function App() {
 
   const contentRef = useRef()
 
-  useEffect(() => {
-    useRect.observe(contentRef.current)
+  // useEffect(() => {
+  //   useRect.observe(contentRef.current)
 
-    return () => {
-      useRect.unobserve(contentRef.current)
-    }
-  }, [])
+  //   return () => {
+  //     useRect.unobserve(contentRef.current)
+  //   }
+  // }, [])
 
   return (
     <main
@@ -62,16 +62,20 @@ function App() {
       <p>is in viewport? {intersection.isIntersecting ? 'yes' : 'no'}</p>
       <p>is client? {isClient ? 'yes' : 'no'}</p>
       <p>is mobile? {isMobile ? 'yes' : 'no'}</p>
-      <div ref={setRectRef} className="rect">
-        top: {rect?.top}
-        <br />
-        height: {rect?.height}
-        <br />
-        left: {rect?.left}
-        <br />
-        top: {rect?.top}
-        <br />
-        width: {rect?.width}
+      <div ref={setRectWrapperRef} className="rect-wrapper">
+        <div ref={setRectRef} className="rect">
+          top: {rect?.top}
+          <br />
+          height: {rect?.height}
+          <br />
+          left: {rect?.left}
+          <br />
+          width: {rect?.width}
+          <br />
+          bottom: {rect?.bottom}
+          <br />
+          right: {rect?.right}
+        </div>
       </div>
     </main>
   )
