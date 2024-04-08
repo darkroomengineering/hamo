@@ -10,7 +10,7 @@ export function useRect({
   debounce: debounceDelay = 500,
   lazy = false,
   callback,
-}) {
+} = {}) {
   const [element, setElement] = useState()
   const rectRef = useRef({})
   const [rect, setRectState] = useState({})
