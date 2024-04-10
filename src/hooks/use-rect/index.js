@@ -17,11 +17,11 @@ export function useRect({
 
   const setRect = useCallback(
     ({ top, left, width, height, element }) => {
-      top = top || rectRef.current.top
-      left = left || rectRef.current.left
-      width = width || rectRef.current.width
-      height = height || rectRef.current.height
-      element = element || rectRef.current.element
+      top = top ?? rectRef.current.top
+      left = left ?? rectRef.current.left
+      width = width ?? rectRef.current.width
+      height = height ?? rectRef.current.height
+      element = element ?? rectRef.current.element
 
       rectRef.current.top = top
       rectRef.current.y = top
