@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.6.30",
+  "version": "0.6.31",
   "description": "hamo means hook, do the math.",
   "files": [
     "dist"
