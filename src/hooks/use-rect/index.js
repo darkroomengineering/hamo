@@ -1,5 +1,4 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
-import { useResizeObserver } from '../use-resize-observer'
 import { addParentSticky, offsetLeft, offsetTop, removeParentSticky, scrollLeft, scrollTop } from './utils'
 import debounce from 'just-debounce-it'
 import { emitter } from './emitter'
@@ -23,6 +22,15 @@ export function useRect({
       height = height ?? rectRef.current.height
       element = element ?? rectRef.current.element
 
+      if (
+        top === rectRef.current.top &&
+        left === rectRef.current.left &&
+        width === rectRef.current.width &&
+        height === rectRef.current.height &&
+        element === rectRef.current.element
+      )
+        return
+
       rectRef.current.top = top
       rectRef.current.y = top
       rectRef.current.width = width
@@ -42,24 +50,29 @@ export function useRect({
     [lazy],
   )
 
-  const onElementResize = useCallback(
-    (entry) => {
+  useEffect(() => {
+    if (!element) return
+
+    const rect = element.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    setRect({ width, height })
+
+    const onResize = debounce(([entry]) => {
       const width = entry.borderBoxSize[0].inlineSize
       const height = entry.borderBoxSize[0].blockSize
 
       setRect({ width, height })
-    },
-    [setRect],
-  )
+    }, debounceDelay)
 
-  const [setResizeObserverElement] = useResizeObserver(
-    {
-      lazy: true,
-      debounce: debounceDelay,
-      callback: onElementResize,
-    },
-    [debounceDelay, onElementResize],
-  )
+    const resizeObserver = new ResizeObserver(onResize)
+    resizeObserver.observe(element)
+
+    return () => {
+      resizeObserver.disconnect()
+      onResize.cancel()
+    }
+  }, [element, debounceDelay, setRect])
 
   const [wrapperElement, setWrapperElementRef] = useState()
 
@@ -84,10 +97,11 @@ export function useRect({
 
   // resize if body height changes
   useEffect(() => {
-    const debouncedOnWrapperResize = debounce(onWrapperResize, debounceDelay, true)
+    onWrapperResize()
+    const debouncedOnWrapperResize = debounce(onWrapperResize, debounceDelay)
 
     const resizeObserver = new ResizeObserver(debouncedOnWrapperResize)
-    resizeObserver.observe(wrapperElement || document.body)
+    resizeObserver.observe(wrapperElement ?? document.body)
 
     return () => {
       resizeObserver.disconnect()
@@ -115,14 +129,7 @@ export function useRect({
 
   const getRect = useCallback(() => rectRef.current, [])
 
-  return [
-    (node) => {
-      setElement(node)
-      setResizeObserverElement(node)
-    },
-    lazy ? getRect : rect,
-    setWrapperElementRef,
-  ]
+  return [setElement, lazy ? getRect : rect, setWrapperElementRef]
 }
 
 useRect.resize = () => {
