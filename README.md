@@ -22,27 +22,23 @@
 
 🚧 This package is not stable, API might change at any time 🚧
 
-<br/>
-
 ## Setup
 
 ```bash
 $ npm i @studio-freight/hamo
 ```
 
-<br/>
+## Hooks
 
-## Features
+[`useRect`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-rect/README.md) – tracks element position within the page
 
-This toolkit is composed of:
+[`useWindowSize`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-window-size/README.md) – tracks window dimensions
 
-`useRect` – [See documentation](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-rect/README.md)
+[`useFrame`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-frame/README.md) – runs callback on every frame
 
-`useWindowSize` – [See documentation]()
+`useResizeObserver` – observes element dimensions using ResizeObserver
 
-`useFrame` – [See documentation]()
-
-`useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
+<!-- `useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 
 `useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
 
@@ -58,11 +54,7 @@ This toolkit is composed of:
 
 `useMediaQuery` – css-like media query support in Javascript.
 
-`useSlots` – brings vue `slots` to react
-
-`useResizeObserver` – observe elements dimensions using ResizeObserver
-
-<br/>
+`useSlots` – brings vue `slots` to react -->
 
 ## Authors
 
