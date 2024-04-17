@@ -12,14 +12,10 @@ export function useWindowSize(debounceDelay = 500) {
   const [height, setHeight] = useState()
 
   useEffect(() => {
-    const onWindowRezise = debounce(
-      () => {
-        setWidth(Math.min(window.innerWidth, document.documentElement.clientWidth))
-        setHeight(Math.min(window.innerHeight, document.documentElement.clientHeight))
-      },
-      debounceDelay,
-      true,
-    )
+    const onWindowRezise = debounce(() => {
+      setWidth(Math.min(window.innerWidth, document.documentElement.clientWidth))
+      setHeight(Math.min(window.innerHeight, document.documentElement.clientHeight))
+    }, debounceDelay)
 
     window.addEventListener('resize', onWindowRezise, false)
 

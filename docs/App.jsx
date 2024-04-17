@@ -31,8 +31,11 @@ function App() {
   const isMobile = useMediaQuery('(max-width: 800px)')
   const { width: windowWidth, height: windowHeight } = useWindowSize()
 
+  const frameRef = useRef()
+
   useFrame((time, deltaTime) => {
     // console.log({ time, deltaTime })
+    frameRef.current.textContent = `time: ${time} / deltaTime: ${deltaTime}`
   })
 
   const contentRef = useRef()
@@ -53,6 +56,7 @@ function App() {
         contentRef.current = node
       }}
     >
+      <p ref={frameRef}></p>
       <p>
         window: {windowWidth} / {windowHeight}
       </p>

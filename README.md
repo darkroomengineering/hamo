@@ -18,7 +18,7 @@
 
 ## Introduction
 
-Hamo means hook, you do the math
+`hamo` means hook in Latin, this package is a collection of custom React hooks.
 
 🚧 This package is not stable, API might change at any time 🚧
 
@@ -30,8 +30,6 @@ Hamo means hook, you do the math
 $ npm i @studio-freight/hamo
 ```
 
-or use whatever package manager you like the most
-
 <br/>
 
 ## Features
@@ -40,13 +38,15 @@ This toolkit is composed of:
 
 `useRect` – [See documentation]()
 
+`useWindowSize` – [See documentation]()
+
+`useFrame` – [See documentation]()
+
 `useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 
 `useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
 
 `useDocumentReadyState` – returns `document.readyState`.
-
-`useFrame` – use `@studio-freight/tempus` animation frame.
 
 `useInterval` – run a callback every x milliseconds.
 
@@ -61,8 +61,6 @@ This toolkit is composed of:
 `useSlots` – brings vue `slots` to react
 
 `useResizeObserver` – observe elements dimensions using ResizeObserver
-
-`useWindowSize` – listens to window size and returns width and height.
 
 <br/>
 
