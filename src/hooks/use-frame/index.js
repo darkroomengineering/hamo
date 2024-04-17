@@ -4,7 +4,7 @@
  * @param {Number} priority - A number that determines the order in which the callback is called.
  */
 
-import Tempus from '@studio-freight/tempus'
+import Tempus from '@darkroom.engineering/tempus'
 import { useEffect } from 'react'
 
 export function useFrame(callback, priority = 0) {

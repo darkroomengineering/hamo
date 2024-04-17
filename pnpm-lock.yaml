@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@studio-freight/tempus':
-    specifier: ^0.0.38
-    version: 0.0.38
+  '@darkroom.engineering/tempus':
+    specifier: ^0.0.45
+    version: 0.0.45
   just-debounce-it:
     specifier: ^3.2.0
     version: 3.2.0
@@ -1400,6 +1400,10 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
+  /@darkroom.engineering/tempus@0.0.45:
+    resolution: {integrity: sha512-Zc730iFbgpb1ZqrM/L9AScPc88XTjjiM+88eZ9t9VtrYrjTdCy/yjfEdZesE89FVUlgteDneRxt3IwVYN/+bDQ==}
+    dev: false
+
   /@esbuild/android-arm64@0.18.20:
     resolution: {integrity: sha512-Nz4rJcchGDtENV0eMKUNa6L12zz2zBDXuhj/Vjh18zGqB44Bi7MBMSXjgunJgjRhCmKOjnPuZp4Mb6OKqtMHLQ==}
     engines: {node: '>=12'}
@@ -1849,10 +1853,6 @@ packages:
       '@size-limit/file': 8.2.6(size-limit@8.2.6)
       size-limit: 8.2.6
     dev: true
-
-  /@studio-freight/tempus@0.0.38:
-    resolution: {integrity: sha512-AO1O2fEmfUqWGjEofmPNMQRlwgZ96eB5OFsVJjeH8/RKd1/Yf4zbPnXO+r2TD4aueA6X9JRCJU2GUprI9+m8uQ==}
-    dev: false
 
   /@surma/rollup-plugin-off-main-thread@2.2.3:
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
