@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@darkroom.engineering/tempus':
-    specifier: ^0.0.45
-    version: 0.0.45
+    specifier: ^0.0.46
+    version: 0.0.46
   just-debounce-it:
     specifier: ^3.2.0
     version: 3.2.0
@@ -1400,8 +1400,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@darkroom.engineering/tempus@0.0.45:
-    resolution: {integrity: sha512-Zc730iFbgpb1ZqrM/L9AScPc88XTjjiM+88eZ9t9VtrYrjTdCy/yjfEdZesE89FVUlgteDneRxt3IwVYN/+bDQ==}
+  /@darkroom.engineering/tempus@0.0.46:
+    resolution: {integrity: sha512-s5vav3KMHYezvUCl4ee5epg0oimF6M8C9gAaKxFnFaTvX2q3ywFDryIv6XLd0mRFUt3S1uHDJqKaiEcs2ZVSvw==}
     dev: false
 
   /@esbuild/android-arm64@0.18.20:

@@ -1,6 +1,6 @@
 # useFrame
 
-This hook allows you to run a callback every frame based on [@studio-freight/tempus](https://twitter.com/home).
+This hook allows you to run a callback every frame based on [@darkroom.engineering/tempus](https://twitter.com/home).
 
 ## Parameters
 
@@ -10,7 +10,7 @@ This hook allows you to run a callback every frame based on [@studio-freight/tem
 ## Example
 
 ```jsx
-import { useFrame } from '@studio-freight/hamo'
+import { useFrame } from '@darkroom.engineering/hamo'
 
 function MyComponent() {
   useFrame((time, deltaTime) => {

@@ -25,7 +25,7 @@
 ## Setup
 
 ```bash
-$ npm i @studio-freight/hamo
+$ npm i @darkroom.engineering/hamo
 ```
 
 ## Hooks

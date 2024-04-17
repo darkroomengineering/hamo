@@ -33,12 +33,12 @@
     "build:dist": "microbundle build -i src/ --o ./dist"
   },
   "keywords": [],
-  "author": "@studio-freight",
-  "license": "ISC",
+  "author": "darkroom.engineering",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/studio-freight/bibliotheca/issues"
+    "url": "https://github.com/darkroomengineering/hamo/issues"
   },
-  "homepage": "https://github.com/studio-freight/bibliotheca#readme",
+  "homepage": "https://github.com/darkroomengineering/hamo",
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "@size-limit/preset-small-lib": "^8.2.6",
@@ -61,7 +61,7 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "@darkroom.engineering/tempus": "^0.0.45",
+    "@darkroom.engineering/tempus": "^0.0.46",
     "just-debounce-it": "^3.2.0",
     "nanoevents": "^9.0.0"
   },
