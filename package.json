@@ -32,7 +32,10 @@
     "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js --target es6",
     "build:dist": "microbundle build -i src/ --o ./dist"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "hooks"
+  ],
   "author": "darkroom.engineering",
   "license": "MIT",
   "bugs": {
