@@ -7,13 +7,14 @@ import debounce from 'just-debounce-it'
  * @param {Number} debounce - minimum delay between two ResizeObserver computations
  * @param {String} box - ResizeObserver parameter
  * @param {Function} callback - called on value change
- * @param {Array} deps - props that should trigger a new computation
  */
 
-export function useResizeObserver(
-  { lazy = false, debounce: debounceDelay = 500, box = 'border-box', callback = () => {} } = {},
-  deps = [],
-) {
+export function useResizeObserver({
+  lazy = false,
+  debounce: debounceDelay = 500,
+  box = 'border-box',
+  callback = () => {},
+} = {}) {
   const entryRef = useRef({})
   const [entry, setEntry] = useState({})
   const [element, setElement] = useState()
@@ -42,7 +43,7 @@ export function useResizeObserver(
       resizeObserver.disconnect()
       onResize.cancel()
     }
-  }, [element, lazy, debounceDelay, box, ...deps])
+  }, [element, lazy, debounceDelay, box])
 
   const get = useCallback(() => entryRef.current, [])
 

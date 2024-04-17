@@ -36,7 +36,7 @@ $ npm i @studio-freight/hamo
 
 This toolkit is composed of:
 
-`useRect` – [See documentation]()
+`useRect` – [See documentation](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-rect/README.md)
 
 `useWindowSize` – [See documentation]()
 

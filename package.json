@@ -1,6 +1,6 @@
 {
   "name": "@studio-freight/hamo",
-  "version": "0.6.30",
+  "version": "0.6.32",
   "description": "hamo means hook, do the math.",
   "files": [
     "dist"
@@ -63,8 +63,7 @@
   "dependencies": {
     "@studio-freight/tempus": "^0.0.38",
     "just-debounce-it": "^3.2.0",
-    "nanoevents": "^9.0.0",
-    "zustand": "^4.4.7"
+    "nanoevents": "^9.0.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",
