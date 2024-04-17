@@ -1,5 +1,5 @@
 {
-  "name": "@studio-freight/hamo",
+  "name": "@darkroom.engineering/hamo",
   "version": "0.6.33",
   "description": "hamo means hook, do the math.",
   "files": [
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/studio-freight/bibliotheca.git"
+    "url": "https://github.com/darkroomengineering/hamo"
   },
   "scripts": {
     "dev": "vite",
