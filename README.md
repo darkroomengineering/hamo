@@ -18,9 +18,7 @@
 
 ## Introduction
 
-`hamo` means hook in Latin, this package is a collection of custom React hooks.
-
-🚧 This package is not stable, API might change at any time 🚧
+`hāmō` means hook in Latin, this package is a collection of custom React hooks.
 
 ## Setup
 
