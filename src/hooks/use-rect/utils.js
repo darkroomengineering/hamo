@@ -16,12 +16,11 @@ export function removeParentSticky(element) {
 export function addParentSticky(element) {
   if (element?.dataset?.sticky === 'true') {
     element.style.removeProperty('position')
-    element.dataset.sticky = 'true'
     delete element.dataset.sticky
   }
 
-  if (element.parentNode) {
-    addParentSticky(element.parentNode)
+  if (element.offsetParent) {
+    addParentSticky(element.offsetParent)
   }
 }
 
