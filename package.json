@@ -1,6 +1,6 @@
 {
   "name": "@darkroom.engineering/hamo",
-  "version": "0.6.36",
+  "version": "0.6.37",
   "description": "hamo means hook, do the math.",
   "files": [
     "dist"
