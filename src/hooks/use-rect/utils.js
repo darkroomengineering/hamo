@@ -19,8 +19,8 @@ export function addParentSticky(element) {
     delete element.dataset.sticky
   }
 
-  if (element.offsetParent) {
-    addParentSticky(element.offsetParent)
+  if (element.parentNode) {
+    addParentSticky(element.parentNode)
   }
 }
 

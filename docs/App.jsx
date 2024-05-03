@@ -19,12 +19,6 @@ if (typeof window !== 'undefined') {
 function App() {
   const [setRectRef, rect, setRectWrapperRef] = useRect({})
 
-  useEffect(() => {
-    window.setRectRef = setRectRef
-    window.rect = rect
-    console.log(rect)
-  }, [rect])
-
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
   const isClient = useIsClient()
