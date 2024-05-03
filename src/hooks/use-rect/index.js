@@ -109,23 +109,28 @@ export function useRect({
     }
   }, [wrapperElement, debounceDelay, onWrapperResize])
 
+  const onResize = useCallback(() => {
+    console.log('onResize')
+    if (!element) return
+    const elementRect = element.getBoundingClientRect()
+
+    const width = elementRect.width
+    const height = elementRect.height
+
+    setRect({ width, height })
+
+    onWrapperResize()
+  }, [element, onWrapperResize, setRect])
+
   useEffect(() => {
-    function onResize() {
-      if (!element) return
-      const elementRect = element.getBoundingClientRect()
-
-      const width = elementRect.width
-      const height = elementRect.height
-
-      setRect({ width, height })
-
-      onWrapperResize()
+    rectRef.current.resize = onResize
+    if (!lazy) {
+      setRectState({ ...rectRef.current })
     }
-
     const unbind = emitter.on('resize', onResize)
 
     return unbind
-  }, [element, onWrapperResize, setRect])
+  }, [onResize, lazy])
 
   const getRect = useCallback(() => rectRef.current, [])
 

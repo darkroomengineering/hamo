@@ -49,6 +49,7 @@ The `useRect` hook returns an array containing the following elements:
 1. `setRef`: A function that should be passed as the `ref` prop to the target DOM element.
 2. `rect`: An object representing the current dimensions and position of the element. if `lazy` is `true`, `rect` is a function that returns the current dimensions and position of the element. The object has the following properties:
    - `element`: The DOM element being measured.
+   - `resize`: A function to trigger manual resizing when needed.
    - `width`: The width of the element.
    - `height`: The height of the element.
    - `top`, `y`: The distance from the top of the document to the top of the element.

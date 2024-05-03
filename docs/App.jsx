@@ -20,6 +20,8 @@ function App() {
   const [setRectRef, rect, setRectWrapperRef] = useRect({})
 
   useEffect(() => {
+    window.setRectRef = setRectRef
+    window.rect = rect
     console.log(rect)
   }, [rect])
 
