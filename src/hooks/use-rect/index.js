@@ -110,7 +110,6 @@ export function useRect({
   }, [wrapperElement, debounceDelay, onWrapperResize])
 
   const onResize = useCallback(() => {
-    console.log('onResize')
     if (!element) return
     const elementRect = element.getBoundingClientRect()
 
