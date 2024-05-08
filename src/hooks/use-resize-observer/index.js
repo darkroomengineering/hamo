@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import debounce from 'just-debounce-it'
 
 /**
@@ -18,32 +18,41 @@ export function useResizeObserver({
   const entryRef = useRef({})
   const [entry, setEntry] = useState({})
   const [element, setElement] = useState()
+  const needsUpdateRef = useRef(false)
+
+  const debouncedSetEntry = useMemo(() => debounce(setEntry, debounceDelay), [debounceDelay])
+
+  const onResize = useCallback(
+    ([entry]) => {
+      entryRef.current = entry
+
+      callback(entry)
+
+      if (!lazy) {
+        if (needsUpdateRef.current) {
+          setEntry(entry)
+        } else {
+          debouncedSetEntry(entry)
+        }
+      }
+
+      needsUpdateRef.current = false
+    },
+    [lazy, debouncedSetEntry],
+  )
 
   useEffect(() => {
     if (!element) return
 
-    const onResize = debounce(
-      ([entry]) => {
-        entryRef.current = entry
-
-        callback(entry)
-
-        if (!lazy) {
-          setEntry(entry)
-        }
-      },
-      debounceDelay,
-      true,
-    )
+    needsUpdateRef.current = true // set to true to force update on first render when element has changed
 
     const resizeObserver = new ResizeObserver(onResize)
     resizeObserver.observe(element, { box })
 
     return () => {
       resizeObserver.disconnect()
-      onResize.cancel()
     }
-  }, [element, lazy, debounceDelay, box])
+  }, [element, debounceDelay, box, onResize])
 
   const get = useCallback(() => entryRef.current, [])
 

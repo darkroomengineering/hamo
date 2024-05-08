@@ -18,6 +18,11 @@ if (typeof window !== 'undefined') {
 
 function App() {
   const [setRectRef, rect, setRectWrapperRef] = useRect({})
+  const [setResizeObserverRef, entry] = useResizeObserver({})
+
+  useEffect(() => {
+    console.log(entry?.borderBoxSize?.[0], entry?.contentRect, entry?.contentBoxSize?.[0])
+  }, [entry])
 
   const isTouch = useIsTouchDevice()
   const debug = useDebug()
@@ -62,6 +67,9 @@ function App() {
       <p>is in viewport? {intersection.isIntersecting ? 'yes' : 'no'}</p>
       <p>is client? {isClient ? 'yes' : 'no'}</p>
       <p>is mobile? {isMobile ? 'yes' : 'no'}</p>
+      <div ref={setResizeObserverRef} className="rect">
+        {entry?.borderBoxSize?.[0].inlineSize} x {entry?.borderBoxSize?.[0].blockSize}
+      </div>
       <div ref={setRectWrapperRef} className="rect-wrapper">
         <div ref={setRectRef} className="rect">
           top: {rect?.top}
