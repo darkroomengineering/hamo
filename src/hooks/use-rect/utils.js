@@ -4,7 +4,7 @@ export function removeParentSticky(element) {
   const isSticky = position === 'sticky'
 
   if (isSticky) {
-    element.style.setProperty('position', 'static')
+    element.style.setProperty('position', 'relative')
     element.dataset.sticky = 'true'
   }
 

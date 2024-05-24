@@ -51,8 +51,9 @@ export function useResizeObserver({
 
     return () => {
       resizeObserver.disconnect()
+      debouncedSetEntry.cancel()
     }
-  }, [element, debounceDelay, box, onResize])
+  }, [element, debounceDelay, box, onResize, debouncedSetEntry])
 
   const get = useCallback(() => entryRef.current, [])
 
