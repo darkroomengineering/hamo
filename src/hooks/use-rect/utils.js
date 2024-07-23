@@ -41,7 +41,7 @@ export function offsetLeft(element, accumulator = 0) {
 }
 
 export function scrollTop(element, accumulator = 0) {
-  const top = accumulator + element.scrollTop
+  const top = accumulator + element?.scrollTop || 0
   if (element.parentNode) {
     return scrollTop(element.parentNode, top)
   }
@@ -49,7 +49,7 @@ export function scrollTop(element, accumulator = 0) {
 }
 
 export function scrollLeft(element, accumulator = 0) {
-  const left = accumulator + element.scrollLeft
+  const left = accumulator + element?.scrollLeft || 0
   if (element.parentNode) {
     return scrollLeft(element.parentNode, left)
   }
