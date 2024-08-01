@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
-import { addParentSticky, offsetLeft, offsetTop, removeParentSticky, scrollLeft, scrollTop } from './utils'
+import { addParentSticky, offsetLeft, offsetTop, removeParentSticky } from './utils'
 import debounce from 'just-debounce-it'
 import { emitter } from './emitter'
 
@@ -87,13 +87,14 @@ export function useRect({
       left = offsetLeft(element)
     } else {
       const rect = element.getBoundingClientRect()
-      top = rect.top + scrollTop(element)
-      left = rect.left + scrollLeft(element)
+
+      top = rect.top + (wrapperElement?.scrollTop ?? window.scrollY)
+      left = rect.left + (wrapperElement?.scrollLeft ?? window.scrollX)
     }
     if (ignoreSticky) addParentSticky(element)
 
     setRect({ top, left, element })
-  }, [ignoreTransform, ignoreSticky, element, setRect])
+  }, [ignoreTransform, ignoreSticky, element, setRect, wrapperElement])
 
   // resize if body height changes
   useEffect(() => {

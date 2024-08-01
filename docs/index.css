@@ -1,7 +1,7 @@
-html,
+/* html,
 body {
   overflow-y: hidden;
-}
+} */
 
 body {
   margin: 0;
@@ -13,12 +13,12 @@ body {
   line-height: 100%;
 }
 
-#root {
+/* #root {
   position: fixed;
   inset: 0;
   height: 100vh;
   overflow-y: scroll;
-}
+} */
 
 .main {
   padding: 5vw;

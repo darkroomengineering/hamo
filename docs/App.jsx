@@ -49,6 +49,10 @@ function App() {
   //   }
   // }, [])
 
+  useEffect(() => {
+    // setRectWrapperRef(document.querySelector('#root'))
+  }, [setRectWrapperRef])
+
   return (
     <main
       className="main"
@@ -70,7 +74,7 @@ function App() {
       <div ref={setResizeObserverRef} className="rect">
         {entry?.borderBoxSize?.[0].inlineSize} x {entry?.borderBoxSize?.[0].blockSize}
       </div>
-      <div ref={setRectWrapperRef} className="rect-wrapper">
+      <div className="rect-wrapper">
         <div ref={setRectRef} className="rect">
           top: {rect?.top}
           <br />
