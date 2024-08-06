@@ -36,6 +36,12 @@ $ npm i @darkroom.engineering/hamo
 
 `useResizeObserver` – observes element dimensions using ResizeObserver
 
+[`useLazyState`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-lazy-state/README.md) – runs a callback when the state changes without re-rendering the component
+
+[`useTimeout`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-timeout/README.md) – runs a callback after a specified delay
+
+[`useObjectFit`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
+
 <!-- `useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 
 `useDebug` – returns true if #debug, ?debug or /\_debug is present in the url.
