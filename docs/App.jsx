@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useIntersectionObserver } from '../src/hooks/use-intersection-observer'
 import { useResizeObserver } from '../src/hooks/use-resize-observer'
 import {
@@ -10,6 +10,8 @@ import {
   useRect,
   useMediaQuery,
   useWindowSize,
+  useLazyState,
+  useFramerate,
 } from '../src/index'
 
 if (typeof window !== 'undefined') {
@@ -17,6 +19,28 @@ if (typeof window !== 'undefined') {
 }
 
 function App() {
+  const [counter, setCounter] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // setCounter((prev) => prev + 1)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const [get, set] = useLazyState(
+    0,
+    (value, prevValue) => {
+      console.log('set', value, prevValue)
+    },
+    [counter],
+  )
+
+  useFramerate(1, (time, deltaTime) => {
+    console.log('time', time, 'deltaTime', deltaTime)
+  })
+
   const [setRectRef, rect, setRectWrapperRef] = useRect({})
   const [setResizeObserverRef, entry] = useResizeObserver({})
 

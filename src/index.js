@@ -7,7 +7,7 @@
 export { useOutsideClickEvent } from './hooks/use-click-outside-event.js'
 export { useDebug } from './hooks/use-debug.js'
 export { useDocumentReadyState } from './hooks/use-document-ready-state.js'
-export { useFrame } from './hooks/use-frame/index.js'
+export { useFrame, useFramerate } from './hooks/use-frame/index.js'
 export { useIntersectionObserver } from './hooks/use-intersection-observer.js'
 export { useInterval } from './hooks/use-interval.js'
 export { useIsClient } from './hooks/use-is-client.js'

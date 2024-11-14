@@ -10,10 +10,15 @@ This hook allows you to run a callback every frame based on [@darkroom.engineeri
 ## Example
 
 ```jsx
-import { useFrame } from '@darkroom.engineering/hamo'
+import { useFrame, useFramerate } from '@darkroom.engineering/hamo'
 
 function MyComponent() {
   useFrame((time, deltaTime) => {
+    console.log(`time elapsed: ${time}`, `time elapsed since last frame: ${deltaTime}`)
+  })
+
+  useFramerate(30, (time, deltaTime) => {
+    // 30 fps
     console.log(`time elapsed: ${time}`, `time elapsed since last frame: ${deltaTime}`)
   })
 }

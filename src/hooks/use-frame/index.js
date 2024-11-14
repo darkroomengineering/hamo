@@ -5,7 +5,7 @@
  */
 
 import Tempus from '@darkroom.engineering/tempus'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export function useFrame(callback, priority = 0) {
   useEffect(() => {
@@ -15,4 +15,25 @@ export function useFrame(callback, priority = 0) {
       return () => Tempus.remove(callback)
     }
   }, [callback, priority])
+}
+
+export function useFramerate(fps, callback, priority = 0) {
+  const timeRef = useRef(0)
+  const lastTickDateRef = useRef()
+
+  const executionTime = 1000 / fps
+
+  useFrame((time, delaTime) => {
+    timeRef.current += delaTime
+
+    if (!lastTickDateRef.current) lastTickDateRef.current = time
+
+    if (timeRef.current >= executionTime) {
+      timeRef.current = timeRef.current % executionTime
+      const delaTime = time - lastTickDateRef.current
+      lastTickDateRef.current = time
+
+      callback?.(time, delaTime)
+    }
+  }, priority)
 }
