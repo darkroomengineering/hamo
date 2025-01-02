@@ -2,39 +2,21 @@
   "name": "@darkroom.engineering/hamo",
   "version": "0.6.46",
   "description": "hamo means hook, do the math.",
+  "type": "module",
+  "sideEffects": false,
+  "unpkg": "./dist/hamo-react.mjs",
+  "main": "./dist/hamo-react.mjs",
+  "module": "./dist/hamo-react.mjs",
+  "types": "./dist/hamo-react.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/hamo-react.d.ts",
+      "default": "./dist/hamo-react.mjs"
+    },
+    "./dist/*": "./dist/*"
+  },
   "files": [
     "dist"
-  ],
-  "sideEffects": false,
-  "source": "src/hamo.js",
-  "main": "dist/hamo.js",
-  "umd:main": "dist/hamo.umd.js",
-  "module": "dist/hamo.mjs",
-  "types": "dist/types/index.d.ts",
-  "exports": {
-    "types": "./dist/types/index.d.ts",
-    "require": "./dist/hamo.js",
-    "default": "./dist/hamo.modern.mjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/darkroomengineering/hamo"
-  },
-  "scripts": {
-    "dev": "vite",
-    "clean": "npm-run-all --parallel clean:bundled clean:dist",
-    "clean:bundled": "rimraf bundled",
-    "clean:dist": "rimraf dist",
-    "prepublishOnly": "npm version patch",
-    "postpublish": "git push --follow-tags",
-    "preversion": "npm run build",
-    "build": "npm-run-all --parallel clean build:dist build:types",
-    "build:types": "tsc --allowJs -d --emitDeclarationOnly --declarationDir ./dist/types --removeComments ./src/index.js --target es6",
-    "build:dist": "microbundle build -i src/ --o ./dist"
-  },
-  "keywords": [
-    "react",
-    "hooks"
   ],
   "author": "darkroom.engineering",
   "license": "MIT",
@@ -42,42 +24,46 @@
     "url": "https://github.com/darkroomengineering/hamo/issues"
   },
   "homepage": "https://github.com/darkroomengineering/hamo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darkroomengineering/hamo"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/darkroomengineering"
+  },
+  "scripts": {
+    "build": "pnpm build:core && pnpm build:all",
+    "build:core": "tsup --config tsup.core.ts",
+    "build:all": "tsup",
+    "dev": "pnpm run -w --parallel /^dev:.*/",
+    "dev:build": "tsup --watch",
+    "dev:playground": "pnpm --filter playground dev",
+    "readme": "node ./scripts/update-readme.js",
+    "version:dev": "npm version prerelease --preid dev --force --no-git-tag-version",
+    "version:patch": "npm version patch --force --no-git-tag-version",
+    "version:minor": "npm version minor --force --no-git-tag-version",
+    "version:major": "npm version major --force --no-git-tag-version",
+    "postversion": "pnpm build && pnpm readme",
+    "publish:main": "npm publish",
+    "publish:dev": "npm publish --tag dev"
+  },
+  "keywords": [
+    "react",
+    "hooks"
+  ],
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "@size-limit/preset-small-lib": "^8.2.6",
-    "eslint": "^8.51.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "microbundle": "^0.15.1",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rimraf": "^5.0.1",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.2",
-    "vite-plugin-eslint": "^1.8.1"
+    "@biomejs/biome": "1.9.4",
+    "tsup": "^8.2.4",
+    "typescript": "^5.4.5"
+    
   },
   "dependencies": {
-    "@darkroom.engineering/tempus": "^0.0.46",
     "just-debounce-it": "^3.2.0",
     "nanoevents": "^9.0.0"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ]
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
