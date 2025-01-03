@@ -4,13 +4,14 @@ import debounce from 'just-debounce-it'
 /**
  * @name useWindowSize
  * @description A React hook that listens to window size.
+ * @param {number} debounce- The delay (in milliseconds) before the resize event is processed. This helps to optimize performance by reducing the number of times the callback function is called during resizing. Alternatively, you can set the global `useWindowSize.setDebounce` function to change the default debounce delay.
  * @returns {object} { width, height, dpr }
  */
 
 let defaultDebounceDelay = 500
 
-function setDebounceDelay(debounceDelay: number) {
-  defaultDebounceDelay = debounceDelay
+function setDebounce(delay: number) {
+  defaultDebounceDelay = delay
 }
 
 export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
@@ -35,11 +36,13 @@ export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
 
     onWindowResize()
 
-    return () =>
+    return () => {
       window.removeEventListener('resize', debouncedOnWindowRezise, false)
+      debouncedOnWindowRezise.cancel()
+    }
   }, [debounceDelay])
 
   return { width, height, dpr }
 }
 
-useWindowSize.setDebounceDelay = setDebounceDelay
+useWindowSize.setDebounce = setDebounce
