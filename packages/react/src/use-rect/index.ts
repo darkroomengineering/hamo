@@ -27,6 +27,22 @@ function setDebounce(delay: number) {
   defaultDebounceDelay = delay
 }
 
+/**
+ * @name useRect
+ * @description
+ * A hook that allows you to get the bounding client rect of an element.
+ * @param {object} options - The options for the hook.
+ * @param {boolean} options.ignoreTransform - Whether to ignore the transform property of the element.
+ * @param {boolean} options.ignoreSticky - Whether to ignore the sticky property of the element.
+ * @param {number} options.debounce - The debounce delay (in milliseconds) before the callback function is executed.
+ * @param {boolean} options.lazy - Whether to lazy load the rect.
+ * @param {function} options.callback - The callback function to be executed after the rect is updated.
+ * @param {array} deps - The dependencies array for the hook.
+ * @function resize - A function that allows you to manually trigger the rect update.
+ * @function setDebounce - A function that allows you to set the debounce delay.
+ * @returns The bounding client rect of the element.
+ */
+
 export function useRect(
   {
     ignoreTransform = false,

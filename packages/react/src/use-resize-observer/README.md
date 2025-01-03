@@ -9,18 +9,20 @@ A React hook that listens to changes in the element size and provides the curren
 ```tsx
 import { useResizeObserver } from '@darkroom.engineering/hamo'
 
-// Basic usage
-const [setResizeObserverRef, resizeObserver] = useResizeObserver()
+function App() {
+  // Basic usage
+  const [setResizeObserverRef, resizeObserver] = useResizeObserver()
 
-// Lazy usage
-const [setResizeObserverRef] = useResizeObserver({ 
-    lazy: true,
-    callback: (entry) => {
-      console.log(entry)
-    },
-  })
+  // Lazy usage
+  const [setResizeObserverRef] = useResizeObserver({ 
+      lazy: true,
+      callback: (entry) => {
+        console.log(entry)
+      },
+    })
 
-return <div ref={setResizeObserverRef} />
+  return <div ref={setResizeObserverRef} />
+}
 ```
 
 ## Parameters

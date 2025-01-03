@@ -10,11 +10,11 @@ function setDebounce(delay: number) {
 /**
  * @name useResizeObserver
  * @description A React hook that listens to element size changes.
- * @param {object} parameters
- * @param {boolean} lazy - If true, the resize observer will not trigger state changes.
- * @param {number} debounce - The delay (in milliseconds) before the resize event is processed. This helps to optimize performance by reducing the number of times the callback function is called during resizing. Alternatively, you can set the global `useResizeObserver.setDebounce` function to change the default debounce delay.
- * @param {object} options - The options to pass to the `ResizeObserver.observe` method. See [ResizeObserver.observe options](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe#options) for more information.
- * @param {function} callback - The callback function to call when the element size changes.
+ * @param {object} options - The options for the hook.
+ * @param {boolean} options.lazy - If true, the resize observer will not trigger state changes.
+ * @param {number} options.debounce - The delay (in milliseconds) before the resize event is processed. This helps to optimize performance by reducing the number of times the callback function is called during resizing. Alternatively, you can set the global `useResizeObserver.setDebounce` function to change the default debounce delay.
+ * @param {object} options.options - The options to pass to the `ResizeObserver.observe` method. See [ResizeObserver.observe options](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe#options) for more information.
+ * @param {function} options.callback - The callback function to call when the element size changes.
  * @param {array} deps - The dependencies to be used in the callback function.
  * @returns {array} [setResizeObserverRef, resizeObserver]
  */

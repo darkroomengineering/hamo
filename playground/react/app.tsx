@@ -3,6 +3,7 @@ import {
   useMediaQuery,
   useRect,
   useResizeObserver,
+  useTimeout,
   useWindowSize,
 } from 'hamo'
 import { useEffect, useRef } from 'react'
@@ -46,6 +47,10 @@ export default function App() {
       }
     },
   })
+
+  useTimeout(() => {
+    console.log('timeout')
+  }, 5000)
 
   useEffect(() => {
     console.log(rect)
