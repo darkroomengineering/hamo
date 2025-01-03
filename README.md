@@ -28,19 +28,17 @@ $ npm i @darkroom.engineering/hamo
 
 ## Hooks
 
-[`useRect`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-rect/README.md) – tracks element position within the page
+[`useRect`](./packages/react/src/use-rect/README.md) – tracks element position within the page
 
-[`useWindowSize`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-window-size/README.md) – tracks window dimensions
+[`useWindowSize`](./packages/react/src/use-window-size/README.md) – tracks window dimensions
 
-[`useFrame`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-frame/README.md) – runs callback on every frame
+[`useResizeObserver`](./packages/react/src/use-resize-observer/README.md) – observes element dimensions using ResizeObserver
 
-`useResizeObserver` – observes element dimensions using ResizeObserver
+[`useLazyState`](./packages/react/src/use-lazy-state/README.md) – runs a callback when the state changes without re-rendering the component
 
-[`useLazyState`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-lazy-state/README.md) – runs a callback when the state changes without re-rendering the component
+[`useTimeout`](./packages/react/src/use-timeout/README.md) – runs a callback after a specified delay
 
-[`useTimeout`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-timeout/README.md) – runs a callback after a specified delay
-
-[`useObjectFit`](https://github.com/darkroomengineering/hamo/blob/main/src/hooks/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
+[`useObjectFit`](./packages/react/src/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
 
 <!-- `useOutsideClickEvent` – trigger a callback when user clicks outside of a reference node.
 

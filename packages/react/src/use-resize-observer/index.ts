@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import debounce from 'just-debounce-it'
 
 let defaultDebounceDelay = 500
@@ -23,7 +23,7 @@ export function useResizeObserver(
   {
     lazy = false,
     debounce: debounceDelay = defaultDebounceDelay,
-    options = { box: 'border-box' },
+    options = {},
     callback = () => {},
   }: {
     lazy?: boolean

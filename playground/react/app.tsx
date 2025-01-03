@@ -1,6 +1,7 @@
 import {
   useLazyState,
   useMediaQuery,
+  useRect,
   useResizeObserver,
   useWindowSize,
 } from 'hamo'
@@ -23,14 +24,32 @@ export default function App() {
     lazy: true,
     callback: (entry) => {
       if (entry && resizeObserverRef.current) {
-        const { width, height } = entry.contentRect
+        const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0]
 
         resizeObserverRef.current.textContent = `width: ${width}px - height: ${height}px`
 
-        console.log(width, height)
+        // console.log(width, height)
       }
     },
   })
+
+  const rectRef = useRef<HTMLElement>(null)
+  const [setRectRef, rect, setRectWrapperRef] = useRect({
+    // lazy: true,
+    callback(rect) {
+      if (rectRef.current) {
+        const { width, height, top, left } = rect
+
+        // console.log({ width, height, top, left })
+
+        rectRef.current.textContent = `width: ${width}px - height: ${height}px - top: ${top}px - left: ${left}px`
+      }
+    },
+  })
+
+  useEffect(() => {
+    console.log(rect)
+  }, [rect])
 
   //   useEffect(() => {
   //     console.log(resizeObserver)
@@ -39,7 +58,7 @@ export default function App() {
   //   console.log({ width, height, dpr, isMobile, resizeObserver })
 
   return (
-    <>
+    <div ref={setRectWrapperRef}>
       <div>
         useWindowSize: width: {width} - height: {height} - dpr: {dpr}
       </div>
@@ -54,13 +73,27 @@ export default function App() {
         </button>
       </div>
       <div
-        ref={(node) => {
-          setResizeObserverRef(node)
+        ref={setResizeObserverRef}
+        style={{
+          width: '50vw',
+          height: '100px',
+          border: '1px solid red',
+          padding: '20px',
         }}
-        style={{ width: '50vw', height: '100px', border: '1px solid red' }}
       >
         useResizeObserver: <span ref={resizeObserverRef} />
       </div>
-    </>
+      <div
+        ref={setRectRef}
+        style={{
+          width: '50vw',
+          height: '100px',
+          border: '1px solid yellow',
+          padding: '20px',
+        }}
+      >
+        useRect: <span ref={rectRef} />
+      </div>
+    </div>
   )
 }

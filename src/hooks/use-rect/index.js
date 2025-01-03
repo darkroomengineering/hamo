@@ -14,6 +14,9 @@ export function useRect({
   const rectRef = useRef({})
   const [rect, setRectState] = useState({})
 
+  const callbackRef = useRef(callback)
+  callbackRef.current = callback
+
   const setRect = useCallback(
     ({ top, left, width, height, element }) => {
       top = top ?? rectRef.current.top
@@ -41,7 +44,7 @@ export function useRect({
       rectRef.current.right = left + width
       rectRef.current.element = element
 
-      callback?.(rectRef.current)
+      callbackRef.current?.(rectRef.current)
 
       if (!lazy) {
         setRectState({ ...rectRef.current })
@@ -127,9 +130,7 @@ export function useRect({
     if (!lazy) {
       setRectState({ ...rectRef.current })
     }
-    const unbind = emitter.on('resize', onResize)
-
-    return unbind
+    return emitter.on('resize', onResize)
   }, [onResize, lazy])
 
   const getRect = useCallback(() => rectRef.current, [])
