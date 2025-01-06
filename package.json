@@ -4,14 +4,14 @@
   "description": "hamo means hook, do the math.",
   "type": "module",
   "sideEffects": false,
-  "unpkg": "./dist/hamo-react.mjs",
-  "main": "./dist/hamo-react.mjs",
-  "module": "./dist/hamo-react.mjs",
-  "types": "./dist/hamo-react.d.ts",
+  "unpkg": "./dist/hamo.mjs",
+  "main": "./dist/hamo.mjs",
+  "module": "./dist/hamo.mjs",
+  "types": "./dist/hamo.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/hamo-react.d.ts",
-      "default": "./dist/hamo-react.mjs"
+      "types": "./dist/hamo.d.ts",
+      "default": "./dist/hamo.mjs"
     },
     "./dist/*": "./dist/*"
   },
@@ -56,7 +56,6 @@
     "@biomejs/biome": "1.9.4",
     "tsup": "^8.2.4",
     "typescript": "^5.4.5"
-    
   },
   "dependencies": {
     "just-debounce-it": "^3.2.0",
