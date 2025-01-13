@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`hāmō` means hook in Latin, this package is a collection of custom React hooks.
+`hāmō` means hook in Latin, this package is a collection of custom performance-oriented React hooks.
 
 ## Installation
 
@@ -23,6 +23,8 @@ $ npm i @darkroom.engineering/hamo
 [`useTimeout`](./packages/react/src/use-timeout/README.md) – runs a callback after a specified delay
 
 [`useObjectFit`](./packages/react/src/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
+
+[`useIntersectionObserver`](./packages/react/src/use-intersection-observer/README.md) – observes element intersection with the viewport
 
 ## License
 

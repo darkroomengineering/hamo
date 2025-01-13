@@ -4,8 +4,6 @@ A React hook that listens to changes in the element size and provides the curren
 
 ## Usage
 
-### Basic
-
 ```tsx
 import { useResizeObserver } from '@darkroom.engineering/hamo'
 
@@ -43,5 +41,5 @@ useResizeObserver.setDebounce(500)
 An array containing the `setResizeObserverRef` function and the `resizeObserver` state.
 
 - `setResizeObserverRef` (function): A function to set the ref of the element to observe.
-- `entry` (ResizeObserverEntry | (entry: ResizeObserverEntry) => void): The current resize observer entry.
+- `entry` (ResizeObserverEntry | (entry: ResizeObserverEntry) => void): The current resize observer entry. If `lazy` is `true`, `entry` is a function that returns the current resize observer entry.
 

@@ -1,4 +1,5 @@
 import {
+  useIntersectionObserver,
   useLazyState,
   useMediaQuery,
   useRect,
@@ -21,7 +22,7 @@ export default function App() {
   })
 
   const resizeObserverRef = useRef<HTMLElement>(null)
-  const [setResizeObserverRef, resizeObserver] = useResizeObserver({
+  const [setResizeObserverRef, getResizeObserverEntry] = useResizeObserver({
     lazy: true,
     callback: (entry) => {
       if (entry && resizeObserverRef.current) {
@@ -33,6 +34,8 @@ export default function App() {
       }
     },
   })
+
+  console.log(getResizeObserverEntry)
 
   const rectRef = useRef<HTMLElement>(null)
   const [setRectRef, rect, setRectWrapperRef] = useRect({
@@ -47,6 +50,10 @@ export default function App() {
       }
     },
   })
+
+  console.log(rect)
+
+  const [setIntersectionObserverRef, entry] = useIntersectionObserver()
 
   useTimeout(() => {
     console.log('timeout')
@@ -98,6 +105,10 @@ export default function App() {
         }}
       >
         useRect: <span ref={rectRef} />
+      </div>
+      <div ref={setIntersectionObserverRef}>
+        useIntersectionObserver:{' '}
+        <span>{entry?.isIntersecting ? 'true' : 'false'}</span>
       </div>
     </div>
   )

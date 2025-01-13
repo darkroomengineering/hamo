@@ -16,23 +16,29 @@ function setDebounce(delay: number) {
  * @param {object} options.options - The options to pass to the `ResizeObserver.observe` method. See [ResizeObserver.observe options](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe#options) for more information.
  * @param {function} options.callback - The callback function to call when the element size changes.
  * @param {array} deps - The dependencies to be used in the callback function.
- * @returns {array} [setResizeObserverRef, resizeObserver]
+ * @function setDebounce - A function that allows you to set the debounce delay.
+ * @returns {array} [setResizeObserverRef, options.lazy ? getEntryRef : entry]
  */
 
-export function useResizeObserver(
+export function useResizeObserver<L extends boolean = false>(
   {
-    lazy = false,
+    lazy = false as L,
     debounce: debounceDelay = defaultDebounceDelay,
     options = {},
     callback = () => {},
   }: {
-    lazy?: boolean
+    lazy?: L
     debounce?: number
     options?: ResizeObserverOptions
     callback?: (entry: ResizeObserverEntry | undefined) => void
   } = {},
   deps: any[] = []
-) {
+): [
+  (element: HTMLElement | null) => void,
+  L extends true
+    ? () => ResizeObserverEntry | undefined
+    : ResizeObserverEntry | undefined,
+] {
   const [element, setElement] = useState<HTMLElement | null>()
   const [entry, setEntry] = useState<ResizeObserverEntry>()
   const entryRef = useRef<ResizeObserverEntry>()
@@ -81,7 +87,12 @@ export function useResizeObserver(
 
   const getEntryRef = useCallback(() => entryRef.current, [])
 
-  return [setElement, lazy ? getEntryRef : entry] as const
+  return [setElement, lazy ? getEntryRef : entry] as [
+    typeof setElement,
+    L extends true
+      ? () => ResizeObserverEntry | undefined
+      : ResizeObserverEntry | undefined,
+  ]
 }
 
 useResizeObserver.setDebounce = setDebounce

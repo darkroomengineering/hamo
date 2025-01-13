@@ -40,25 +40,29 @@ function setDebounce(delay: number) {
  * @param {array} deps - The dependencies array for the hook.
  * @function resize - A function that allows you to manually trigger the rect update.
  * @function setDebounce - A function that allows you to set the debounce delay.
- * @returns The bounding client rect of the element.
+ * @returns {array} [setElementRef, options.lazy ? getRectRef : rect, setWrapperElementRef]
  */
 
-export function useRect(
+export function useRect<L extends boolean = false>(
   {
     ignoreTransform = false,
     ignoreSticky = true,
     debounce: debounceDelay = defaultDebounceDelay,
-    lazy = false,
+    lazy = false as L,
     callback,
   }: {
     ignoreTransform?: boolean
     ignoreSticky?: boolean
     debounce?: number
-    lazy?: boolean
+    lazy?: L
     callback?: (rect: Rect) => void
   } = {},
   deps: any[] = []
-) {
+): [
+  (element: HTMLElement | null) => void,
+  L extends true ? () => Rect : Rect,
+  (element: HTMLElement | null) => void,
+] {
   const [wrapperElement, setWrapperElement] = useState<HTMLElement | null>(null)
   const [element, setElement] = useState<HTMLElement | null>(null)
 
@@ -203,6 +207,7 @@ export function useRect(
   )
 
   useEffect(() => {
+    // @ts-ignore
     setWrapperResizeObserverRef((v) => {
       if (v && v !== document.body) return v
       return document.body
@@ -235,11 +240,11 @@ export function useRect(
     [setWrapperResizeObserverRef]
   )
 
-  return [
-    setElementRef,
-    lazy ? getRectRef : rect,
-    setWrapperElementRef,
-  ] as const
+  return [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef] as [
+    typeof setElementRef,
+    L extends true ? () => Rect : Rect,
+    typeof setWrapperElementRef,
+  ]
 }
 
 useRect.resize = () => emitter.emit('resize')
