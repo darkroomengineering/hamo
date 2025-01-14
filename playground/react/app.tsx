@@ -14,7 +14,7 @@ export default function App() {
   const isMobile = useMediaQuery('(max-width: 800px)')
 
   const countRef = useRef<HTMLElement>(null)
-  const [getCount, setCount] = useLazyState(0, (value, previousValue) => {
+  const [setCount, getCount] = useLazyState(0, (value, previousValue) => {
     console.log('count', value, previousValue)
     if (countRef.current) {
       countRef.current.textContent = `previous value: ${previousValue?.toString() ?? 'undefined'} - current value: ${value?.toString() ?? 'undefined'}`

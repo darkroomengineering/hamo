@@ -41,5 +41,5 @@ export function useLazyState<T>(
 
   const get = useCallback(() => stateRef.current, [])
 
-  return [get, set]
+  return [set, get] as const
 }

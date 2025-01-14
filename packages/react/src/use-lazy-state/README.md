@@ -8,7 +8,7 @@ A React hook that allows you to trigger a callback when the state changes withou
 import { useLazyState } from '@darkroom.engineering/hamo'
 
 function App() {
-  const [state, setState] = useLazyState(0, (value, previousValue) => {
+  const [setState, getState] = useLazyState(0, (value, previousValue) => {
     console.log(value, previousValue)
   })
 }
@@ -22,5 +22,5 @@ function App() {
 
 ## Return Value
 
-- `getState` (function): The function to get the current value of the state.
 - `setState` (function): The function to update the state.
+- `getState` (function): The function to get the current value of the state.
