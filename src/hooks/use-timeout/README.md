@@ -5,7 +5,7 @@ A React hook that allows you to run a callback after a specified delay. This hoo
 ## Usage
 
 ```jsx
-import { useTimeout } from '@darkroom.engineering/hamo'
+import { useTimeout } from 'hamo'
 
 function MyComponent() {
   useTimeout(() => {

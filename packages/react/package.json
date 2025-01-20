@@ -1,0 +1,8 @@
+{
+  "name": "hamo",
+  "type": "module",
+  "devDependencies": {
+    "react": "^18.2.0",
+    "@types/react": "^18.2.77"
+  }
+}

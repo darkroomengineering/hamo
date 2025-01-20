@@ -5,7 +5,7 @@ A React hook that allows you to run a callback when the state changes. This hook
 ## Usage
 
 ```jsx
-import { useLazyState } from '@darkroom.engineering/hamo'
+import { useLazyState } from 'hamo'
 
 function MyComponent() {
   const [get, set] = useLazyState(0, (value, previousValue) => {
