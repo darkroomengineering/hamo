@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef } from 'react'
  * @param {any} initialValue The initial value of the state.
  * @param {function} callback The callback function to be called when the state changes.
  * @param {array} deps The dependencies to be used in the callback function.
- * @returns {[function, function]} An array containing the getState function and the setState function.
+ * @returns {[function, function]} An array containing the setState function and the getState function.
  */
 
 export function useLazyState<T>(

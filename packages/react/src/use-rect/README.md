@@ -5,7 +5,7 @@ The `useRect` hook is a custom React hook that provides functionality for measur
 ## Usage
 
 ```jsx
-import { useRect } from '@darkroom.engineering/hamo'
+import { useRect } from 'hamo'
 
 function App() {
   // Basic usage
@@ -71,7 +71,7 @@ useRect.resize()
 ### Custom Wrapper Element
 
 ```jsx
-import { useRect } from '@darkroom.engineering/hamo'
+import { useRect } from 'hamo'
 
 function App() {
   const [setRectRef, rect, setWrapperRef] = useRect()

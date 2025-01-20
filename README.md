@@ -7,7 +7,7 @@
 ## Installation
 
 ```bash
-$ npm i @darkroom.engineering/hamo
+$ npm i hamo
 ```
 
 ## Hooks

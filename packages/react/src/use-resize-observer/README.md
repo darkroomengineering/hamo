@@ -5,7 +5,7 @@ A React hook that listens to changes in the element size and provides the curren
 ## Usage
 
 ```tsx
-import { useResizeObserver } from '@darkroom.engineering/hamo'
+import { useResizeObserver } from 'hamo'
 
 function App() {
   // Basic usage

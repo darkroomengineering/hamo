@@ -5,7 +5,7 @@ A hook that allows you to set a timeout.
 ## Usage
 
 ```jsx
-import { useTimeout } from '@darkroom.engineering/hamo'
+import { useTimeout } from 'hamo'
 
 function App() {
   useTimeout(() => {

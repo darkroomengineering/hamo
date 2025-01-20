@@ -7,7 +7,7 @@ A React hook that calculates the x and y scale of an object based on its parent 
 Imagine you wanna display a 16/9 aspect ratio image that covers a 1/2 aspect ratio container.
 
 ```jsx
-import { useObjectFit } from '@darkroom.engineering/hamo'
+import { useObjectFit } from 'hamo'
 
 function MyComponent() {
   /* parentWidth, parentHeight, childWidth, childHeight, objectFit */

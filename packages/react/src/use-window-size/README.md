@@ -6,7 +6,7 @@ A React hook that listens to changes in the window size and provides the current
 
 ```jsx
 import { useEffect } from 'react'
-import { useWindowSize } from '@darkroom.engineering/hamo'
+import { useWindowSize } from 'hamo'
 
 function App() {
   const { width, height, dpr } = useWindowSize()

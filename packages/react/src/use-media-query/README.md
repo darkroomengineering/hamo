@@ -6,7 +6,7 @@ A React hook that detects whether a media query is `true` or `false`.
 
 ```jsx
 import { useEffect } from 'react'
-import { useMediaQuery } from '@darkroom.engineering/hamo'
+import { useMediaQuery } from 'hamo'
 
 function App() {
   const isMobile = useMediaQuery('(min-width: 800px)')

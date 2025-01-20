@@ -5,7 +5,7 @@ A React hook that oberves element visibility using IntersectionObserver.
 ## Usage
 
 ```tsx
-import { useIntersectionObserver } from '@darkroom.engineering/hamo'
+import { useIntersectionObserver } from 'hamo'
 
 function App() {
   const [setElement, entry] = useIntersectionObserver()

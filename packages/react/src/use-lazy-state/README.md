@@ -5,7 +5,7 @@ A React hook that allows you to trigger a callback when the state changes withou
 ## Usage
 
 ```jsx
-import { useLazyState } from '@darkroom.engineering/hamo'
+import { useLazyState } from 'hamo'
 
 function App() {
   const [setState, getState] = useLazyState(0, (value, previousValue) => {
