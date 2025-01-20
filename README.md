@@ -29,3 +29,7 @@ $ npm i hamo
 ## License
 
 MIT © [darkroom.engineering](https://github.com/darkroomengineering)
+
+## Shoutout
+
+Thank you to [Luca Gesmundo](https://github.com/lucagez) for having transfered us the npm package name 🙏.
