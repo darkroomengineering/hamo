@@ -45,7 +45,7 @@ export function scrollTop(element: HTMLElement, accumulator = 0) {
   if (element.parentNode) {
     return scrollTop(element.parentNode as HTMLElement, top)
   }
-  return top + window.scrollY
+  return top
 }
 
 export function scrollLeft(element: HTMLElement, accumulator = 0) {
@@ -53,5 +53,5 @@ export function scrollLeft(element: HTMLElement, accumulator = 0) {
   if (element.parentNode) {
     return scrollLeft(element.parentNode as HTMLElement, left)
   }
-  return left + window.scrollX
+  return left
 }

@@ -4,6 +4,8 @@ import {
   offsetLeft,
   offsetTop,
   removeParentSticky,
+  scrollLeft,
+  scrollTop,
 } from './utils'
 import { emitter } from './emitter'
 import { useResizeObserver } from '../use-resize-observer'
@@ -141,8 +143,8 @@ export function useRect<L extends boolean = false>(
     } else {
       const rect = element.getBoundingClientRect()
 
-      top = rect.top + (wrapperElement?.scrollTop ?? window.scrollY)
-      left = rect.left + (wrapperElement?.scrollLeft ?? window.scrollX)
+      top = rect.top + scrollTop(wrapperElement)
+      left = rect.left + scrollLeft(wrapperElement)
     }
     if (ignoreSticky) addParentSticky(element)
 

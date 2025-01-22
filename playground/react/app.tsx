@@ -10,6 +10,10 @@ import {
 import { useEffect, useRef } from 'react'
 
 export default function App() {
+  useEffect(() => {
+    history.scrollRestoration = 'auto'
+  }, [])
+
   const { width, height, dpr } = useWindowSize()
   const isMobile = useMediaQuery('(max-width: 800px)')
 
@@ -70,7 +74,7 @@ export default function App() {
   //   console.log({ width, height, dpr, isMobile, resizeObserver })
 
   return (
-    <div ref={setRectWrapperRef}>
+    <div>
       <div>
         useWindowSize: width: {width} - height: {height} - dpr: {dpr}
       </div>
@@ -91,6 +95,7 @@ export default function App() {
           height: '100px',
           border: '1px solid red',
           padding: '20px',
+          marginBottom: '1000px',
         }}
       >
         useResizeObserver: <span ref={resizeObserverRef} />
