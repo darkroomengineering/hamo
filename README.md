@@ -1,4 +1,4 @@
-[![HAMO](https://assets.darkroom.engineering/hamo/header.png)](https://github.com/darkroomengineering/hamo)
+[![HAMO](https://assets.darkroom.engineering/hamo/banner.gif)](https://github.com/darkroomengineering/hamo)
 
 ## Introduction
 
