@@ -1,6 +1,6 @@
 {
   "name": "hamo",
-  "version": "1.0.0-dev.6",
+  "version": "1.0.0-dev.7",
   "description": "hamo means hook, do the math.",
   "type": "module",
   "sideEffects": false,
