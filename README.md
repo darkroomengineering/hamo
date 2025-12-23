@@ -20,7 +20,7 @@ $ npm i hamo
 
 [`useLazyState`](./packages/react/src/use-lazy-state/README.md) – runs a callback when the state changes without re-rendering the component
 
-[`useTimeout`](./packages/react/src/use-timeout/README.md) – runs a callback after a specified delay
+[`useDebouncedCallback/useDebouncedEffect/useDebouncedState`](./packages/react/src/use-debounce/README.md) – debounces a callback, effect, or state
 
 [`useObjectFit`](./packages/react/src/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
 
