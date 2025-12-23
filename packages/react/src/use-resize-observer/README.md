@@ -28,7 +28,6 @@ function App() {
 - `parameters` (object):
   - `lazy` (optional, default: `false`): If true, the resize observer will not trigger state changes.
   - `callback` (optional): The callback function to call when the element size changes.
-  - `options` (optional): The options to pass to the `ResizeObserver.observe` method. See [ResizeObserver.observe options](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe#options) for more information.
   - `debounce` (optional, default: `500`): The delay (in milliseconds) before the resize event is processed. This helps to optimize performance by reducing the number of times the callback function is called during resizing. Alternatively, you can set the global `useResizeObserver.setDebounce` function to change the default debounce delay.
 - `deps` (optional, default: `[]`): The dependencies to be used in the callback function.
 

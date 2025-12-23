@@ -1,4 +1,5 @@
 import {
+  useDebouncedState,
   useIntersectionObserver,
   useLazyState,
   useMediaQuery,
@@ -6,8 +7,10 @@ import {
   useResizeObserver,
   useTimeout,
   useWindowSize,
+  useDebouncedEffect,
+  useDebouncedCallback,
 } from 'hamo'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function App() {
   useEffect(() => {
@@ -18,12 +21,14 @@ export default function App() {
   const isMobile = useMediaQuery('(max-width: 800px)')
 
   const countRef = useRef<HTMLElement>(null)
-  const [setCount, getCount] = useLazyState(0, (value, previousValue) => {
-    console.log('count', value, previousValue)
-    if (countRef.current) {
-      countRef.current.textContent = `previous value: ${previousValue?.toString() ?? 'undefined'} - current value: ${value?.toString() ?? 'undefined'}`
-    }
-  })
+  // const [setCount, getCount] = useLazyState(0, (value, previousValue) => {
+  //   console.log('count', value, previousValue)
+  //   if (countRef.current) {
+  //     countRef.current.textContent = `previous value: ${previousValue?.toString() ?? 'undefined'} - current value: ${value?.toString() ?? 'undefined'}`
+  //   }
+  // })
+
+  const [count, setCount] = useState(0)
 
   const resizeObserverRef = useRef<HTMLElement>(null)
   const [setResizeObserverRef, getResizeObserverEntry] = useResizeObserver({
@@ -39,8 +44,6 @@ export default function App() {
     },
   })
 
-  console.log(getResizeObserverEntry)
-
   const rectRef = useRef<HTMLElement>(null)
   const [setRectRef, rect, setRectWrapperRef] = useRect({
     // lazy: true,
@@ -48,30 +51,45 @@ export default function App() {
       if (rectRef.current) {
         const { width, height, top, left } = rect
 
-        // console.log({ width, height, top, left })
-
         rectRef.current.textContent = `width: ${width}px - height: ${height}px - top: ${top}px - left: ${left}px`
       }
     },
   })
 
-  console.log(rect)
-
   const [setIntersectionObserverRef, entry] = useIntersectionObserver()
 
-  useTimeout(() => {
-    console.log('timeout')
-  }, 5000)
+  useDebouncedEffect(
+    () => {
+      console.log('debounced effect', count)
+    },
+    1000,
+    [count]
+  )
+
+  const [debounceCount, setDebouncedCount] = useDebouncedState(count, 1000)
+  const debouncedCallback = useDebouncedCallback(
+    () => {
+      console.log('debounced callback', count)
+    },
+    1000,
+    [count]
+  )
 
   useEffect(() => {
-    console.log(rect)
-  }, [rect])
+    console.log('debounce state', debounceCount)
+  }, [debounceCount])
+
+  // useEffect(() => {
+  //   console.log(rect)
+  // }, [rect])
 
   //   useEffect(() => {
   //     console.log(resizeObserver)
   //   }, [resizeObserver])
 
   //   console.log({ width, height, dpr, isMobile, resizeObserver })
+
+  console.log('count', count)
 
   return (
     <div>
@@ -81,10 +99,24 @@ export default function App() {
       <div>useMediaQuery: isMobile: {isMobile ? 'true' : 'false'}</div>
       <div>
         useLazyState: <span ref={countRef} />
-        <button type="button" onClick={() => setCount((prev) => prev + 1)}>
+        <button
+          type="button"
+          onClick={() => {
+            // setCount((prev) => prev + 1)
+            setDebouncedCount((prev) => prev + 1)
+            // debouncedCallback()
+          }}
+        >
           Increment
         </button>
-        <button type="button" onClick={() => setCount((prev) => prev - 1)}>
+        <button
+          type="button"
+          onClick={() => {
+            // setCount((prev) => prev - 1)
+            setDebouncedCount((prev) => prev - 1)
+            // debouncedCallback()
+          }}
+        >
           Decrement
         </button>
       </div>

@@ -14,32 +14,50 @@ function setDebounce(delay: number) {
   defaultDebounceDelay = delay
 }
 
+function windowSize(
+  callback: ({
+    width,
+    height,
+    dpr,
+  }: { width: number; height: number; dpr: number }) => void,
+  debounceDelay: number = defaultDebounceDelay
+) {
+  function onWindowResize() {
+    const width = Math.min(
+      window.innerWidth,
+      document.documentElement.clientWidth
+    )
+    const height = Math.min(
+      window.innerHeight,
+      document.documentElement.clientHeight
+    )
+    const dpr = window.devicePixelRatio
+    callback({ width, height, dpr })
+  }
+  const debouncedOnWindowRezise = debounce(onWindowResize, debounceDelay)
+
+  const abortController = new AbortController()
+  window.addEventListener('resize', debouncedOnWindowRezise, {
+    signal: abortController.signal,
+  })
+
+  return () => {
+    abortController.abort()
+    debouncedOnWindowRezise.cancel()
+  }
+}
+
 export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
   const [width, setWidth] = useState<number>()
   const [height, setHeight] = useState<number>()
   const [dpr, setDpr] = useState<number>()
 
   useEffect(() => {
-    function onWindowResize() {
-      setWidth(
-        Math.min(window.innerWidth, document.documentElement.clientWidth)
-      )
-      setHeight(
-        Math.min(window.innerHeight, document.documentElement.clientHeight)
-      )
-      setDpr(window.devicePixelRatio)
-    }
-
-    const debouncedOnWindowRezise = debounce(onWindowResize, debounceDelay)
-
-    window.addEventListener('resize', debouncedOnWindowRezise, false)
-
-    onWindowResize()
-
-    return () => {
-      window.removeEventListener('resize', debouncedOnWindowRezise, false)
-      debouncedOnWindowRezise.cancel()
-    }
+    return windowSize(({ width, height, dpr }) => {
+      setWidth(width)
+      setHeight(height)
+      setDpr(dpr)
+    }, debounceDelay)
   }, [debounceDelay])
 
   return { width, height, dpr }

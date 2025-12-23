@@ -13,24 +13,67 @@ function setDebounce(delay: number) {
  * @param {object} options - The options for the hook.
  * @param {boolean} options.lazy - If true, the resize observer will not trigger state changes.
  * @param {number} options.debounce - The delay (in milliseconds) before the resize event is processed. This helps to optimize performance by reducing the number of times the callback function is called during resizing. Alternatively, you can set the global `useResizeObserver.setDebounce` function to change the default debounce delay.
- * @param {object} options.options - The options to pass to the `ResizeObserver.observe` method. See [ResizeObserver.observe options](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe#options) for more information.
  * @param {function} options.callback - The callback function to call when the element size changes.
  * @param {array} deps - The dependencies to be used in the callback function.
  * @function setDebounce - A function that allows you to set the debounce delay.
  * @returns {array} [setResizeObserverRef, options.lazy ? getEntryRef : entry]
  */
 
+const callbacksMap = new Map<Element, (entry: ResizeObserverEntry) => void>()
+
+let sharedObserver: ResizeObserver | null = null
+function getSharedObserver() {
+  if (!sharedObserver) {
+    sharedObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const callback = callbacksMap.get(entry.target)
+        if (callback) {
+          callback(entry)
+        }
+      }
+    })
+  }
+  return sharedObserver
+}
+
+function observeElement(
+  el: Element,
+  callback: (entry: ResizeObserverEntry) => void,
+  debounceDelay: number = defaultDebounceDelay
+) {
+  if (!el) return () => {}
+
+  let isFirstCall = true
+  const debouncedCallback = debounce(callback, debounceDelay)
+  callbacksMap.set(el, (entry: ResizeObserverEntry) => {
+    if (isFirstCall) {
+      callback(entry)
+    } else {
+      debouncedCallback(entry)
+    }
+    isFirstCall = false
+  })
+  const sharedObserver = getSharedObserver()
+  sharedObserver.observe(el)
+
+  return () => {
+    callbacksMap.delete(el)
+    sharedObserver.unobserve(el)
+    if (callbacksMap.size === 0) {
+      sharedObserver.disconnect()
+    }
+  }
+}
+
 export function useResizeObserver<L extends boolean = false>(
   {
     lazy = false as L,
     debounce: debounceDelay = defaultDebounceDelay,
-    options = {},
     callback = () => {},
   }: {
     lazy?: L
     debounce?: number
-    options?: ResizeObserverOptions
-    callback?: (entry: ResizeObserverEntry | undefined) => void
+    callback?: (entry: ResizeObserverEntry) => void
   } = {},
   deps: any[] = []
 ): [
@@ -49,41 +92,18 @@ export function useResizeObserver<L extends boolean = false>(
   useEffect(() => {
     if (!element) return
 
-    let immediate = true
-
-    function emit(entry: ResizeObserverEntry) {
-      callbackRef.current(entry)
-      entryRef.current = entry
-
-      if (!lazy) {
-        setEntry(entry)
-      }
-    }
-
-    const debouncedEmit = debounce(emit, debounceDelay)
-
-    function onResize(entries: ResizeObserverEntry[]) {
-      const entry = entries[0]
-
-      if (entry) {
-        if (immediate) {
-          emit(entry)
-        } else {
-          debouncedEmit(entry)
+    return observeElement(
+      element,
+      (entry: ResizeObserverEntry) => {
+        callbackRef.current(entry)
+        entryRef.current = entry
+        if (!lazy) {
+          setEntry(entry)
         }
-
-        immediate = false
-      }
-    }
-
-    const resizeObserver = new ResizeObserver(onResize)
-
-    resizeObserver.observe(element, options)
-
-    return () => {
-      resizeObserver.disconnect()
-    }
-  }, [element, debounceDelay, lazy, JSON.stringify(options), ...deps])
+      },
+      debounceDelay
+    )
+  }, [element, debounceDelay, lazy, ...deps])
 
   const getEntryRef = useCallback(() => entryRef.current, [])
 
