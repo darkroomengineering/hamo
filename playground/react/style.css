@@ -158,6 +158,40 @@ header p {
   border-radius: 8px;
 }
 
+.rect-box.resizable {
+  resize: both;
+  overflow: auto;
+  min-height: 120px;
+  border: 2px dashed var(--color-border);
+  cursor: se-resize;
+  transition: border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rect-box.resizable:hover {
+  border-color: var(--color-accent);
+}
+
+.rect-box.resizable > span {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.extra-block {
+  padding: 16px;
+  background: rgba(227, 6, 19, 0.1);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--color-accent);
+  text-align: center;
+}
+
 .intersection-spacer {
   height: 60vh;
   display: flex;

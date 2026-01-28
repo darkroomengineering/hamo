@@ -121,6 +121,7 @@ function ResizeObserverDemo() {
 }
 
 function RectDemo() {
+  const [extraBlocks, setExtraBlocks] = useState(0)
   const [setRef, rect] = useRect({
     ignoreTransform: false,
     ignoreSticky: true,
@@ -129,10 +130,26 @@ function RectDemo() {
   return (
     <Section title="useRect">
       <p className="description">
-        Track element position and dimensions within the page. Scroll to see
-        values update.
+        Track element position and dimensions within the document. Resize the
+        box or window to see values update.
       </p>
-      <div ref={setRef} className="rect-box">
+      <div className="button-row">
+        <button type="button" onClick={() => setExtraBlocks((n) => n + 1)}>
+          Add block above
+        </button>
+        {extraBlocks > 0 && (
+          <button type="button" onClick={() => setExtraBlocks(0)}>
+            Reset
+          </button>
+        )}
+      </div>
+      {Array.from({ length: extraBlocks }).map((_, i) => (
+        <div key={i} className="extra-block">
+          Block {i + 1}
+        </div>
+      ))}
+      <div ref={setRef} className="rect-box resizable">
+        <span>Resize me!</span>
         <div className="values-grid compact">
           <Value
             label="top"

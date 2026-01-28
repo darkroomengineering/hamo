@@ -30,13 +30,11 @@ function App() {
 
 The `useRect` hook accepts an options object with the following optional parameters:
 
-- `parameters`: (object) An object containing the following optional parameters:
-  - `ignoreTransform`: (boolean, default: `false`) If `true`, ignores CSS transform applied to the element and its parents. It's useful for animations such as parallax.
-  - `ignoreSticky`: (boolean, default: `true`) If `true`, ignores sticky positioning of the element and its parents. See the difference [with](https://jsfiddle.net/Lk74do8u/) and [without](https://jsfiddle.net/3962n0ov/).
-  - `debounce`: (number, default: `500`) Delay in milliseconds for debouncing measurement updates. Alternatively, you can set the global `useResizeObserver.setDebounce` function to change the default debounce delay.
-  - `lazy`: (boolean, default: `false`) If `true`, doesn't trigger state update and return a getter instead.
-  - `callback`: (function) A callback function to be invoked whenever the dimensions or position of the element change.
-- `deps`: (array) An array of dependencies.
+- `ignoreTransform`: (boolean, default: `false`) If `true`, ignores CSS transform applied to the element and its parents. It's useful for animations such as parallax.
+- `ignoreSticky`: (boolean, default: `true`) If `true`, ignores sticky positioning of the element and its parents. See the difference [with](https://jsfiddle.net/Lk74do8u/) and [without](https://jsfiddle.net/3962n0ov/).
+- `debounce`: (number, default: `500`) Delay in milliseconds for debouncing measurement updates. Alternatively, you can set the global `useRect.setDebounce` function to change the default debounce delay.
+- `lazy`: (boolean, default: `false`) If `true`, doesn't trigger state update and returns a getter instead.
+- `callback`: (function) A callback function to be invoked whenever the dimensions or position of the element change.
 
 ```jsx
 useRect.setDebounce(500)
