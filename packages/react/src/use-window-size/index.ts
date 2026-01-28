@@ -10,11 +10,12 @@ type WindowSize = {
   dpr: number | undefined
 }
 
-const getWindowSize = (): WindowSize => ({
-  width: Math.min(window.innerWidth, document.documentElement.clientWidth),
-  height: Math.min(window.innerHeight, document.documentElement.clientHeight),
-  dpr: window.devicePixelRatio,
-})
+// Cached snapshot to avoid creating new objects on every getSnapshot call
+let cachedSnapshot: WindowSize = {
+  width: undefined,
+  height: undefined,
+  dpr: undefined,
+}
 
 const serverSnapshot: WindowSize = {
   width: undefined,
@@ -22,8 +23,43 @@ const serverSnapshot: WindowSize = {
   dpr: undefined,
 }
 
+function getWindowSize(): WindowSize {
+  if (typeof window === 'undefined') return serverSnapshot
+
+  const width = Math.min(
+    window.innerWidth,
+    document.documentElement.clientWidth
+  )
+  const height = Math.min(
+    window.innerHeight,
+    document.documentElement.clientHeight
+  )
+  const dpr = window.devicePixelRatio
+
+  // Only create new object if values changed
+  if (
+    cachedSnapshot.width !== width ||
+    cachedSnapshot.height !== height ||
+    cachedSnapshot.dpr !== dpr
+  ) {
+    cachedSnapshot = { width, height, dpr }
+  }
+
+  return cachedSnapshot
+}
+
+function getServerSnapshot(): WindowSize {
+  return serverSnapshot
+}
+
 function createSubscribe(debounceDelay: number) {
   return (callback: () => void) => {
+    if (typeof window === 'undefined') {
+      return () => {
+        /* noop - SSR */
+      }
+    }
+
     const debouncedCallback = debounce(callback, debounceDelay)
 
     window.addEventListener('resize', debouncedCallback)
@@ -33,6 +69,44 @@ function createSubscribe(debounceDelay: number) {
       debouncedCallback.cancel()
     }
   }
+}
+
+// Cached primitive snapshots for selective hooks
+let cachedWidth: number | undefined
+let cachedHeight: number | undefined
+let cachedDpr: number | undefined
+
+function getWidthSnapshot(): number | undefined {
+  if (typeof window === 'undefined') return undefined
+  const width = Math.min(
+    window.innerWidth,
+    document.documentElement.clientWidth
+  )
+  if (cachedWidth !== width) {
+    cachedWidth = width
+  }
+  return cachedWidth
+}
+
+function getHeightSnapshot(): number | undefined {
+  if (typeof window === 'undefined') return undefined
+  const height = Math.min(
+    window.innerHeight,
+    document.documentElement.clientHeight
+  )
+  if (cachedHeight !== height) {
+    cachedHeight = height
+  }
+  return cachedHeight
+}
+
+function getDprSnapshot(): number | undefined {
+  if (typeof window === 'undefined') return undefined
+  const dpr = window.devicePixelRatio
+  if (cachedDpr !== dpr) {
+    cachedDpr = dpr
+  }
+  return cachedDpr
 }
 
 /**
@@ -49,7 +123,7 @@ export function useWindowSize(
     [debounceDelay]
   )
 
-  return useSyncExternalStore(subscribe, getWindowSize, () => serverSnapshot)
+  return useSyncExternalStore(subscribe, getWindowSize, getServerSnapshot)
 }
 
 /**
@@ -66,11 +140,7 @@ export function useWindowWidth(
     [debounceDelay]
   )
 
-  return useSyncExternalStore(
-    subscribe,
-    () => Math.min(window.innerWidth, document.documentElement.clientWidth),
-    () => undefined
-  )
+  return useSyncExternalStore(subscribe, getWidthSnapshot, () => undefined)
 }
 
 /**
@@ -87,11 +157,7 @@ export function useWindowHeight(
     [debounceDelay]
   )
 
-  return useSyncExternalStore(
-    subscribe,
-    () => Math.min(window.innerHeight, document.documentElement.clientHeight),
-    () => undefined
-  )
+  return useSyncExternalStore(subscribe, getHeightSnapshot, () => undefined)
 }
 
 /**
@@ -108,11 +174,7 @@ export function useWindowDpr(
     [debounceDelay]
   )
 
-  return useSyncExternalStore(
-    subscribe,
-    () => window.devicePixelRatio,
-    () => undefined
-  )
+  return useSyncExternalStore(subscribe, getDprSnapshot, () => undefined)
 }
 
 useWindowSize.setDebounce = debounceConfig.setDelay
