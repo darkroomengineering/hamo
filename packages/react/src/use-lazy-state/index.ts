@@ -20,18 +20,23 @@ export function useLazyState<T>(
 
   useEffect(() => {
     callbackRef.current?.(stateRef.current, prevStateRef.current)
-  }, [initialValue, callbackRef])
-
-  const set = useCallback((value: SetStateAction<T>) => {
-    const nextValue =
-      typeof value === 'function' ? (value as (prev: T) => T)(stateRef.current) : value
-
-    if (nextValue !== stateRef.current) {
-      prevStateRef.current = stateRef.current
-      callbackRef.current?.(nextValue, stateRef.current)
-      stateRef.current = nextValue
-    }
   }, [callbackRef])
+
+  const set = useCallback(
+    (value: SetStateAction<T>) => {
+      const nextValue =
+        typeof value === 'function'
+          ? (value as (prev: T) => T)(stateRef.current)
+          : value
+
+      if (nextValue !== stateRef.current) {
+        prevStateRef.current = stateRef.current
+        callbackRef.current?.(nextValue, stateRef.current)
+        stateRef.current = nextValue
+      }
+    },
+    [callbackRef]
+  )
 
   const get = useCallback(() => stateRef.current, [])
 

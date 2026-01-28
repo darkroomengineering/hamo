@@ -20,9 +20,9 @@ import { useRef } from 'react'
  * }
  * ```
  */
-export function useLatestCallback<T extends ((...args: never[]) => unknown) | undefined>(
-  callback: T
-): React.MutableRefObject<T> {
+export function useLatestCallback<
+  T extends ((...args: never[]) => unknown) | undefined,
+>(callback: T): React.MutableRefObject<T> {
   const ref = useRef<T>(callback)
   ref.current = callback
   return ref

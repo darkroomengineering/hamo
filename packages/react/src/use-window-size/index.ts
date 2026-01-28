@@ -1,5 +1,5 @@
-import { useCallback, useSyncExternalStore } from 'react'
 import debounce from 'just-debounce-it'
+import { useCallback, useSyncExternalStore } from 'react'
 import { createDebounceConfig } from '../shared'
 
 const debounceConfig = createDebounceConfig(500)
@@ -41,7 +41,9 @@ function createSubscribe(debounceDelay: number) {
  * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
  * @returns {{ width: number | undefined, height: number | undefined, dpr: number | undefined }}
  */
-export function useWindowSize(debounceDelay: number = debounceConfig.getDelay()): WindowSize {
+export function useWindowSize(
+  debounceDelay: number = debounceConfig.getDelay()
+): WindowSize {
   const subscribe = useCallback(
     (callback: () => void) => createSubscribe(debounceDelay)(callback),
     [debounceDelay]
@@ -56,7 +58,9 @@ export function useWindowSize(debounceDelay: number = debounceConfig.getDelay())
  * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
  * @returns {number | undefined}
  */
-export function useWindowWidth(debounceDelay: number = debounceConfig.getDelay()): number | undefined {
+export function useWindowWidth(
+  debounceDelay: number = debounceConfig.getDelay()
+): number | undefined {
   const subscribe = useCallback(
     (callback: () => void) => createSubscribe(debounceDelay)(callback),
     [debounceDelay]
@@ -75,7 +79,9 @@ export function useWindowWidth(debounceDelay: number = debounceConfig.getDelay()
  * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
  * @returns {number | undefined}
  */
-export function useWindowHeight(debounceDelay: number = debounceConfig.getDelay()): number | undefined {
+export function useWindowHeight(
+  debounceDelay: number = debounceConfig.getDelay()
+): number | undefined {
   const subscribe = useCallback(
     (callback: () => void) => createSubscribe(debounceDelay)(callback),
     [debounceDelay]
@@ -94,7 +100,9 @@ export function useWindowHeight(debounceDelay: number = debounceConfig.getDelay(
  * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
  * @returns {number | undefined}
  */
-export function useWindowDpr(debounceDelay: number = debounceConfig.getDelay()): number | undefined {
+export function useWindowDpr(
+  debounceDelay: number = debounceConfig.getDelay()
+): number | undefined {
   const subscribe = useCallback(
     (callback: () => void) => createSubscribe(debounceDelay)(callback),
     [debounceDelay]

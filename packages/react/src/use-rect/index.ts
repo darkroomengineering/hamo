@@ -1,4 +1,17 @@
-import { useEffect, useCallback, useRef, useState, useSyncExternalStore } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
+import {
+  createDebounceConfig,
+  type ObserverHookReturnWithWrapper,
+  useLatestCallback,
+} from '../shared'
+import { useResizeObserver } from '../use-resize-observer'
+import { emitter } from './emitter'
 import {
   addParentSticky,
   offsetLeft,
@@ -7,9 +20,6 @@ import {
   scrollLeft,
   scrollTop,
 } from './utils'
-import { emitter } from './emitter'
-import { useResizeObserver } from '../use-resize-observer'
-import { createDebounceConfig, useLatestCallback, type ObserverHookReturnWithWrapper } from '../shared'
 
 export type Rect = {
   top: number | undefined
@@ -81,7 +91,9 @@ export function useRect<L extends boolean = false>(
     height: undefined,
     bottom: undefined,
     right: undefined,
-    resize: () => {},
+    resize: () => {
+      /* noop until element is set */
+    },
     element: undefined,
   })
   const [rect, setRect] = useState<Rect>(rectRef.current)
@@ -108,8 +120,10 @@ export function useRect<L extends boolean = false>(
 
       const y = top
       const x = left
-      const bottom = top !== undefined && height !== undefined ? top + height : undefined
-      const right = left !== undefined && width !== undefined ? left + width : undefined
+      const bottom =
+        top !== undefined && height !== undefined ? top + height : undefined
+      const right =
+        left !== undefined && width !== undefined ? left + width : undefined
 
       rectRef.current = {
         ...current,
@@ -134,7 +148,7 @@ export function useRect<L extends boolean = false>(
   )
 
   const computeCoordinates = useCallback(() => {
-    if (!element || !wrapperElement) return
+    if (!(element && wrapperElement)) return
 
     let top: number
     let left: number
@@ -191,7 +205,8 @@ export function useRect<L extends boolean = false>(
     callback: (entry) => {
       if (!entry) return
 
-      const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0] ?? {}
+      const { inlineSize: width, blockSize: height } =
+        entry.borderBoxSize[0] ?? {}
       updateRect({ width, height })
     },
   })
@@ -231,7 +246,11 @@ export function useRect<L extends boolean = false>(
     [setWrapperResizeObserverRef]
   )
 
-  return [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef] as ObserverHookReturnWithWrapper<Rect, L>
+  return [
+    setElementRef,
+    lazy ? getRectRef : rect,
+    setWrapperElementRef,
+  ] as ObserverHookReturnWithWrapper<Rect, L>
 }
 
 useRect.resize = () => emitter.emit('resize')

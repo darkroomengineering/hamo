@@ -79,7 +79,9 @@ export function useDebouncedState<T>(
   const setState = useCallback(
     (value: T | ((prev: T) => T)) => {
       if (typeof value === 'function') {
-        cachedStateRef.current = (value as (prev: T) => T)(cachedStateRef.current)
+        cachedStateRef.current = (value as (prev: T) => T)(
+          cachedStateRef.current
+        )
       } else {
         cachedStateRef.current = value
       }

@@ -16,7 +16,7 @@ export function useObjectFit(
   objectFit: 'contain' | 'cover' = 'cover'
 ): [number, number] {
   // Early return for invalid inputs
-  if (!parentWidth || !parentHeight || !childWidth || !childHeight) {
+  if (!(parentWidth && parentHeight && childWidth && childHeight)) {
     return [1, 1]
   }
 

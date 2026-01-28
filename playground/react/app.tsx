@@ -1,17 +1,23 @@
 import {
+  useDebouncedState,
+  useIntersectionObserver,
+  useLazyState,
+  useMediaQuery,
+  useRect,
+  useResizeObserver,
+  useWindowHeight,
   useWindowSize,
   useWindowWidth,
-  useWindowHeight,
-  useMediaQuery,
-  useResizeObserver,
-  useRect,
-  useIntersectionObserver,
-  useDebouncedState,
-  useLazyState,
 } from 'hamo'
 import { useRef, useState } from 'react'
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+}: {
+  title: string
+  children: React.ReactNode
+}) {
   return (
     <section className="section">
       <h2>{title}</h2>
@@ -39,7 +45,8 @@ function WindowSizeDemo() {
   return (
     <Section title="useWindowSize">
       <p className="description">
-        Tracks window dimensions using <code>useSyncExternalStore</code> for concurrent-safe subscriptions.
+        Tracks window dimensions using <code>useSyncExternalStore</code> for
+        concurrent-safe subscriptions.
       </p>
       <div className="values-grid">
         <Value label="width" value={`${width}px`} />
@@ -48,7 +55,8 @@ function WindowSizeDemo() {
       </div>
       <h3>Selective Hooks</h3>
       <p className="description">
-        Use <code>useWindowWidth()</code> or <code>useWindowHeight()</code> to only re-render when that specific dimension changes.
+        Use <code>useWindowWidth()</code> or <code>useWindowHeight()</code> to
+        only re-render when that specific dimension changes.
       </p>
       <div className="values-grid">
         <Value label="useWindowWidth()" value={`${selectiveWidth}px`} />
@@ -68,14 +76,18 @@ function MediaQueryDemo() {
   return (
     <Section title="useMediaQuery">
       <p className="description">
-        Subscribe to CSS media queries with <code>useSyncExternalStore</code>. Supports SSR fallback as second parameter.
+        Subscribe to CSS media queries with <code>useSyncExternalStore</code>.
+        Supports SSR fallback as second parameter.
       </p>
       <div className="values-grid">
         <Value label="isMobile (≤768px)" value={isMobile ? '✓' : '✗'} />
         <Value label="isTablet (769-1024px)" value={isTablet ? '✓' : '✗'} />
         <Value label="isDesktop (≥1025px)" value={isDesktop ? '✓' : '✗'} />
         <Value label="prefersDark" value={prefersDark ? '✓' : '✗'} />
-        <Value label="prefersReducedMotion" value={prefersReducedMotion ? '✓' : '✗'} />
+        <Value
+          label="prefersReducedMotion"
+          value={prefersReducedMotion ? '✓' : '✗'}
+        />
       </div>
     </Section>
   )
@@ -95,14 +107,14 @@ function ResizeObserverDemo() {
   return (
     <Section title="useResizeObserver">
       <p className="description">
-        Observe element size changes using a shared <code>ResizeObserver</code> instance for better performance.
+        Observe element size changes using a shared <code>ResizeObserver</code>{' '}
+        instance for better performance.
       </p>
-      <div
-        ref={setRef}
-        className="resize-box"
-      >
+      <div ref={setRef} className="resize-box">
         <span>Resize me!</span>
-        <span className="resize-value" ref={displayRef}>—</span>
+        <span className="resize-value" ref={displayRef}>
+          —
+        </span>
       </div>
     </Section>
   )
@@ -117,14 +129,31 @@ function RectDemo() {
   return (
     <Section title="useRect">
       <p className="description">
-        Track element position and dimensions within the page. Scroll to see values update.
+        Track element position and dimensions within the page. Scroll to see
+        values update.
       </p>
       <div ref={setRef} className="rect-box">
         <div className="values-grid compact">
-          <Value label="top" value={rect.top !== undefined ? `${Math.round(rect.top)}px` : '—'} />
-          <Value label="left" value={rect.left !== undefined ? `${Math.round(rect.left)}px` : '—'} />
-          <Value label="width" value={rect.width !== undefined ? `${Math.round(rect.width)}px` : '—'} />
-          <Value label="height" value={rect.height !== undefined ? `${Math.round(rect.height)}px` : '—'} />
+          <Value
+            label="top"
+            value={rect.top !== undefined ? `${Math.round(rect.top)}px` : '—'}
+          />
+          <Value
+            label="left"
+            value={rect.left !== undefined ? `${Math.round(rect.left)}px` : '—'}
+          />
+          <Value
+            label="width"
+            value={
+              rect.width !== undefined ? `${Math.round(rect.width)}px` : '—'
+            }
+          />
+          <Value
+            label="height"
+            value={
+              rect.height !== undefined ? `${Math.round(rect.height)}px` : '—'
+            }
+          />
         </div>
       </div>
     </Section>
@@ -152,7 +181,10 @@ function IntersectionObserverDemo() {
         className="intersection-box"
         data-visible={isIntersecting}
       >
-        <Value label="isIntersecting" value={isIntersecting ? '✓ Yes' : '✗ No'} />
+        <Value
+          label="isIntersecting"
+          value={isIntersecting ? '✓ Yes' : '✗ No'}
+        />
         <Value label="ratio" value={`${(ratio * 100).toFixed(0)}%`} />
       </div>
     </Section>
@@ -172,8 +204,8 @@ function DebouncedStateDemo() {
         <button
           type="button"
           onClick={() => {
-            setInstant(v => v + 1)
-            setDebounced(v => v + 1)
+            setInstant((v) => v + 1)
+            setDebounced((v) => v + 1)
           }}
         >
           Increment Both
@@ -211,10 +243,11 @@ function LazyStateDemo() {
   return (
     <Section title="useLazyState">
       <p className="description">
-        Track state changes via callback without triggering re-renders. Useful for animations.
+        Track state changes via callback without triggering re-renders. Useful
+        for animations.
       </p>
       <div className="button-row">
-        <button type="button" onClick={() => set(v => v + 1)}>
+        <button type="button" onClick={() => set((v) => v + 1)}>
           Increment (no re-render)
         </button>
         <button type="button" onClick={() => set(0)}>
@@ -222,7 +255,10 @@ function LazyStateDemo() {
         </button>
       </div>
       <div className="values-grid">
-        <Value label="Lazy Value" value={<span ref={displayRef}>{get()}</span>} />
+        <Value
+          label="Lazy Value"
+          value={<span ref={displayRef}>{get()}</span>}
+        />
         <Value label="Component Renders" value={renderCountRef.current} />
       </div>
       <p className="hint">
@@ -237,7 +273,10 @@ export default function App() {
     <div className="playground">
       <header>
         <h1>hamo hooks playground</h1>
-        <p>Interactive demos for all hooks. Resize the window, scroll around, and click buttons to test.</p>
+        <p>
+          Interactive demos for all hooks. Resize the window, scroll around, and
+          click buttons to test.
+        </p>
       </header>
 
       <WindowSizeDemo />
@@ -250,11 +289,19 @@ export default function App() {
 
       <footer>
         <p>
-          <a href="https://github.com/darkroomengineering/hamo" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/darkroomengineering/hamo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             GitHub
           </a>
           {' · '}
-          <a href="https://www.npmjs.com/package/hamo" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.npmjs.com/package/hamo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             npm
           </a>
         </p>

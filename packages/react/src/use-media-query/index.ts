@@ -7,7 +7,7 @@ import { useCallback, useSyncExternalStore } from 'react'
  * @param {boolean} serverFallback - Optional fallback value for SSR (defaults to false).
  * @returns {boolean} Whether the media query matches.
  */
-export function useMediaQuery(query: string, serverFallback: boolean = false): boolean {
+export function useMediaQuery(query: string, serverFallback = false): boolean {
   const subscribe = useCallback(
     (callback: () => void) => {
       const mediaQuery = window.matchMedia(query)
