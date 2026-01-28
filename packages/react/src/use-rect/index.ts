@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, useState } from 'react'
+import { useEffect, useCallback, useRef, useState, useSyncExternalStore } from 'react'
 import {
   addParentSticky,
   offsetLeft,
@@ -11,16 +11,16 @@ import { emitter } from './emitter'
 import { useResizeObserver } from '../use-resize-observer'
 
 export type Rect = {
-  top?: number
-  y?: number
-  left?: number
-  x?: number
-  width?: number
-  height?: number
-  bottom?: number
-  right?: number
-  resize?: () => void
-  element?: HTMLElement | null
+  top: number | undefined
+  y: number | undefined
+  left: number | undefined
+  x: number | undefined
+  width: number | undefined
+  height: number | undefined
+  bottom: number | undefined
+  right: number | undefined
+  resize: () => void
+  element: HTMLElement | null | undefined
 }
 
 let defaultDebounceDelay = 500
@@ -29,87 +29,100 @@ function setDebounce(delay: number) {
   defaultDebounceDelay = delay
 }
 
+// Subscribe to global resize events using useSyncExternalStore pattern
+function subscribeToResize(callback: () => void): () => void {
+  return emitter.on('resize', callback)
+}
+
+function getResizeSnapshot(): number {
+  // Return a stable value - the snapshot is used to detect changes
+  // We use Date.now() as a change indicator since the emitter doesn't have a value
+  return Date.now()
+}
+
+type UseRectOptions<L extends boolean = false> = {
+  ignoreTransform?: boolean
+  ignoreSticky?: boolean
+  debounce?: number
+  lazy?: L
+  callback?: (rect: Rect) => void
+}
+
+type UseRectReturn<L extends boolean> = [
+  (element: HTMLElement | null) => void,
+  L extends true ? () => Rect : Rect,
+  (element: HTMLElement | null) => void,
+]
+
 /**
  * @name useRect
- * @description
- * A hook that allows you to get the bounding client rect of an element.
+ * @description A hook that tracks an element's position and dimensions within the page.
  * @param {object} options - The options for the hook.
- * @param {boolean} options.ignoreTransform - Whether to ignore the transform property of the element.
- * @param {boolean} options.ignoreSticky - Whether to ignore the sticky property of the element.
- * @param {number} options.debounce - The debounce delay (in milliseconds) before the callback function is executed.
- * @param {boolean} options.lazy - Whether to lazy load the rect.
- * @param {function} options.callback - The callback function to be executed after the rect is updated.
- * @param {array} deps - The dependencies array for the hook.
- * @function resize - A function that allows you to manually trigger the rect update.
- * @function setDebounce - A function that allows you to set the debounce delay.
- * @returns {array} [setElementRef, options.lazy ? getRectRef : rect, setWrapperElementRef]
+ * @param {boolean} options.ignoreTransform - Whether to ignore CSS transforms when calculating position.
+ * @param {boolean} options.ignoreSticky - Whether to ignore sticky positioning when calculating position.
+ * @param {number} options.debounce - The debounce delay (in milliseconds) before updates are processed.
+ * @param {boolean} options.lazy - If true, returns a getter function instead of triggering re-renders.
+ * @param {function} options.callback - The callback function called when the rect is updated.
+ * @returns {array} [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef]
  */
-
 export function useRect<L extends boolean = false>(
-  {
+  options: UseRectOptions<L> = {}
+): UseRectReturn<L> {
+  const {
     ignoreTransform = false,
     ignoreSticky = true,
     debounce: debounceDelay = defaultDebounceDelay,
     lazy = false as L,
     callback,
-  }: {
-    ignoreTransform?: boolean
-    ignoreSticky?: boolean
-    debounce?: number
-    lazy?: L
-    callback?: (rect: Rect) => void
-  } = {},
-  deps: any[] = []
-): [
-  (element: HTMLElement | null) => void,
-  L extends true ? () => Rect : Rect,
-  (element: HTMLElement | null) => void,
-] {
+  } = options
+
   const [wrapperElement, setWrapperElement] = useState<HTMLElement | null>(null)
   const [element, setElement] = useState<HTMLElement | null>(null)
 
   const callbackRef = useRef(callback)
   callbackRef.current = callback
 
-  const updateRect = useCallback(
-    ({
-      top,
-      left,
-      width,
-      height,
-      element,
-    }: {
-      top?: number
-      left?: number
-      width?: number
-      height?: number
-      element?: HTMLElement | null
-    }) => {
-      top = top ?? rectRef.current.top
-      left = left ?? rectRef.current.left
-      width = width ?? rectRef.current.width
-      height = height ?? rectRef.current.height
-      element = element ?? rectRef.current.element
+  const rectRef = useRef<Rect>({
+    top: undefined,
+    y: undefined,
+    left: undefined,
+    x: undefined,
+    width: undefined,
+    height: undefined,
+    bottom: undefined,
+    right: undefined,
+    resize: () => {},
+    element: undefined,
+  })
+  const [rect, setRect] = useState<Rect>(rectRef.current)
 
+  const updateRect = useCallback(
+    (updates: Partial<Omit<Rect, 'resize'>>) => {
+      const current = rectRef.current
+      const top = updates.top ?? current.top
+      const left = updates.left ?? current.left
+      const width = updates.width ?? current.width
+      const height = updates.height ?? current.height
+      const newElement = updates.element ?? current.element
+
+      // Skip update if nothing changed
       if (
-        top === rectRef.current.top &&
-        left === rectRef.current.left &&
-        width === rectRef.current.width &&
-        height === rectRef.current.height &&
-        element === rectRef.current.element
-      )
+        top === current.top &&
+        left === current.left &&
+        width === current.width &&
+        height === current.height &&
+        newElement === current.element
+      ) {
         return
+      }
 
       const y = top
       const x = left
-      let bottom: number | undefined
-      let right: number | undefined
-
-      if (top !== undefined && height !== undefined) bottom = top + height
-      if (left !== undefined && width !== undefined) right = left + width
+      const bottom = top !== undefined && height !== undefined ? top + height : undefined
+      const right = left !== undefined && width !== undefined ? left + width : undefined
 
       rectRef.current = {
-        ...rectRef.current,
+        ...current,
         top,
         y,
         left,
@@ -118,7 +131,7 @@ export function useRect<L extends boolean = false>(
         height,
         bottom,
         right,
-        element,
+        element: newElement,
       }
 
       callbackRef.current?.(rectRef.current)
@@ -127,7 +140,7 @@ export function useRect<L extends boolean = false>(
         setRect(rectRef.current)
       }
     },
-    [lazy, ...deps]
+    [lazy]
   )
 
   const computeCoordinates = useCallback(() => {
@@ -137,32 +150,26 @@ export function useRect<L extends boolean = false>(
     let left: number
 
     if (ignoreSticky) removeParentSticky(element)
+
     if (ignoreTransform) {
       top = offsetTop(element)
       left = offsetLeft(element)
     } else {
       const rect = element.getBoundingClientRect()
-
       top = rect.top + scrollTop(wrapperElement)
       left = rect.left + scrollLeft(wrapperElement)
     }
+
     if (ignoreSticky) addParentSticky(element)
 
-    updateRect({
-      top,
-      left,
-    })
+    updateRect({ top, left })
   }, [element, ignoreSticky, ignoreTransform, wrapperElement, updateRect])
 
   const computeDimensions = useCallback(() => {
     if (!element) return
 
     const rect = element.getBoundingClientRect()
-
-    const width = rect.width
-    const height = rect.height
-
-    updateRect({ width, height })
+    updateRect({ width: rect.width, height: rect.height })
   }, [element, updateRect])
 
   const resize = useCallback(() => {
@@ -170,9 +177,14 @@ export function useRect<L extends boolean = false>(
     computeDimensions()
   }, [computeCoordinates, computeDimensions])
 
-  const rectRef = useRef<Rect>({} as Rect)
-  const [rect, setRect] = useState<Rect>({} as Rect)
+  // Subscribe to global resize events
+  useSyncExternalStore(
+    subscribeToResize,
+    getResizeSnapshot,
+    () => 0 // Server snapshot
+  )
 
+  // Update resize function reference and subscribe to emitter
   useEffect(() => {
     rectRef.current.resize = resize
     setRect(rectRef.current)
@@ -180,45 +192,32 @@ export function useRect<L extends boolean = false>(
     return emitter.on('resize', resize)
   }, [resize])
 
-  const [setResizeObserverRef] = useResizeObserver(
-    {
-      lazy: true,
-      debounce: debounceDelay,
-      callback: (entry?: ResizeObserverEntry) => {
-        if (!entry) return
+  // Observe element size changes
+  const [setResizeObserverRef] = useResizeObserver({
+    lazy: true,
+    debounce: debounceDelay,
+    callback: (entry) => {
+      if (!entry) return
 
-        const { inlineSize: width, blockSize: height } =
-          entry.borderBoxSize[0] ?? {}
-
-        updateRect({
-          width,
-          height,
-        })
-      },
+      const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0] ?? {}
+      updateRect({ width, height })
     },
-    [element, lazy, updateRect]
-  )
+  })
 
-  const [setWrapperResizeObserverRef] = useResizeObserver(
-    {
-      lazy: true,
-      debounce: debounceDelay,
-      callback: computeCoordinates,
-    },
-    [computeCoordinates]
-  )
+  // Observe wrapper size changes
+  const [setWrapperResizeObserverRef] = useResizeObserver({
+    lazy: true,
+    debounce: debounceDelay,
+    callback: computeCoordinates,
+  })
 
+  // Initialize wrapper to document.body if not set
   useEffect(() => {
-    // @ts-ignore
-    setWrapperResizeObserverRef((v) => {
-      if (v && v !== document.body) return v
-      return document.body
-    })
+    // SSR safety check
+    if (typeof window === 'undefined') return
 
-    setWrapperElement((v) => {
-      if (v && v !== document.body) return v
-      return document.body
-    })
+    setWrapperResizeObserverRef(document.body)
+    setWrapperElement(document.body)
   }, [setWrapperResizeObserverRef])
 
   const getRectRef = useCallback(() => rectRef.current, [])
@@ -227,9 +226,7 @@ export function useRect<L extends boolean = false>(
     (node: HTMLElement | null) => {
       setResizeObserverRef(node)
       setElement(node)
-      updateRect({
-        element: node,
-      })
+      updateRect({ element: node })
     },
     [setResizeObserverRef, updateRect]
   )
@@ -242,13 +239,8 @@ export function useRect<L extends boolean = false>(
     [setWrapperResizeObserverRef]
   )
 
-  return [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef] as [
-    typeof setElementRef,
-    L extends true ? () => Rect : Rect,
-    typeof setWrapperElementRef,
-  ]
+  return [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef] as UseRectReturn<L>
 }
 
 useRect.resize = () => emitter.emit('resize')
-
 useRect.setDebounce = setDebounce

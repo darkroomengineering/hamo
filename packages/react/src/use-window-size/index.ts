@@ -1,12 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 import debounce from 'just-debounce-it'
-
-/**
- * @name useWindowSize
- * @description A React hook that listens to window size.
- * @param {number} debounce- The delay (in milliseconds) before the resize event is processed. This helps to optimize performance by reducing the number of times the callback function is called during resizing. Alternatively, you can set the global `useWindowSize.setDebounce` function to change the default debounce delay.
- * @returns {object} { width, height, dpr }
- */
 
 let defaultDebounceDelay = 500
 
@@ -14,55 +7,107 @@ function setDebounce(delay: number) {
   defaultDebounceDelay = delay
 }
 
-function windowSize(
-  callback: ({
-    width,
-    height,
-    dpr,
-  }: { width: number; height: number; dpr: number }) => void,
-  debounceDelay: number = defaultDebounceDelay
-) {
-  function onWindowResize() {
-    const width = Math.min(
-      window.innerWidth,
-      document.documentElement.clientWidth
-    )
-    const height = Math.min(
-      window.innerHeight,
-      document.documentElement.clientHeight
-    )
-    const dpr = window.devicePixelRatio
-    callback({ width, height, dpr })
-  }
-  const debouncedOnWindowRezise = debounce(onWindowResize, debounceDelay)
+type WindowSize = {
+  width: number | undefined
+  height: number | undefined
+  dpr: number | undefined
+}
 
-  const abortController = new AbortController()
-  window.addEventListener('resize', debouncedOnWindowRezise, {
-    signal: abortController.signal,
-  })
+const getWindowSize = (): WindowSize => ({
+  width: Math.min(window.innerWidth, document.documentElement.clientWidth),
+  height: Math.min(window.innerHeight, document.documentElement.clientHeight),
+  dpr: window.devicePixelRatio,
+})
 
-  onWindowResize()
+const serverSnapshot: WindowSize = {
+  width: undefined,
+  height: undefined,
+  dpr: undefined,
+}
 
-  return () => {
-    abortController.abort()
-    debouncedOnWindowRezise.cancel()
+function createSubscribe(debounceDelay: number) {
+  return (callback: () => void) => {
+    const debouncedCallback = debounce(callback, debounceDelay)
+
+    window.addEventListener('resize', debouncedCallback)
+
+    return () => {
+      window.removeEventListener('resize', debouncedCallback)
+      debouncedCallback.cancel()
+    }
   }
 }
 
-export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
-  const [width, setWidth] = useState<number>()
-  const [height, setHeight] = useState<number>()
-  const [dpr, setDpr] = useState<number>()
+/**
+ * @name useWindowSize
+ * @description A React hook that tracks window dimensions using useSyncExternalStore for concurrent-safe subscriptions.
+ * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
+ * @returns {{ width: number | undefined, height: number | undefined, dpr: number | undefined }}
+ */
+export function useWindowSize(debounceDelay: number = defaultDebounceDelay): WindowSize {
+  const subscribe = useCallback(
+    (callback: () => void) => createSubscribe(debounceDelay)(callback),
+    [debounceDelay]
+  )
 
-  useEffect(() => {
-    return windowSize(({ width, height, dpr }) => {
-      setWidth(width)
-      setHeight(height)
-      setDpr(dpr)
-    }, debounceDelay)
-  }, [debounceDelay])
+  return useSyncExternalStore(subscribe, getWindowSize, () => serverSnapshot)
+}
 
-  return { width, height, dpr }
+/**
+ * @name useWindowWidth
+ * @description A selective hook that only re-renders when window width changes.
+ * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
+ * @returns {number | undefined}
+ */
+export function useWindowWidth(debounceDelay: number = defaultDebounceDelay): number | undefined {
+  const subscribe = useCallback(
+    (callback: () => void) => createSubscribe(debounceDelay)(callback),
+    [debounceDelay]
+  )
+
+  return useSyncExternalStore(
+    subscribe,
+    () => Math.min(window.innerWidth, document.documentElement.clientWidth),
+    () => undefined
+  )
+}
+
+/**
+ * @name useWindowHeight
+ * @description A selective hook that only re-renders when window height changes.
+ * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
+ * @returns {number | undefined}
+ */
+export function useWindowHeight(debounceDelay: number = defaultDebounceDelay): number | undefined {
+  const subscribe = useCallback(
+    (callback: () => void) => createSubscribe(debounceDelay)(callback),
+    [debounceDelay]
+  )
+
+  return useSyncExternalStore(
+    subscribe,
+    () => Math.min(window.innerHeight, document.documentElement.clientHeight),
+    () => undefined
+  )
+}
+
+/**
+ * @name useWindowDpr
+ * @description A selective hook that only re-renders when device pixel ratio changes.
+ * @param {number} debounceDelay - The delay (in milliseconds) before the resize event is processed.
+ * @returns {number | undefined}
+ */
+export function useWindowDpr(debounceDelay: number = defaultDebounceDelay): number | undefined {
+  const subscribe = useCallback(
+    (callback: () => void) => createSubscribe(debounceDelay)(callback),
+    [debounceDelay]
+  )
+
+  return useSyncExternalStore(
+    subscribe,
+    () => window.devicePixelRatio,
+    () => undefined
+  )
 }
 
 useWindowSize.setDebounce = setDebounce

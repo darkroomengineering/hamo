@@ -33,16 +33,15 @@
     "url": "https://github.com/sponsors/darkroomengineering"
   },
   "scripts": {
-    "build": "pnpm build:all",
-    "build:all": "tsup",
-    "dev": "pnpm run -w --parallel /^dev:.*/",
+    "build": "tsup",
+    "dev": "bun run --parallel dev:build dev:playground",
     "dev:build": "tsup --watch",
-    "dev:playground": "pnpm --filter playground dev",
+    "dev:playground": "bun --filter playground dev",
     "version:dev": "npm version prerelease --preid dev --force --no-git-tag-version",
     "version:patch": "npm version patch --force --no-git-tag-version",
     "version:minor": "npm version minor --force --no-git-tag-version",
     "version:major": "npm version major --force --no-git-tag-version",
-    "postversion": "pnpm build",
+    "postversion": "bun run build",
     "publish:main": "npm publish",
     "publish:dev": "npm publish --tag dev"
   },
@@ -52,6 +51,7 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@types/react": "^19.0.0",
     "tsup": "^8.2.4",
     "typescript": "^5.4.5"
   },
@@ -60,7 +60,7 @@
     "nanoevents": "^9.0.0"
   },
   "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   }
 }
