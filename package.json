@@ -3,6 +3,10 @@
   "version": "1.0.0-dev.8",
   "description": "hamo means hook, do the math.",
   "type": "module",
+  "workspaces": [
+    "packages/*",
+    "playground"
+  ],
   "sideEffects": false,
   "unpkg": "./dist/hamo.mjs",
   "main": "./dist/hamo.mjs",
@@ -34,9 +38,9 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "bun run --parallel dev:build dev:playground",
+    "dev": "bun run --cwd playground dev",
     "dev:build": "tsup --watch",
-    "dev:playground": "bun --filter playground dev",
+    "dev:playground": "bun run --cwd playground dev",
     "version:dev": "npm version prerelease --preid dev --force --no-git-tag-version",
     "version:patch": "npm version patch --force --no-git-tag-version",
     "version:minor": "npm version minor --force --no-git-tag-version",
