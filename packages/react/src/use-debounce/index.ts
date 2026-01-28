@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useLatestCallback } from '../shared'
 
 function timeout(callback: () => void, delay: number): () => void {
   const timeoutId = setTimeout(callback, delay)
@@ -17,13 +18,12 @@ export function useDebouncedEffect(
   delay: number,
   deps: React.DependencyList = []
 ): void {
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const callbackRef = useLatestCallback(callback)
 
   useEffect(() => {
-    return timeout(() => callbackRef.current(), delay)
+    return timeout(() => callbackRef.current?.(), delay)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delay, ...deps])
+  }, [delay, callbackRef, ...deps])
 }
 
 /**
@@ -37,17 +37,16 @@ export function useDebouncedCallback<T extends unknown[]>(
   callback: (...args: T) => void,
   delay: number
 ): (...args: T) => void {
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const callbackRef = useLatestCallback(callback)
 
   const timeoutRef = useRef<(() => void) | null>(null)
 
   const debouncedCallback = useCallback(
     (...args: T) => {
       timeoutRef.current?.()
-      timeoutRef.current = timeout(() => callbackRef.current(...args), delay)
+      timeoutRef.current = timeout(() => callbackRef.current?.(...args), delay)
     },
-    [delay]
+    [delay, callbackRef]
   )
 
   // Cleanup on unmount

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { useLatestCallback } from '../shared'
 
 type SetStateAction<T> = T | ((prev: T) => T)
 
@@ -15,13 +16,11 @@ export function useLazyState<T>(
 ): readonly [(value: SetStateAction<T>) => void, () => T] {
   const prevStateRef = useRef<T | undefined>(undefined)
   const stateRef = useRef<T>(initialValue)
-  const callbackRef = useRef(callback)
-
-  callbackRef.current = callback
+  const callbackRef = useLatestCallback(callback)
 
   useEffect(() => {
     callbackRef.current?.(stateRef.current, prevStateRef.current)
-  }, [initialValue])
+  }, [initialValue, callbackRef])
 
   const set = useCallback((value: SetStateAction<T>) => {
     const nextValue =
@@ -32,7 +31,7 @@ export function useLazyState<T>(
       callbackRef.current?.(nextValue, stateRef.current)
       stateRef.current = nextValue
     }
-  }, [])
+  }, [callbackRef])
 
   const get = useCallback(() => stateRef.current, [])
 

@@ -5,7 +5,6 @@ import {
   useMediaQuery,
   useRect,
   useResizeObserver,
-  useTimeout,
   useWindowSize,
   useDebouncedEffect,
   useDebouncedCallback,
@@ -79,13 +78,9 @@ export default function App() {
   )
 
   const [debounceCount, setDebouncedCount] = useDebouncedState(count, 1000)
-  const debouncedCallback = useDebouncedCallback(
-    () => {
-      console.log('debounced callback', count)
-    },
-    1000,
-    [count]
-  )
+  const debouncedCallback = useDebouncedCallback(() => {
+    console.log('debounced callback', count)
+  }, 1000)
 
   useEffect(() => {
     console.log('debounce state', debounceCount)

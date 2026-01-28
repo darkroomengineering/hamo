@@ -9,6 +9,7 @@ import {
 } from './utils'
 import { emitter } from './emitter'
 import { useResizeObserver } from '../use-resize-observer'
+import { createDebounceConfig, useLatestCallback, type ObserverHookReturnWithWrapper } from '../shared'
 
 export type Rect = {
   top: number | undefined
@@ -23,11 +24,7 @@ export type Rect = {
   element: HTMLElement | null | undefined
 }
 
-let defaultDebounceDelay = 500
-
-function setDebounce(delay: number) {
-  defaultDebounceDelay = delay
-}
+const debounceConfig = createDebounceConfig(500)
 
 // Subscribe to global resize events using useSyncExternalStore pattern
 function subscribeToResize(callback: () => void): () => void {
@@ -48,12 +45,6 @@ type UseRectOptions<L extends boolean = false> = {
   callback?: (rect: Rect) => void
 }
 
-type UseRectReturn<L extends boolean> = [
-  (element: HTMLElement | null) => void,
-  L extends true ? () => Rect : Rect,
-  (element: HTMLElement | null) => void,
-]
-
 /**
  * @name useRect
  * @description A hook that tracks an element's position and dimensions within the page.
@@ -67,11 +58,11 @@ type UseRectReturn<L extends boolean> = [
  */
 export function useRect<L extends boolean = false>(
   options: UseRectOptions<L> = {}
-): UseRectReturn<L> {
+): ObserverHookReturnWithWrapper<Rect, L> {
   const {
     ignoreTransform = false,
     ignoreSticky = true,
-    debounce: debounceDelay = defaultDebounceDelay,
+    debounce: debounceDelay = debounceConfig.getDelay(),
     lazy = false as L,
     callback,
   } = options
@@ -79,8 +70,7 @@ export function useRect<L extends boolean = false>(
   const [wrapperElement, setWrapperElement] = useState<HTMLElement | null>(null)
   const [element, setElement] = useState<HTMLElement | null>(null)
 
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const callbackRef = useLatestCallback(callback)
 
   const rectRef = useRef<Rect>({
     top: undefined,
@@ -140,7 +130,7 @@ export function useRect<L extends boolean = false>(
         setRect(rectRef.current)
       }
     },
-    [lazy]
+    [lazy, callbackRef]
   )
 
   const computeCoordinates = useCallback(() => {
@@ -151,16 +141,18 @@ export function useRect<L extends boolean = false>(
 
     if (ignoreSticky) removeParentSticky(element)
 
-    if (ignoreTransform) {
-      top = offsetTop(element)
-      left = offsetLeft(element)
-    } else {
-      const rect = element.getBoundingClientRect()
-      top = rect.top + scrollTop(wrapperElement)
-      left = rect.left + scrollLeft(wrapperElement)
+    try {
+      if (ignoreTransform) {
+        top = offsetTop(element)
+        left = offsetLeft(element)
+      } else {
+        const rect = element.getBoundingClientRect()
+        top = rect.top + scrollTop(wrapperElement)
+        left = rect.left + scrollLeft(wrapperElement)
+      }
+    } finally {
+      if (ignoreSticky) addParentSticky(element)
     }
-
-    if (ignoreSticky) addParentSticky(element)
 
     updateRect({ top, left })
   }, [element, ignoreSticky, ignoreTransform, wrapperElement, updateRect])
@@ -239,8 +231,8 @@ export function useRect<L extends boolean = false>(
     [setWrapperResizeObserverRef]
   )
 
-  return [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef] as UseRectReturn<L>
+  return [setElementRef, lazy ? getRectRef : rect, setWrapperElementRef] as ObserverHookReturnWithWrapper<Rect, L>
 }
 
 useRect.resize = () => emitter.emit('resize')
-useRect.setDebounce = setDebounce
+useRect.setDebounce = debounceConfig.setDelay

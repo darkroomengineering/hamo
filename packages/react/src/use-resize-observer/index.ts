@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import debounce from 'just-debounce-it'
+import { createDebounceConfig, useLatestCallback, type ObserverHookReturn } from '../shared'
 
-let defaultDebounceDelay = 500
-
-function setDebounce(delay: number) {
-  defaultDebounceDelay = delay
-}
+const debounceConfig = createDebounceConfig(500)
 
 const callbacksMap = new Map<
   Element,
@@ -38,7 +35,7 @@ function getSharedObserver(): ResizeObserver | null {
 function observeElement(
   el: Element,
   callback: (entry: ResizeObserverEntry) => void,
-  debounceDelay: number = defaultDebounceDelay
+  debounceDelay: number = debounceConfig.getDelay()
 ): () => void {
   if (!el) return () => {}
 
@@ -77,11 +74,6 @@ type UseResizeObserverOptions<L extends boolean = false> = {
   callback?: (entry: ResizeObserverEntry) => void
 }
 
-type UseResizeObserverReturn<L extends boolean> = [
-  (element: HTMLElement | null) => void,
-  L extends true ? () => ResizeObserverEntry | undefined : ResizeObserverEntry | undefined,
-]
-
 /**
  * @name useResizeObserver
  * @description A React hook that observes element size changes using a shared ResizeObserver instance.
@@ -93,15 +85,14 @@ type UseResizeObserverReturn<L extends boolean> = [
  */
 export function useResizeObserver<L extends boolean = false>(
   options: UseResizeObserverOptions<L> = {}
-): UseResizeObserverReturn<L> {
-  const { lazy = false as L, debounce: debounceDelay = defaultDebounceDelay, callback } = options
+): ObserverHookReturn<ResizeObserverEntry, L> {
+  const { lazy = false as L, debounce: debounceDelay = debounceConfig.getDelay(), callback } = options
 
   const [element, setElement] = useState<HTMLElement | null>(null)
   const [entry, setEntry] = useState<ResizeObserverEntry | undefined>(undefined)
   const entryRef = useRef<ResizeObserverEntry | undefined>(undefined)
 
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const callbackRef = useLatestCallback(callback)
 
   useEffect(() => {
     if (!element) return
@@ -117,11 +108,11 @@ export function useResizeObserver<L extends boolean = false>(
       },
       debounceDelay
     )
-  }, [element, debounceDelay, lazy])
+  }, [element, debounceDelay, lazy, callbackRef])
 
   const getEntryRef = useCallback(() => entryRef.current, [])
 
-  return [setElement, lazy ? getEntryRef : entry] as UseResizeObserverReturn<L>
+  return [setElement, lazy ? getEntryRef : entry] as ObserverHookReturn<ResizeObserverEntry, L>
 }
 
-useResizeObserver.setDebounce = setDebounce
+useResizeObserver.setDebounce = debounceConfig.setDelay

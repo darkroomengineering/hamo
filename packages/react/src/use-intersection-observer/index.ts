@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useLatestCallback, type ObserverHookReturn } from '../shared'
 
 type UseIntersectionObserverOptions<L extends boolean = false> = {
   root?: HTMLElement | null
@@ -8,11 +9,6 @@ type UseIntersectionObserverOptions<L extends boolean = false> = {
   lazy?: L
   callback?: (entry: IntersectionObserverEntry) => void
 }
-
-type UseIntersectionObserverReturn<L extends boolean> = [
-  (element: HTMLElement | null) => void,
-  L extends true ? () => IntersectionObserverEntry | undefined : IntersectionObserverEntry | undefined,
-]
 
 /**
  * @name useIntersectionObserver
@@ -28,7 +24,7 @@ type UseIntersectionObserverReturn<L extends boolean> = [
  */
 export function useIntersectionObserver<L extends boolean = false>(
   options: UseIntersectionObserverOptions<L> = {}
-): UseIntersectionObserverReturn<L> {
+): ObserverHookReturn<IntersectionObserverEntry, L> {
   const {
     root = null,
     rootMargin = '0px',
@@ -42,8 +38,7 @@ export function useIntersectionObserver<L extends boolean = false>(
   const [entry, setEntry] = useState<IntersectionObserverEntry | undefined>(undefined)
   const [element, setElement] = useState<HTMLElement | null>(null)
 
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const callbackRef = useLatestCallback(callback)
 
   useEffect(() => {
     // SSR safety check
@@ -82,9 +77,9 @@ export function useIntersectionObserver<L extends boolean = false>(
     return () => {
       observer.disconnect()
     }
-  }, [element, root, rootMargin, threshold, lazy, once])
+  }, [element, root, rootMargin, threshold, lazy, once, callbackRef])
 
   const getEntry = useCallback(() => entryRef.current, [])
 
-  return [setElement, lazy ? getEntry : entry] as UseIntersectionObserverReturn<L>
+  return [setElement, lazy ? getEntry : entry] as ObserverHookReturn<IntersectionObserverEntry, L>
 }
