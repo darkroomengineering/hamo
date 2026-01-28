@@ -241,8 +241,31 @@ export function useRect<L extends boolean = false>(
       setResizeObserverRef(node)
       setElement(node)
       updateRect({ element: node })
+
+      // Compute initial rect immediately when node is available
+      if (node && typeof window !== 'undefined') {
+        const domRect = node.getBoundingClientRect()
+        const wrapper = document.body
+        let top: number
+        let left: number
+
+        if (ignoreTransform) {
+          top = offsetTop(node)
+          left = offsetLeft(node)
+        } else {
+          top = domRect.top + scrollTop(wrapper)
+          left = domRect.left + scrollLeft(wrapper)
+        }
+
+        updateRect({
+          top,
+          left,
+          width: domRect.width,
+          height: domRect.height,
+        })
+      }
     },
-    [setResizeObserverRef, updateRect]
+    [setResizeObserverRef, updateRect, ignoreTransform]
   )
 
   const setWrapperElementRef = useCallback(
