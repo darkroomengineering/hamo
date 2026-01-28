@@ -1,7 +1,236 @@
 body {
-    min-height: 400vh;
+  min-height: 100vh;
 }
 
-main {
-    padding-top: calc(3rem + 2px);
+.playground {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 100px;
+}
+
+header {
+  padding: 40px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 40px;
+}
+
+header h1 {
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+header p {
+  color: var(--color-muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.section {
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section h2 {
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin: 0 0 12px;
+}
+
+.section h3 {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin: 24px 0 12px;
+}
+
+.description {
+  font-size: 14px;
+  color: var(--color-muted);
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+.description code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--color-accent);
+  margin: 12px 0 0;
+  font-style: italic;
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.values-grid.compact {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.value-label {
+  font-family: monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.value-data {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.resize-box {
+  width: 100%;
+  min-height: 120px;
+  resize: both;
+  overflow: auto;
+  border: 2px dashed var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  cursor: se-resize;
+  transition: border-color 0.15s;
+}
+
+.resize-box:hover {
+  border-color: var(--color-accent);
+}
+
+.resize-box span {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.resize-value {
+  font-size: 24px !important;
+  font-weight: 500;
+  color: var(--color-fg) !important;
+}
+
+.rect-box {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.intersection-spacer {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.intersection-box {
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.intersection-box[data-visible="true"] {
+  border-color: var(--color-accent);
+  background: rgba(227, 6, 19, 0.1);
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+button {
+  font-family: monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+footer {
+  padding: 40px 0;
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+footer a {
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+footer a:hover {
+  color: var(--color-accent);
 }

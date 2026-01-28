@@ -1,170 +1,264 @@
 import {
-  useDebouncedState,
-  useIntersectionObserver,
-  useLazyState,
-  useMediaQuery,
-  useRect,
-  useResizeObserver,
   useWindowSize,
-  useDebouncedEffect,
-  useDebouncedCallback,
+  useWindowWidth,
+  useWindowHeight,
+  useMediaQuery,
+  useResizeObserver,
+  useRect,
+  useIntersectionObserver,
+  useDebouncedState,
+  useLazyState,
 } from 'hamo'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
-export default function App() {
-  useEffect(() => {
-    history.scrollRestoration = 'auto'
-  }, [])
-
-  const { width, height, dpr } = useWindowSize()
-  const isMobile = useMediaQuery('(max-width: 800px)')
-
-  const countRef = useRef<HTMLElement>(null)
-  // const [setCount, getCount] = useLazyState(0, (value, previousValue) => {
-  //   console.log('count', value, previousValue)
-  //   if (countRef.current) {
-  //     countRef.current.textContent = `previous value: ${previousValue?.toString() ?? 'undefined'} - current value: ${value?.toString() ?? 'undefined'}`
-  //   }
-  // })
-
-  const [count, setCount] = useState(0)
-
-  const resizeObserverRef = useRef<HTMLElement>(null)
-  const [setResizeObserverRef, getResizeObserverEntry] = useResizeObserver({
-    lazy: true,
-    callback: (entry) => {
-      if (entry && resizeObserverRef.current) {
-        const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0]
-
-        resizeObserverRef.current.textContent = `width: ${width}px - height: ${height}px`
-
-        // console.log(width, height)
-      }
-    },
-  })
-
-  const rectRef = useRef<HTMLElement>(null)
-  const [setRectRef, rect, setRectWrapperRef] = useRect({
-    // lazy: true,
-    callback(rect) {
-      if (rectRef.current) {
-        const { width, height, top, left } = rect
-
-        rectRef.current.textContent = `width: ${width}px - height: ${height}px - top: ${top}px - left: ${left}px`
-      }
-    },
-  })
-
-  const rect2Ref = useRef<HTMLElement>(null)
-  const [setRectRef2, rect2, setRectWrapperRef2] = useRect({
-    // lazy: true,
-    callback(rect) {
-      if (rect2Ref.current) {
-        const { width, height, top, left } = rect
-
-        rect2Ref.current.textContent = `width: ${width}px - height: ${height}px - top: ${top}px - left: ${left}px`
-      }
-    },
-  })
-
-  const [setIntersectionObserverRef, entry] = useIntersectionObserver()
-
-  useDebouncedEffect(
-    () => {
-      console.log('debounced effect', count)
-    },
-    1000,
-    [count]
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="section">
+      <h2>{title}</h2>
+      <div className="section-content">{children}</div>
+    </section>
   )
+}
 
-  const [debounceCount, setDebouncedCount] = useDebouncedState(count, 1000)
-  const debouncedCallback = useDebouncedCallback(() => {
-    console.log('debounced callback', count)
-  }, 1000)
+function Value({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="value">
+      <span className="value-label">{label}</span>
+      <span className="value-data">{value ?? '—'}</span>
+    </div>
+  )
+}
 
-  useEffect(() => {
-    console.log('debounce state', debounceCount)
-  }, [debounceCount])
+function WindowSizeDemo() {
+  const { width, height, dpr } = useWindowSize()
 
-  // useEffect(() => {
-  //   console.log(rect)
-  // }, [rect])
-
-  //   useEffect(() => {
-  //     console.log(resizeObserver)
-  //   }, [resizeObserver])
-
-  //   console.log({ width, height, dpr, isMobile, resizeObserver })
-
-  console.log('count', count)
+  // Selective hooks - these only re-render when their specific value changes
+  const selectiveWidth = useWindowWidth()
+  const selectiveHeight = useWindowHeight()
 
   return (
-    <div>
-      <div>
-        useWindowSize: width: {width} - height: {height} - dpr: {dpr}
+    <Section title="useWindowSize">
+      <p className="description">
+        Tracks window dimensions using <code>useSyncExternalStore</code> for concurrent-safe subscriptions.
+      </p>
+      <div className="values-grid">
+        <Value label="width" value={`${width}px`} />
+        <Value label="height" value={`${height}px`} />
+        <Value label="dpr" value={dpr?.toFixed(2)} />
       </div>
-      <div>useMediaQuery: isMobile: {isMobile ? 'true' : 'false'}</div>
-      <div>
-        useLazyState: <span ref={countRef} />
+      <h3>Selective Hooks</h3>
+      <p className="description">
+        Use <code>useWindowWidth()</code> or <code>useWindowHeight()</code> to only re-render when that specific dimension changes.
+      </p>
+      <div className="values-grid">
+        <Value label="useWindowWidth()" value={`${selectiveWidth}px`} />
+        <Value label="useWindowHeight()" value={`${selectiveHeight}px`} />
+      </div>
+    </Section>
+  )
+}
+
+function MediaQueryDemo() {
+  const isMobile = useMediaQuery('(max-width: 768px)')
+  const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)')
+  const isDesktop = useMediaQuery('(min-width: 1025px)')
+  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)')
+  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+
+  return (
+    <Section title="useMediaQuery">
+      <p className="description">
+        Subscribe to CSS media queries with <code>useSyncExternalStore</code>. Supports SSR fallback as second parameter.
+      </p>
+      <div className="values-grid">
+        <Value label="isMobile (≤768px)" value={isMobile ? '✓' : '✗'} />
+        <Value label="isTablet (769-1024px)" value={isTablet ? '✓' : '✗'} />
+        <Value label="isDesktop (≥1025px)" value={isDesktop ? '✓' : '✗'} />
+        <Value label="prefersDark" value={prefersDark ? '✓' : '✗'} />
+        <Value label="prefersReducedMotion" value={prefersReducedMotion ? '✓' : '✗'} />
+      </div>
+    </Section>
+  )
+}
+
+function ResizeObserverDemo() {
+  const displayRef = useRef<HTMLSpanElement>(null)
+  const [setRef] = useResizeObserver({
+    callback: (entry) => {
+      if (displayRef.current && entry) {
+        const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0]
+        displayRef.current.textContent = `${Math.round(width)} × ${Math.round(height)}`
+      }
+    },
+  })
+
+  return (
+    <Section title="useResizeObserver">
+      <p className="description">
+        Observe element size changes using a shared <code>ResizeObserver</code> instance for better performance.
+      </p>
+      <div
+        ref={setRef}
+        className="resize-box"
+      >
+        <span>Resize me!</span>
+        <span className="resize-value" ref={displayRef}>—</span>
+      </div>
+    </Section>
+  )
+}
+
+function RectDemo() {
+  const [setRef, rect] = useRect({
+    ignoreTransform: false,
+    ignoreSticky: true,
+  })
+
+  return (
+    <Section title="useRect">
+      <p className="description">
+        Track element position and dimensions within the page. Scroll to see values update.
+      </p>
+      <div ref={setRef} className="rect-box">
+        <div className="values-grid compact">
+          <Value label="top" value={rect.top !== undefined ? `${Math.round(rect.top)}px` : '—'} />
+          <Value label="left" value={rect.left !== undefined ? `${Math.round(rect.left)}px` : '—'} />
+          <Value label="width" value={rect.width !== undefined ? `${Math.round(rect.width)}px` : '—'} />
+          <Value label="height" value={rect.height !== undefined ? `${Math.round(rect.height)}px` : '—'} />
+        </div>
+      </div>
+    </Section>
+  )
+}
+
+function IntersectionObserverDemo() {
+  const [setRef, entry] = useIntersectionObserver({
+    threshold: 0.5,
+  })
+
+  const isIntersecting = entry?.isIntersecting ?? false
+  const ratio = entry?.intersectionRatio ?? 0
+
+  return (
+    <Section title="useIntersectionObserver">
+      <p className="description">
+        Observe element visibility. The box below changes when 50% visible.
+      </p>
+      <div className="intersection-spacer">
+        <span>↓ Scroll down ↓</span>
+      </div>
+      <div
+        ref={setRef}
+        className="intersection-box"
+        data-visible={isIntersecting}
+      >
+        <Value label="isIntersecting" value={isIntersecting ? '✓ Yes' : '✗ No'} />
+        <Value label="ratio" value={`${(ratio * 100).toFixed(0)}%`} />
+      </div>
+    </Section>
+  )
+}
+
+function DebouncedStateDemo() {
+  const [instant, setInstant] = useState(0)
+  const [debounced, setDebounced] = useDebouncedState(0, 500)
+
+  return (
+    <Section title="useDebouncedState">
+      <p className="description">
+        State that debounces updates. Click rapidly to see the difference.
+      </p>
+      <div className="button-row">
         <button
           type="button"
           onClick={() => {
-            // setCount((prev) => prev + 1)
-            setDebouncedCount((prev) => prev + 1)
-            // debouncedCallback()
+            setInstant(v => v + 1)
+            setDebounced(v => v + 1)
           }}
         >
-          Increment
+          Increment Both
         </button>
         <button
           type="button"
           onClick={() => {
-            // setCount((prev) => prev - 1)
-            setDebouncedCount((prev) => prev - 1)
-            // debouncedCallback()
+            setInstant(0)
+            setDebounced(0)
           }}
         >
-          Decrement
+          Reset
         </button>
       </div>
-      <div
-        ref={setResizeObserverRef}
-        style={{
-          width: '50vw',
-          height: '100px',
-          border: '1px solid red',
-          padding: '20px',
-          marginBottom: '1000px',
-        }}
-      >
-        useResizeObserver: <span ref={resizeObserverRef} />
+      <div className="values-grid">
+        <Value label="Instant" value={instant} />
+        <Value label="Debounced (500ms)" value={debounced} />
       </div>
-      <div
-        ref={setRectRef}
-        style={{
-          width: '50vw',
-          height: '100px',
-          border: '1px solid yellow',
-          padding: '20px',
-        }}
-      >
-        useRect: <span ref={rectRef} />
+    </Section>
+  )
+}
+
+function LazyStateDemo() {
+  const renderCountRef = useRef(0)
+  const displayRef = useRef<HTMLSpanElement>(null)
+  const [set, get] = useLazyState(0, (value) => {
+    if (displayRef.current) {
+      displayRef.current.textContent = String(value)
+    }
+  })
+
+  // This increments on every render
+  renderCountRef.current++
+
+  return (
+    <Section title="useLazyState">
+      <p className="description">
+        Track state changes via callback without triggering re-renders. Useful for animations.
+      </p>
+      <div className="button-row">
+        <button type="button" onClick={() => set(v => v + 1)}>
+          Increment (no re-render)
+        </button>
+        <button type="button" onClick={() => set(0)}>
+          Reset
+        </button>
       </div>
-      <div
-        ref={setRectRef2}
-        style={{
-          width: '20vw',
-          height: '100px',
-          border: '1px solid green',
-          padding: '20px',
-        }}
-      >
-        useRect: <span ref={rect2Ref} />
+      <div className="values-grid">
+        <Value label="Lazy Value" value={<span ref={displayRef}>{get()}</span>} />
+        <Value label="Component Renders" value={renderCountRef.current} />
       </div>
-      <div ref={setIntersectionObserverRef}>
-        useIntersectionObserver:{' '}
-        <span>{entry?.isIntersecting ? 'true' : 'false'}</span>
-      </div>
+      <p className="hint">
+        Notice: incrementing doesn't increase render count!
+      </p>
+    </Section>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="playground">
+      <header>
+        <h1>hamo hooks playground</h1>
+        <p>Interactive demos for all hooks. Resize the window, scroll around, and click buttons to test.</p>
+      </header>
+
+      <WindowSizeDemo />
+      <MediaQueryDemo />
+      <ResizeObserverDemo />
+      <RectDemo />
+      <DebouncedStateDemo />
+      <LazyStateDemo />
+      <IntersectionObserverDemo />
+
+      <footer>
+        <p>
+          <a href="https://github.com/darkroomengineering/hamo" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+          {' · '}
+          <a href="https://www.npmjs.com/package/hamo" target="_blank" rel="noopener noreferrer">
+            npm
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }
