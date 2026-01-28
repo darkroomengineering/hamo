@@ -198,6 +198,13 @@ export function useRect<L extends boolean = false>(
     return emitter.on('resize', resize)
   }, [resize])
 
+  // Initial computation when element is set
+  useEffect(() => {
+    if (element && wrapperElement) {
+      resize()
+    }
+  }, [element, wrapperElement, resize])
+
   // Observe element size changes
   const [setResizeObserverRef] = useResizeObserver({
     lazy: true,
