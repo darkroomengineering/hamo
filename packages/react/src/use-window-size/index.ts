@@ -41,6 +41,8 @@ function windowSize(
     signal: abortController.signal,
   })
 
+  onWindowResize()
+
   return () => {
     abortController.abort()
     debouncedOnWindowRezise.cancel()
