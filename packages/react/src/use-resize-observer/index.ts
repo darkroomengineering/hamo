@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  type DependencyList,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import debounce from 'just-debounce-it'
 
 let defaultDebounceDelay = 500
@@ -19,16 +25,21 @@ function setDebounce(delay: number) {
  * @returns {array} [setResizeObserverRef, options.lazy ? getEntryRef : entry]
  */
 
-const callbacksMap = new Map<Element, (entry: ResizeObserverEntry) => void>()
+const callbacksMap = new Map<
+  Element,
+  ((entry: ResizeObserverEntry) => void)[]
+>()
 
 let sharedObserver: ResizeObserver | null = null
 function getSharedObserver() {
   if (!sharedObserver) {
     sharedObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        const callback = callbacksMap.get(entry.target)
-        if (callback) {
-          callback(entry)
+        const callbacks = callbacksMap.get(entry.target)
+        if (callbacks) {
+          for (const cb of callbacks) {
+            cb(entry)
+          }
         }
       }
     })
@@ -43,22 +54,26 @@ function observeElement(
 ) {
   if (!el) return () => {}
 
-  let isFirstCall = true
-  const debouncedCallback = debounce(callback, debounceDelay)
-  callbacksMap.set(el, (entry: ResizeObserverEntry) => {
-    if (isFirstCall) {
-      callback(entry)
-    } else {
-      debouncedCallback(entry)
-    }
-    isFirstCall = false
-  })
+  const debouncedCallback = debounce(callback, debounceDelay, true)
+
+  const callbacks = callbacksMap.get(el) || []
+  callbacks.push(debouncedCallback)
+  callbacksMap.set(el, callbacks)
   const sharedObserver = getSharedObserver()
   sharedObserver.observe(el)
 
   return () => {
-    callbacksMap.delete(el)
-    sharedObserver.unobserve(el)
+    const callbacks = callbacksMap.get(el)
+    if (callbacks) {
+      const index = callbacks.indexOf(debouncedCallback)
+      if (index > -1) {
+        callbacks.splice(index, 1)
+      }
+      if (callbacks.length === 0) {
+        callbacksMap.delete(el)
+        sharedObserver.unobserve(el)
+      }
+    }
     if (callbacksMap.size === 0) {
       sharedObserver.disconnect()
     }
@@ -75,7 +90,7 @@ export function useResizeObserver<L extends boolean = false>(
     debounce?: number
     callback?: (entry: ResizeObserverEntry) => void
   } = {},
-  deps: any[] = []
+  deps: DependencyList = []
 ): [
   (element: HTMLElement | null) => void,
   L extends true

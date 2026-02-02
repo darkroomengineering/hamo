@@ -56,6 +56,18 @@ export default function App() {
     },
   })
 
+  const rect2Ref = useRef<HTMLElement>(null)
+  const [setRectRef2, rect2, setRectWrapperRef2] = useRect({
+    // lazy: true,
+    callback(rect) {
+      if (rect2Ref.current) {
+        const { width, height, top, left } = rect
+
+        rect2Ref.current.textContent = `width: ${width}px - height: ${height}px - top: ${top}px - left: ${left}px`
+      }
+    },
+  })
+
   const [setIntersectionObserverRef, entry] = useIntersectionObserver()
 
   useDebouncedEffect(
@@ -142,6 +154,17 @@ export default function App() {
         }}
       >
         useRect: <span ref={rectRef} />
+      </div>
+      <div
+        ref={setRectRef2}
+        style={{
+          width: '20vw',
+          height: '100px',
+          border: '1px solid green',
+          padding: '20px',
+        }}
+      >
+        useRect: <span ref={rect2Ref} />
       </div>
       <div ref={setIntersectionObserverRef}>
         useIntersectionObserver:{' '}
