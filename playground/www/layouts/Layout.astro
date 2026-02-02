@@ -16,11 +16,9 @@ const { title } = Astro.props
   </head>
   <body>
     <nav>
-      <a href="/">
-        <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M8.6273 0C13.4362 0 15 2.35534 15 6.37565C15 11.4112 12.2502 16 6.58123 16L0.221572 16L0 15.7699L2.64556 0.216595L2.86707 0L8.6273 0Z"
-            fill="#E30613"></path>
+      <a href="/" class="logo">
+        <svg width="54" height="28" viewBox="0 0 269 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M268.493 140H0V72.877H201.37V67.123H0V0H268.493V140Z" fill="currentColor"/>
         </svg>
       </a>
       <a href="/react">React</a>
@@ -36,62 +34,69 @@ const { title } = Astro.props
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    --color-accent: #e30613;
+    --color-bg: #0a0a0a;
+    --color-fg: #fafafa;
+    --color-muted: #666;
+    --color-border: #333;
   }
 
   * {
     box-sizing: border-box;
   }
 
-  /* html {
-	overflow-y: scroll;
-} */
-
   body {
     margin: 0;
-    /* min-width: 320px; */
-    /* min-height: 100vh; */
+    background: var(--color-bg);
+    color: var(--color-fg);
   }
 </style>
 
 <style>
   nav {
     position: fixed;
-    top: 2px;
-    left: 2px;
+    top: 8px;
+    left: 8px;
     align-items: center;
-    border-radius: 0.5rem;
-    height: 3rem;
+    border-radius: 8px;
+    height: 40px;
     display: flex;
-    gap: 2px;
+    gap: 4px;
+    z-index: 100;
   }
 
   a {
-    width: 60px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-family: monospace;
+    font-size: 12px;
     text-transform: uppercase;
-    color: white;
-    background-color: #0e0e0e;
+    color: var(--color-fg);
+    background-color: var(--color-bg);
     text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.2s ease-in-out;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    transition: all 0.15s ease;
+    padding: 0 12px;
+  }
+
+  a.logo {
+    padding: 0 8px;
   }
 
   a:hover {
-    color: #e30613;
-    border-radius: 12px;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 
-  body {
-    /* padding-top: 4rem; */
+  main {
+    padding-top: 60px;
   }
 </style>

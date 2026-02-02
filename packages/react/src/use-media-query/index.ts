@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
 /**
  * @name useMediaQuery
- * @description A React hook that detects whether a media query is true or false.
- * @param {string} query The media query to test against.
- * @returns {boolean} Whether the media query is true or false.
+ * @description A React hook that detects whether a media query matches using useSyncExternalStore for concurrent-safe subscriptions.
+ * @param {string} query - The media query to test against.
+ * @param {boolean} serverFallback - Optional fallback value for SSR (defaults to false).
+ * @returns {boolean} Whether the media query matches.
  */
+export function useMediaQuery(query: string, serverFallback = false): boolean {
+  const subscribe = useCallback(
+    (callback: () => void) => {
+      const mediaQuery = window.matchMedia(query)
+      mediaQuery.addEventListener('change', callback)
+      return () => mediaQuery.removeEventListener('change', callback)
+    },
+    [query]
+  )
 
-export function useMediaQuery(query: string) {
-  const [isMatch, setIsMatch] = useState<boolean>()
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(query)
-
-    function onChange() {
-      setIsMatch(mediaQuery.matches)
-    }
-
-    mediaQuery.addEventListener('change', onChange, false)
-    onChange()
-
-    return () => mediaQuery.removeEventListener('change', onChange, false)
+  const getSnapshot = useCallback(() => {
+    return window.matchMedia(query).matches
   }, [query])
 
-  return isMatch
+  const getServerSnapshot = useCallback(() => serverFallback, [serverFallback])
+
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }
