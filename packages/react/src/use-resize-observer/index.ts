@@ -54,10 +54,19 @@ function observeElement(
 ) {
   if (!el) return () => {}
 
-  const debouncedCallback = debounce(callback, debounceDelay, true)
+  let first = true
+  const debouncedCallback = debounce(callback, debounceDelay)
+  const wrappedCallback = (entry: ResizeObserverEntry) => {
+    if (first) {
+      first = false
+      callback(entry)
+    } else {
+      debouncedCallback(entry)
+    }
+  }
 
   const callbacks = callbacksMap.get(el) || []
-  callbacks.push(debouncedCallback)
+  callbacks.push(wrappedCallback)
   callbacksMap.set(el, callbacks)
   const sharedObserver = getSharedObserver()
   sharedObserver.observe(el)
@@ -65,7 +74,7 @@ function observeElement(
   return () => {
     const callbacks = callbacksMap.get(el)
     if (callbacks) {
-      const index = callbacks.indexOf(debouncedCallback)
+      const index = callbacks.indexOf(wrappedCallback)
       if (index > -1) {
         callbacks.splice(index, 1)
       }
