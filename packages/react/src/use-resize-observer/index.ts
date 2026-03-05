@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import debounce from 'just-debounce-it'
+import { debounce } from '../use-debounce'
 
 let defaultDebounceDelay = 500
 

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh.exe pr:*)",
+      "Bash(where gh:*)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(pnpm install:*)",
+      "WebSearch"
+    ]
+  }
+}

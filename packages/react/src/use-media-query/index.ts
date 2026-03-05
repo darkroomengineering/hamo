@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
  * @name useMediaQuery
  * @description A React hook that detects whether a media query is true or false.
  * @param {string} query The media query to test against.
- * @returns {boolean} Whether the media query is true or false.
+ * @returns {boolean | undefined} Whether the media query is true or false (or undefined on ssr).
  */
 
 export function useMediaQuery(query: string) {
