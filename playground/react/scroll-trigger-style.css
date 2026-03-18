@@ -1,0 +1,434 @@
+body {
+  min-height: 100vh;
+}
+
+.st-playground {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 100px;
+}
+
+.st-playground header {
+  padding: 40px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 40px;
+}
+
+.st-playground header h1 {
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+.st-playground header p {
+  color: var(--color-muted);
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.st-section {
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.st-section h2 {
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin: 0 0 12px;
+}
+
+.st-description {
+  font-size: 14px;
+  color: var(--color-muted);
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+.st-description code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.st-hint {
+  font-size: 12px;
+  color: var(--color-accent);
+  margin: 12px 0 0;
+  font-style: italic;
+  font-family: monospace;
+}
+
+.st-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.st-values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.st-value {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.st-value-label {
+  font-family: monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.st-value-data {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Spacer between sections */
+.st-spacer {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  font-family: monospace;
+  font-size: 12px;
+}
+
+/* Position syntax table */
+.st-syntax-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.st-syntax-table th {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.st-syntax-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.st-syntax-table td:first-child {
+  color: var(--color-accent);
+}
+
+/* Progress box */
+.st-progress-box {
+  position: relative;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.st-progress-box[data-active="true"] {
+  border-color: var(--color-accent);
+}
+
+.st-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-accent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.st-progress-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+/* Enter/Leave events */
+.st-event-box {
+  position: relative;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.st-event-box[data-active="true"] {
+  border-color: var(--color-accent);
+  background: rgba(227, 6, 19, 0.08);
+}
+
+.st-event-log {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--color-muted);
+  min-height: 80px;
+  line-height: 1.8;
+}
+
+.st-event-log .st-event-enter {
+  color: #4ade80;
+}
+
+.st-event-log .st-event-leave {
+  color: #f87171;
+}
+
+/* Position combinations */
+.st-positions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.st-position-card {
+  position: relative;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.st-position-card[data-active="true"] {
+  border-color: var(--color-accent);
+}
+
+.st-position-card .st-progress-bar {
+  height: 2px;
+}
+
+.st-position-label {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+.st-position-value {
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Steps / Staggered animation */
+.st-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.st-step-item {
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 14px;
+  opacity: 0.2;
+  transform: translateY(20px);
+  transition: border-color 0.2s ease;
+}
+
+.st-step-item[data-visible="true"] {
+  border-color: var(--color-accent);
+}
+
+/* Offset comparison */
+.st-offset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.st-offset-card {
+  position: relative;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.st-offset-card[data-active="true"] {
+  border-color: var(--color-accent);
+}
+
+.st-offset-label {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+.st-offset-value {
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Disabled toggle */
+.st-toggle-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.st-toggle-row button {
+  font-family: monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.st-toggle-row button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.st-toggle-row button:active {
+  transform: scale(0.98);
+}
+
+.st-toggle-row button[data-active="true"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+/* CSS custom property demo */
+.st-css-demo {
+  position: relative;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.st-css-box {
+  width: 100px;
+  height: 100px;
+  background: var(--color-accent);
+  border-radius: 8px;
+  transform:
+    translateY(calc((1 - var(--progress, 0)) * 40px))
+    scale(calc(0.5 + var(--progress, 0) * 0.5))
+    rotate(calc(var(--progress, 0) * 180deg));
+  opacity: calc(0.2 + var(--progress, 0) * 0.8);
+  transition: none;
+}
+
+.st-css-label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+/* TransformProvider demo */
+.st-transform-parent {
+  position: relative;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px dashed var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.st-transform-header {
+  display: flex;
+  gap: 12px;
+}
+
+.st-transform-child {
+  position: relative;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.st-transform-child[data-active="true"] {
+  border-color: var(--color-accent);
+}
+
+/* Footer */
+.st-playground footer {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.st-playground footer p {
+  margin: 0;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.st-playground footer a {
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.st-playground footer a:hover {
+  color: var(--color-accent);
+}

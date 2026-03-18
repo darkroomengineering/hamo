@@ -9,6 +9,11 @@ export {
   useDebouncedCallback,
   useTimeout,
 } from './src/use-debounce'
+export { useEffectEvent } from './src/use-effect-event'
 export { useObjectFit } from './src/use-object-fit'
 export { useIntersectionObserver } from './src/use-intersection-observer'
+export { useScrollTrigger } from './src/use-scroll-trigger'
+export { useTransform, TransformProvider } from './src/use-transform'
 export type { Rect } from './src/use-rect'
+export type { UseScrollTriggerOptions } from './src/use-scroll-trigger'
+export type { Transform, TransformRef } from './src/use-transform'

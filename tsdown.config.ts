@@ -17,6 +17,6 @@ export default defineConfig([
     dts: true,
     clean: true,
     banner: '"use client";',
-    deps: { neverBundle: ['react', 'hamo'] },
+    deps: { neverBundle: ['react', 'lenis', 'hamo'] },
   },
 ])
