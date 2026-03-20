@@ -16,6 +16,7 @@ const DEFAULT_TRANSFORM = {
   translate: { x: 0, y: 0, z: 0 },
   rotate: { x: 0, y: 0, z: 0 },
   scale: { x: 1, y: 1, z: 1 },
+  userData: {} as Record<string, unknown>,
 }
 
 export type Transform = typeof DEFAULT_TRANSFORM
@@ -25,6 +26,7 @@ export type TransformRef = {
   setTranslate: (x?: number, y?: number, z?: number) => void
   setRotate: (x?: number, y?: number, z?: number) => void
   setScale: (x?: number, y?: number, z?: number) => void
+  setUserData: (data: Record<string, unknown>) => void
 }
 
 type TransformContextType = {
@@ -34,6 +36,7 @@ type TransformContextType = {
   setTranslate: (x?: number, y?: number, z?: number) => void
   setRotate: (x?: number, y?: number, z?: number) => void
   setScale: (x?: number, y?: number, z?: number) => void
+  setUserData: (data: Record<string, unknown>) => void
 }
 
 const TransformContext = createContext<TransformContextType>({
@@ -43,6 +46,7 @@ const TransformContext = createContext<TransformContextType>({
   setTranslate: () => {},
   setRotate: () => {},
   setScale: () => {},
+  setUserData: () => {},
 })
 
 type TransformProviderProps = {
@@ -97,6 +101,8 @@ export const TransformProvider = forwardRef<TransformRef, TransformProviderProps
     transform.scale.y *= transformRef.current.scale.y
     transform.scale.z *= transformRef.current.scale.z
 
+    transform.userData = { ...transform.userData, ...transformRef.current.userData }
+
     return transform
   }
 
@@ -139,6 +145,11 @@ export const TransformProvider = forwardRef<TransformRef, TransformProviderProps
     update()
   }
 
+  function setUserData(data: Record<string, unknown>) {
+    Object.assign(transformRef.current.userData, data)
+    update()
+  }
+
   // Inherit parent transforms
   useTransform((transform) => {
     parentTransformRef.current = structuredClone(transform)
@@ -149,6 +160,7 @@ export const TransformProvider = forwardRef<TransformRef, TransformProviderProps
     setTranslate,
     setRotate,
     setScale,
+    setUserData,
   }))
 
   return (
@@ -160,6 +172,7 @@ export const TransformProvider = forwardRef<TransformRef, TransformProviderProps
         setTranslate,
         setRotate,
         setScale,
+        setUserData,
       }}
     >
       {children}

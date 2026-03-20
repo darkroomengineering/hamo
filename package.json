@@ -1,6 +1,6 @@
 {
   "name": "hamo",
-  "version": "1.0.0-dev.10",
+  "version": "1.0.0-dev.11",
   "description": "hamo means hook, do the math.",
   "type": "module",
   "workspaces": [
@@ -17,6 +17,10 @@
     ".": {
       "types": "./dist/hamo.d.ts",
       "default": "./dist/hamo.mjs"
+    },
+    "./scroll-trigger": {
+      "types": "./dist/scroll-trigger.d.ts",
+      "default": "./dist/scroll-trigger.mjs"
     },
     "./dist/*": "./dist/*"
   },

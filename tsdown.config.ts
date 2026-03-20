@@ -13,7 +13,10 @@ export default defineConfig([
   // React ESM
   {
     ...shared,
-    entry: { hamo: 'packages/react/index.ts' },
+    entry: {
+      hamo: 'packages/react/index.ts',
+      'scroll-trigger': 'packages/react/scroll-trigger.ts',
+    },
     dts: true,
     clean: true,
     banner: '"use client";',

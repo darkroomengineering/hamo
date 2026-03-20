@@ -1,4 +1,5 @@
 import { useScrollTrigger, TransformProvider } from 'hamo'
+import { Minimap } from 'hamo/scroll-trigger'
 import type { TransformRef } from 'hamo'
 import { useRef, useState } from 'react'
 
@@ -86,6 +87,7 @@ function BasicProgressDemo() {
   const [setRef] = useScrollTrigger({
     start: 'bottom bottom',
     end: 'top top',
+    debug: 'basic',
     onEnter: () => {
       if (boxRef.current) boxRef.current.dataset.active = 'true'
     },
@@ -187,6 +189,7 @@ function EnterLeaveDemo() {
   const [setRef] = useScrollTrigger({
     start: 'bottom bottom',
     end: 'top top',
+    debug: 'events',
     onEnter: ({ progress, direction }) => {
       if (boxRef.current) boxRef.current.dataset.active = 'true'
       addEvent('enter', progress, direction)
@@ -325,6 +328,7 @@ function StepsDemo() {
     start: 'bottom bottom',
     end: 'top top',
     steps: STEP_COUNT,
+    debug: 'steps',
     onProgress: ({ steps }) => {
       for (let i = 0; i < steps.length; i++) {
         const el = itemRefs.current[i]
@@ -672,6 +676,7 @@ function TransformDemo() {
 export default function ScrollTriggerApp() {
   return (
     <div className="st-playground">
+      <Minimap theme="light" />
       <header>
         <h1>useScrollTrigger</h1>
         <p>

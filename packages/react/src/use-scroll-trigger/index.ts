@@ -6,7 +6,8 @@ import { type Rect, useRect } from '../use-rect'
 import { useTransform } from '../use-transform'
 import { useWindowSize } from '../use-window-size'
 import { useLenis } from 'lenis/react'
-import { useEffect } from 'react'
+import { useEffect, useId, useRef } from 'react'
+import { scrollTriggerStore } from './store'
 
 // Math utilities (inlined to avoid external dependency)
 function clamp(min: number, input: number, max: number): number {
@@ -62,6 +63,8 @@ export type UseScrollTriggerOptions = {
   }) => void
   /** Number of discrete steps to subdivide progress into */
   steps?: number
+  /** Enable debug mode — registers this trigger to the Minimap. Pass a string to use as label. */
+  debug?: boolean | string
 }
 
 /**
@@ -108,6 +111,7 @@ export function useScrollTrigger(
     onLeave,
     onProgress,
     steps = 1,
+    debug = false,
   }: UseScrollTriggerOptions = {},
   deps: unknown[] = []
 ) {
@@ -115,6 +119,9 @@ export function useScrollTrigger(
   const rect = externalRect ?? internalRect
   const getTransform = useTransform()
   const lenis = useLenis()
+  const autoId = useId()
+  const debugId = typeof debug === 'string' ? debug : autoId
+  const debugRef = useRef(debug)
 
   const { height: windowHeight = 0 } = useWindowSize()
 
@@ -165,16 +172,34 @@ export function useScrollTrigger(
   const handleProgress = useEffectEvent(
     (progress: number, lastProgress: number) => {
       const direction: 1 | -1 = progress >= lastProgress ? 1 : -1
+      const clampedProgress = clamp(0, progress, 1)
+      const isActive = progress >= 0 && progress <= 1
+
       onProgress?.({
         height: endValue - startValue,
-        isActive: progress >= 0 && progress <= 1,
-        progress: clamp(0, progress, 1),
+        isActive,
+        progress: clampedProgress,
         lastProgress,
         direction,
         steps: Array.from({ length: steps }).map((_, i) =>
           clamp(0, mapRange(i / steps, (i + 1) / steps, progress, 0, 1), 1)
         ),
       })
+
+      if (debugRef.current) {
+        scrollTriggerStore.update(debugId, {
+          progress: clampedProgress,
+          isActive,
+          startPx: startValue,
+          endPx: endValue,
+          rect: {
+            top: rect?.top || 0,
+            left: rect?.left || 0,
+            width: rect?.width || 0,
+            height: rect?.height || 0,
+          },
+        })
+      }
     }
   )
 
@@ -260,6 +285,31 @@ export function useScrollTrigger(
 
   // Run update when deps change
   useEffect(update, [...deps])
+
+  // Debug: register/unregister from store
+  useEffect(() => {
+    if (!debug) return
+
+    scrollTriggerStore.register(debugId, {
+      id: debugId,
+      start,
+      end,
+      startPx: startValue,
+      endPx: endValue,
+      progress: 0,
+      isActive: false,
+      rect: {
+        top: rect?.top || 0,
+        left: rect?.left || 0,
+        width: rect?.width || 0,
+        height: rect?.height || 0,
+      },
+    })
+
+    return () => {
+      scrollTriggerStore.unregister(debugId)
+    }
+  }, [debug, debugId, start, end, startValue, endValue, rect?.top, rect?.left, rect?.width, rect?.height])
 
   return [setRectRef, rect]
 }
