@@ -1,2 +1,2 @@
 export { useScrollTrigger } from './src/use-scroll-trigger'
-export { Minimap } from './src/use-scroll-trigger/minimap'
+export { Debugger } from './src/use-scroll-trigger/debugger'

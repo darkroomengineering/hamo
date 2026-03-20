@@ -9,6 +9,7 @@ export interface TriggerEntry {
   progress: number
   isActive: boolean
   rect: { top: number; left: number; width: number; height: number }
+  translateY: number
 }
 
 interface StoreEvents {

@@ -187,6 +187,7 @@ export function useScrollTrigger(
       })
 
       if (debugRef.current) {
+        const { translate } = getTransform()
         scrollTriggerStore.update(debugId, {
           progress: clampedProgress,
           isActive,
@@ -198,6 +199,7 @@ export function useScrollTrigger(
             width: rect?.width || 0,
             height: rect?.height || 0,
           },
+          translateY: translate.y,
         })
       }
     }
@@ -304,6 +306,7 @@ export function useScrollTrigger(
         width: rect?.width || 0,
         height: rect?.height || 0,
       },
+      translateY: 0,
     })
 
     return () => {

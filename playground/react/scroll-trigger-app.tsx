@@ -1,5 +1,5 @@
 import { useScrollTrigger, TransformProvider } from 'hamo'
-import { Minimap } from 'hamo/scroll-trigger'
+import { Debugger } from 'hamo/scroll-trigger'
 import type { TransformRef } from 'hamo'
 import { useRef, useState } from 'react'
 
@@ -248,6 +248,7 @@ function PositionCard({
   const [setRef] = useScrollTrigger({
     start: startPos as `${string} ${string}`,
     end: endPos as `${string} ${string}`,
+    debug: label,
     onEnter: () => {
       if (cardRef.current) cardRef.current.dataset.active = 'true'
     },
@@ -384,6 +385,7 @@ function OffsetDemo() {
     start: 'bottom bottom',
     end: 'top top',
     offset: 0,
+    debug: 'offset-0',
     onEnter: () => {
       if (cardARef.current) cardARef.current.dataset.active = 'true'
     },
@@ -401,6 +403,7 @@ function OffsetDemo() {
     start: 'bottom bottom',
     end: 'top top',
     offset: -200,
+    debug: 'offset-200',
     onEnter: () => {
       if (cardBRef.current) cardBRef.current.dataset.active = 'true'
     },
@@ -470,6 +473,7 @@ function DisabledDemo() {
     start: 'bottom bottom',
     end: 'top top',
     disabled,
+    debug: 'disabled',
     onEnter: () => {
       if (boxRef.current) boxRef.current.dataset.active = 'true'
     },
@@ -536,6 +540,7 @@ function CSSPropertyDemo() {
   const [setRef] = useScrollTrigger({
     start: 'bottom bottom',
     end: 'top top',
+    debug: 'css-prop',
     onProgress: ({ progress }) => {
       if (boxRef.current) {
         boxRef.current.style.setProperty('--progress', String(progress))
@@ -583,6 +588,7 @@ function TransformChildTrigger() {
   const boxRef = useRef<HTMLDivElement>(null)
 
   const [setRef] = useScrollTrigger({
+    debug: 'child',
     onEnter: () => {
       if (boxRef.current) boxRef.current.dataset.active = 'true'
     },
@@ -625,6 +631,7 @@ function TransformDemo() {
   const [setRef] = useScrollTrigger({
     start: 'bottom bottom',
     end: 'top top',
+    debug: 'parallax',
     onProgress: ({ progress }) => {
       const y = (progress - 0.5) * -400
       transformRef.current?.setTranslate(0, y)
@@ -676,7 +683,7 @@ function TransformDemo() {
 export default function ScrollTriggerApp() {
   return (
     <div className="st-playground">
-      <Minimap theme="light" />
+      <Debugger theme="light" />
       <header>
         <h1>useScrollTrigger</h1>
         <p>
