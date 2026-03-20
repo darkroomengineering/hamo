@@ -115,7 +115,10 @@ export function useScrollTrigger(
   }: UseScrollTriggerOptions = {},
   deps: unknown[] = []
 ) {
-  const [setRectRef, internalRect] = useRect()
+  const [setRectRef, internalRect] = useRect({
+    ignoreTransform: true,
+    ignoreSticky: true,
+  })
   const rect = externalRect ?? internalRect
   const getTransform = useTransform()
   const lenis = useLenis()
@@ -312,7 +315,18 @@ export function useScrollTrigger(
     return () => {
       scrollTriggerStore.unregister(debugId)
     }
-  }, [debug, debugId, start, end, startValue, endValue, rect?.top, rect?.left, rect?.width, rect?.height])
+  }, [
+    debug,
+    debugId,
+    start,
+    end,
+    startValue,
+    endValue,
+    rect?.top,
+    rect?.left,
+    rect?.width,
+    rect?.height,
+  ])
 
   return [setRectRef, rect]
 }

@@ -14,6 +14,8 @@ const COLORS = [
   '#ec4899',
 ]
 
+const BAR_W = 4
+
 interface DebuggerProps {
   theme?: 'light' | 'dark'
 }
@@ -92,6 +94,7 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
         fontSize: 10,
       }}
     >
+      {/* Body */}
       <div
         style={{
           position: 'absolute',
@@ -111,23 +114,48 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
           const left = (t.rect.left / ww) * 100
           const w = (t.rect.width / ww) * 100
           const rh = (t.rect.height / docH) * 100
+          const startPct = (t.startPx / docH) * 100
+          const endPct = (t.endPx / docH) * 100
+          const barTop = Math.min(startPct, endPct)
+          const barH = Math.abs(endPct - startPct)
+
           return (
-            <div
-              key={t.id}
-              style={{
-                position: 'absolute',
-                top: `${top}%`,
-                left: `${left}%`,
-                width: `${w}%`,
-                height: `${rh}%`,
-                border: `1px solid ${color}`,
-                opacity: t.isActive ? 0.8 : 0.2,
-                transition: 'opacity 150ms',
-              }}
-            />
+            <div key={t.id}>
+              {/* Element rectangle */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: `${top}%`,
+                  left: `${left}%`,
+                  width: `${w}%`,
+                  height: `${rh}%`,
+                  border: `1px solid ${color}`,
+                  opacity: t.isActive ? 0.8 : 0.2,
+                  transition: 'opacity 150ms',
+                  backgroundColor: `rgba(${fg},0.1)`,
+                }}
+              />
+              {/* Bar */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: `${barTop}%`,
+                  left: `${left}%`,
+                  width: BAR_W,
+                  height: `${barH}%`,
+                  minHeight: 4,
+                  borderRadius: BAR_W / 2,
+                  background: color,
+                  opacity: t.isActive ? 0.9 : 0.3,
+                  transition: 'opacity 150ms',
+                }}
+              />
+            </div>
           )
         })}
       </div>
+
+      {/* Border */}
       <div
         style={{
           position: 'absolute',
