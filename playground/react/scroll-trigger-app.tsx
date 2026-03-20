@@ -1,5 +1,5 @@
 import { useScrollTrigger, TransformProvider, useRect } from 'hamo'
-import { Debugger } from 'hamo/scroll-trigger'
+import { Debugger } from 'hamo/scroll-trigger/debugger'
 import type { TransformRef } from 'hamo'
 import { useRef, useState } from 'react'
 

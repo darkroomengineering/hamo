@@ -22,6 +22,10 @@
       "types": "./dist/scroll-trigger.d.ts",
       "default": "./dist/scroll-trigger.mjs"
     },
+    "./scroll-trigger/debugger": {
+      "types": "./dist/scroll-trigger/debugger.d.ts",
+      "default": "./dist/scroll-trigger/debugger.mjs"
+    },
     "./dist/*": "./dist/*"
   },
   "files": [

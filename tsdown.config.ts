@@ -15,7 +15,8 @@ export default defineConfig([
     ...shared,
     entry: {
       hamo: 'packages/react/index.ts',
-      'scroll-trigger': 'packages/react/scroll-trigger.ts',
+      'scroll-trigger': 'packages/react/scroll-trigger/index.ts',
+      'scroll-trigger/debugger': 'packages/react/scroll-trigger/debugger.ts',
     },
     dts: true,
     clean: true,
