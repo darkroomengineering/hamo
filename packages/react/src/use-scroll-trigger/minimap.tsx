@@ -19,6 +19,9 @@ const COLORS = [
   '#ec4899', // pink
 ]
 
+const BAR_HEIGHT = 6
+const BAR_GAP = 2
+
 interface MinimapProps {
   width?: number
   zIndex?: number
@@ -103,6 +106,7 @@ export function Minimap({
 
   return (
     <div
+      id="minimap-root"
       ref={containerRef}
       style={{
         position: 'fixed',
@@ -117,6 +121,7 @@ export function Minimap({
       }}
     >
       <div
+        id="minimap-viewport"
         style={{
           position: 'relative',
           width,
@@ -127,6 +132,7 @@ export function Minimap({
       >
         {/* Border */}
         <div
+          id="minimap-border"
           style={{
             position: 'absolute',
             inset: -6,
@@ -139,6 +145,7 @@ export function Minimap({
 
         {/* Body */}
         <div
+          id="minimap-body"
           style={{
             position: 'absolute',
             top: 0,
@@ -154,10 +161,66 @@ export function Minimap({
             WebkitBackdropFilter: 'blur(4px)',
             borderRadius: 4,
           }}
-        />
+        >
+          {/* Trigger progress bars */}
+          <div
+            id="minimap-bars"
+            style={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              right: 'calc(100% + 12px)',
+              display: 'flex',
+              gap: BAR_GAP,
+              backgroundColor: `rgba(${bg}, 0.15)`,
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
+              borderRadius: 4,
+              padding: '0 4px',
+            }}
+          >
+            {triggers.map((trigger, i) => {
+              const color = COLORS[i % COLORS.length]
+              const startPercent = (trigger.startPx / docHeight) * 100
+              const endPercent = (trigger.endPx / docHeight) * 100
+              const topPercent = Math.min(startPercent, endPercent)
+              const heightPercent = Math.abs(endPercent - startPercent)
+
+              return (
+                <div
+                  key={trigger.id}
+                  id={`minimap-bar-${trigger.id}`}
+                  title={`${trigger.id}: ${trigger.start} → ${trigger.end}`}
+                  style={{
+                    position: 'relative',
+                    width: BAR_HEIGHT,
+                    height: '100%',
+                    flexShrink: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: `${topPercent}%`,
+                      height: `${heightPercent}%`,
+                      left: 0,
+                      right: 0,
+                      minHeight: 4,
+                      borderRadius: BAR_HEIGHT / 2,
+                      backgroundColor: color,
+                      opacity: trigger.isActive ? 0.9 : 0.3,
+                      transition: 'opacity 150ms',
+                    }}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </div>
 
         {/* Element rectangles */}
         <div
+          id="minimap-elements"
           style={{
             position: 'absolute',
             top: 0,
@@ -181,6 +244,7 @@ export function Minimap({
             return (
               <div
                 key={trigger.id}
+                id={`minimap-element-${trigger.id}`}
                 style={{
                   position: 'absolute',
                   top: `${rectTop}%`,
