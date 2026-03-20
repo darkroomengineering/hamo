@@ -1,6 +1,6 @@
 {
   "name": "hamo",
-  "version": "1.0.0-dev.11",
+  "version": "1.0.0-dev.13",
   "description": "hamo means hook, do the math.",
   "type": "module",
   "workspaces": [

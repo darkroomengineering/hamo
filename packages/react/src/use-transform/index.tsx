@@ -39,7 +39,7 @@ type TransformContextType = {
   setUserData: (data: Record<string, unknown>) => void
 }
 
-const TransformContext = createContext<TransformContextType>({
+export const TransformContext = createContext<TransformContextType>({
   getTransform: () => structuredClone(DEFAULT_TRANSFORM),
   addCallback: () => {},
   removeCallback: () => {},
