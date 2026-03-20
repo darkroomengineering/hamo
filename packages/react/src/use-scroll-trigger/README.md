@@ -53,6 +53,8 @@ function FadeIn() {
 - `onLeave`: (function) Called when leaving the trigger zone. Receives `{ progress, direction }`.
 - `onProgress`: (function) Called on every scroll update. Receives `{ height, isActive, progress, lastProgress, direction, steps }`.
 - `steps`: (number, default: `1`) Subdivides progress into N discrete sub-ranges.
+- `debug`: (boolean | string, default: `false`) Registers the trigger in the debug store. Pass a string to use as label in the Debugger minimap.
+- `rect`: (Rect) External rect from `useRect` — pass this to share a single `useRect` across multiple triggers on the same element.
 
 ### Dependencies
 
@@ -309,6 +311,48 @@ function TextReveal({ text }) {
     </p>
   )
 }
+```
+
+## Debugger
+
+A minimap overlay that visualizes all active scroll triggers on the page. Each trigger with `debug` enabled appears as a colored rectangle (element position) and a bar (start/end range). Hover a rectangle to see a tooltip with the trigger's id, start/end positions, progress, and active state.
+
+```jsx
+import { Debugger } from 'hamo/scroll-trigger'
+
+function App() {
+  return (
+    <>
+      <Debugger theme="light" />
+      {/* your content */}
+    </>
+  )
+}
+```
+
+### Props
+
+- `theme`: (`'light' | 'dark'`, default: `'dark'`) Color theme.
+
+### How it works
+
+Triggers with `debug` enabled register themselves in a shared store. The Debugger subscribes to that store and renders a fixed minimap that:
+
+- Mirrors the page body shape using the body's aspect ratio
+- Scrolls in sync via a CSS custom property (`--p`)
+- Shows each trigger's element as a colored rectangle, offset by `translateY` from `TransformProvider`
+- Shows each trigger's start/end scroll range as a colored bar aligned to its element
+- Displays a tooltip on hover with trigger details (id, start, end, progress, active)
+
+### Enabling debug on a trigger
+
+```jsx
+const [setRef] = useScrollTrigger({
+  start: 'bottom bottom',
+  end: 'top top',
+  debug: 'my-section', // label shown in tooltip
+  onProgress: ({ progress }) => { /* ... */ },
+})
 ```
 
 ## vs GSAP ScrollTrigger

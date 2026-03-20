@@ -1,7 +1,7 @@
 'use client'
 
 import { useLenis } from 'lenis/react'
-import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { useWindowSize } from '../use-window-size'
 import { scrollTriggerStore } from './store'
 
@@ -22,6 +22,8 @@ interface DebuggerProps {
 
 export function Debugger({ theme = 'dark' }: DebuggerProps) {
   const fg = theme === 'dark' ? '0,0,0' : '255,255,255'
+  const bg = theme === 'dark' ? '255,255,255' : '0,0,0'
+  const [hovered, setHovered] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null!)
   const lenis = useLenis()
   const { width: ww = 0, height: wh = 0 } = useWindowSize()
@@ -85,7 +87,7 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
       style={{
         position: 'fixed',
         top: '50%',
-        right: 24,
+        right: 48,
         width: 200,
         height: h,
         transform: 'translateY(-50%)',
@@ -114,15 +116,19 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
           const left = (t.rect.left / ww) * 100
           const w = (t.rect.width / ww) * 100
           const rh = (t.rect.height / docH) * 100
-          const startPct = (t.startPx / docH) * 100
-          const endPct = (t.endPx / docH) * 100
+          const startPct = ((t.startPx + t.translateY) / docH) * 100
+          const endPct = ((t.endPx + t.translateY) / docH) * 100
           const barTop = Math.min(startPct, endPct)
           const barH = Math.abs(endPct - startPct)
 
+          const isHovered = hovered === t.id
+
           return (
-            <div key={t.id}>
+            <div key={t.id} style={{ zIndex: isHovered ? 1 : 0 }}>
               {/* Element rectangle */}
               <div
+                onMouseEnter={() => setHovered(t.id)}
+                onMouseLeave={() => setHovered(null)}
                 style={{
                   position: 'absolute',
                   top: `${top}%`,
@@ -130,11 +136,42 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
                   width: `${w}%`,
                   height: `${rh}%`,
                   border: `1px solid ${color}`,
-                  opacity: t.isActive ? 0.8 : 0.2,
+                  opacity: isHovered ? 1 : t.isActive ? 0.8 : 0.2,
                   transition: 'opacity 150ms',
                   backgroundColor: `rgba(${fg},0.1)`,
+                  cursor: 'default',
+                  zIndex: isHovered ? 1 : 0,
                 }}
-              />
+              >
+                {/* Tooltip */}
+                {isHovered && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '100%',
+                      left: 0,
+                      marginBottom: 4,
+                      padding: '4px 6px',
+                      background: `rgba(${bg},0.9)`,
+                      color: `rgb(${fg})`,
+                      borderRadius: 3,
+                      whiteSpace: 'nowrap',
+                      lineHeight: 1.4,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <strong>{t.id}</strong>
+                    <br />
+                    start: {t.start} ({Math.round(t.startPx)}px)
+                    <br />
+                    end: {t.end} ({Math.round(t.endPx)}px)
+                    <br />
+                    progress: {t.progress.toFixed(3)}
+                    <br />
+                    active: {t.isActive ? 'true' : 'false'}
+                  </div>
+                )}
+              </div>
               {/* Bar */}
               <div
                 style={{
@@ -146,7 +183,7 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
                   minHeight: 4,
                   borderRadius: BAR_W / 2,
                   background: color,
-                  opacity: t.isActive ? 0.9 : 0.3,
+                  opacity: isHovered ? 1 : t.isActive ? 0.9 : 0.3,
                   transition: 'opacity 150ms',
                 }}
               />
@@ -162,6 +199,7 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
           inset: -6,
           border: `1px solid rgba(${fg},0.5)`,
           borderRadius: 6,
+          pointerEvents: 'none',
         }}
       />
     </div>

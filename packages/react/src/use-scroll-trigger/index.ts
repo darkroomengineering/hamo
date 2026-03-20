@@ -115,10 +115,7 @@ export function useScrollTrigger(
   }: UseScrollTriggerOptions = {},
   deps: unknown[] = []
 ) {
-  const [setRectRef, internalRect] = useRect({
-    ignoreTransform: true,
-    ignoreSticky: true,
-  })
+  const [setRectRef, internalRect] = useRect({})
   const rect = externalRect ?? internalRect
   const getTransform = useTransform()
   const lenis = useLenis()
@@ -328,5 +325,5 @@ export function useScrollTrigger(
     rect?.height,
   ])
 
-  return [setRectRef, rect]
+  return [setRectRef, rect] as const
 }

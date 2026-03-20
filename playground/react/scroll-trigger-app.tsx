@@ -1,4 +1,4 @@
-import { useScrollTrigger, TransformProvider } from 'hamo'
+import { useScrollTrigger, TransformProvider, useRect } from 'hamo'
 import { Debugger } from 'hamo/scroll-trigger'
 import type { TransformRef } from 'hamo'
 import { useRef, useState } from 'react'
@@ -587,7 +587,11 @@ function TransformChildTrigger() {
   const valueRef = useRef<HTMLSpanElement>(null)
   const boxRef = useRef<HTMLDivElement>(null)
 
-  const [setRef] = useScrollTrigger({
+  const [setRectRef, rect] = useRect({
+    ignoreTransform: true,
+  })
+  useScrollTrigger({
+    rect,
     debug: 'child',
     onEnter: () => {
       if (boxRef.current) boxRef.current.dataset.active = 'true'
@@ -608,7 +612,7 @@ function TransformChildTrigger() {
   return (
     <div
       ref={(el) => {
-        setRef(el)
+        setRectRef(el)
         boxRef.current = el
       }}
       className="st-transform-child"
