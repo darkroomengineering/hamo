@@ -312,6 +312,24 @@ export function useScrollTrigger(
     return () => {
       scrollTriggerStore.unregister(debugId)
     }
+  }, [debug, debugId])
+
+  // Debug: sync store when rect/positions change
+  useEffect(() => {
+    if (!debug) return
+
+    scrollTriggerStore.update(debugId, {
+      start,
+      end,
+      startPx: startValue,
+      endPx: endValue,
+      rect: {
+        top: rect?.top || 0,
+        left: rect?.left || 0,
+        width: rect?.width || 0,
+        height: rect?.height || 0,
+      },
+    })
   }, [
     debug,
     debugId,
