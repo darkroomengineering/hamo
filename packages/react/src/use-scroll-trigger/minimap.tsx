@@ -179,6 +179,22 @@ export function Minimap({
               padding: '0 4px',
             }}
           >
+            {/* Pointer — counters scroll transform to stay aligned with viewport top */}
+            <div
+              id="minimap-pointer"
+              style={{
+                position: 'absolute',
+                left: -2,
+                right: -2,
+                top:
+                  'calc(var(--scroll) * 100% - var(--scroll) * ' +
+                  minimapHeight +
+                  'px)',
+                height: 2,
+                backgroundColor: `rgba(${bg}, 0.8)`,
+                zIndex: 2,
+              }}
+            />
             {triggers.map((trigger, i) => {
               const color = COLORS[i % COLORS.length]
               const startPercent = (trigger.startPx / docHeight) * 100
@@ -252,7 +268,6 @@ export function Minimap({
                   width: `${rectWidth}%`,
                   height: `${rectHeight}%`,
                   border: `1px solid ${color}`,
-                  borderRadius: 1,
                   opacity: trigger.isActive ? 0.8 : 0.2,
                   transition: 'opacity 150ms',
                 }}
