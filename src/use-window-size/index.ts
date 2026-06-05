@@ -55,20 +55,16 @@ function windowSize(
   }
 }
 
+type WindowSize = { width?: number; height?: number; dpr?: number }
+
 export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
-  const [width, setWidth] = useState<number>()
-  const [height, setHeight] = useState<number>()
-  const [dpr, setDpr] = useState<number>()
+  const [size, setSize] = useState<WindowSize>({})
 
   useEffect(() => {
-    return windowSize(({ width, height, dpr }) => {
-      setWidth(width)
-      setHeight(height)
-      setDpr(dpr)
-    }, debounceDelay)
+    return windowSize((next) => setSize(next), debounceDelay)
   }, [debounceDelay])
 
-  return { width, height, dpr }
+  return size
 }
 
 useWindowSize.setDebounce = setDebounce
