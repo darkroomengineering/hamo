@@ -12,28 +12,32 @@
 - **useLazyState** — update a value through a callback without triggering a re-render
 - **Debounce hooks** — useDebouncedCallback, Effect, and State debounce from one primitive
 - **useObjectFit** — compute object-fit scale from a parent's dimensions
+- **Zero dependencies** — ships dual ESM + CJS with `"use client"` only where needed; works in Next.js, React Router, TanStack Start, Vite, and any bundler
+- **SSR & RSC safe** — every browser hook is effect-guarded, so there are no hydration mismatches, and `useObjectFit` runs in Server Components
 
 ## Installation
 
 ```bash
-$ npm i hamo
+npm i hamo
 ```
+
+Requires **React 18 or 19** (declared as a peer dependency). hamo has **zero runtime dependencies**.
 
 ## Hooks
 
-[`useRect`](./packages/react/src/use-rect/README.md) – tracks element position within the page
+[`useRect`](./src/use-rect/README.md) – tracks element position within the page
 
-[`useWindowSize`](./packages/react/src/use-window-size/README.md) – tracks window dimensions
+[`useWindowSize`](./src/use-window-size/README.md) – tracks window dimensions
 
-[`useResizeObserver`](./packages/react/src/use-resize-observer/README.md) – observes element dimensions using ResizeObserver
+[`useResizeObserver`](./src/use-resize-observer/README.md) – observes element dimensions using ResizeObserver
 
-[`useLazyState`](./packages/react/src/use-lazy-state/README.md) – runs a callback when the state changes without re-rendering the component
+[`useLazyState`](./src/use-lazy-state/README.md) – runs a callback when the state changes without re-rendering the component
 
-[`useDebouncedCallback/useDebouncedEffect/useDebouncedState`](./packages/react/src/use-debounce/README.md) – debounces a callback, effect, or state
+[`useDebouncedCallback/useDebouncedEffect/useDebouncedState`](./src/use-debounce/README.md) – debounces a callback, effect, or state
 
-[`useObjectFit`](./packages/react/src/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
+[`useObjectFit`](./src/use-object-fit/README.md) – calculates the x and y scale of an object based on its parent width and height
 
-[`useIntersectionObserver`](./packages/react/src/use-intersection-observer/README.md) – observes element intersection with the viewport
+[`useIntersectionObserver`](./src/use-intersection-observer/README.md) – observes element intersection with the viewport
 
 ## License
 

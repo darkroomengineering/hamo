@@ -1,68 +1,47 @@
 {
-  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [
-      "node_modules",
-      "**/.next/**",
-      "**/dist/**",
-      "**/public/**",
-      ".github/**",
-      ".vercel/**",
-      ".husky/**",
-      "pnpm-lock.yaml",
-      "bun.lockb",
-      "**/*.md",
-      "**/*.mdx",
-      "**/public/*.js",
-      "**/.storybook/**"
+    "includes": [
+      "**",
+      "!dist",
+      "!**/node_modules",
+      "!playground",
+      "!docs",
+      "!plans",
+      "!.vscode"
     ]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "lineEnding": "lf",
     "indentWidth": 2,
-    "lineWidth": 80
+    "lineWidth": 80,
+    "lineEnding": "lf"
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
-      "suspicious": {
-        "noExplicitAny": "warn"
-      },
       "correctness": {
-        "useExhaustiveDependencies": "warn"
+        "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "error"
       },
-      "a11y": {
-        "useKeyWithClickEvents": "warn",
-        "useValidAnchor": "warn"
-      },
-      "style": {
-        "noNonNullAssertion": "off"
+      "suspicious": {
+        "noExplicitAny": "off"
       }
-    }
-  },
-  "css": {
-    "linter": {
-      "enabled": true
-    },
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space",
-      "indentWidth": 2
-    },
-    "parser": {
-      "cssModules": true
     }
   },
   "javascript": {
@@ -71,22 +50,5 @@
       "semicolons": "asNeeded",
       "trailingCommas": "es5"
     }
-  },
-  "json": {
-    "parser": {
-      "allowComments": true
-    }
-  },
-  "overrides": [
-    {
-      "include": ["**/*.css"],
-      "linter": {
-        "rules": {
-          "correctness": {
-            "noUnknownFunction": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }
