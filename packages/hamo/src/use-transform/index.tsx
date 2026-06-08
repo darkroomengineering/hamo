@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  type DependencyList,
   forwardRef,
   type ReactNode,
   useContext,
@@ -11,14 +12,22 @@ import {
 } from 'react'
 import { useEffectEvent } from '../use-effect-event'
 
-const DEFAULT_TRANSFORM = {
-  translate: { x: 0, y: 0, z: 0 },
-  rotate: { x: 0, y: 0, z: 0 },
-  scale: { x: 1, y: 1, z: 1 },
-  userData: {} as Record<string, unknown>,
+export type Transform = {
+  translate: { x: number; y: number; z: number }
+  rotate: { x: number; y: number; z: number }
+  scale: { x: number; y: number; z: number }
+  userData: Record<string, unknown>
 }
 
-export type Transform = typeof DEFAULT_TRANSFORM
+function createTransform(): Transform {
+  return {
+    translate: { x: 0, y: 0, z: 0 },
+    rotate: { x: 0, y: 0, z: 0 },
+    scale: { x: 1, y: 1, z: 1 },
+    userData: {},
+  }
+}
+
 type TransformCallback = (transform: Transform) => void
 
 export type TransformRef = {
@@ -39,7 +48,7 @@ type TransformContextType = {
 }
 
 export const TransformContext = createContext<TransformContextType>({
-  getTransform: () => structuredClone(DEFAULT_TRANSFORM),
+  getTransform: () => createTransform(),
   addCallback: () => {},
   removeCallback: () => {},
   setTranslate: () => {},
@@ -85,30 +94,33 @@ export const TransformProvider = forwardRef<
   TransformRef,
   TransformProviderProps
 >(function TransformProvider({ children }, ref) {
-  const parentTransformRef = useRef(structuredClone(DEFAULT_TRANSFORM))
-  const transformRef = useRef(structuredClone(DEFAULT_TRANSFORM))
+  const parentTransformRef = useRef(createTransform())
+  const transformRef = useRef(createTransform())
 
   function getTransform(): Transform {
-    const transform = structuredClone(parentTransformRef.current)
+    const parent = parentTransformRef.current
+    const self = transformRef.current
 
-    transform.translate.x += transformRef.current.translate.x
-    transform.translate.y += transformRef.current.translate.y
-    transform.translate.z += transformRef.current.translate.z
-
-    transform.rotate.x += transformRef.current.rotate.x
-    transform.rotate.y += transformRef.current.rotate.y
-    transform.rotate.z += transformRef.current.rotate.z
-
-    transform.scale.x *= transformRef.current.scale.x
-    transform.scale.y *= transformRef.current.scale.y
-    transform.scale.z *= transformRef.current.scale.z
-
-    transform.userData = {
-      ...transform.userData,
-      ...transformRef.current.userData,
+    // Accumulate parent + self into a fresh object on every call (no clone):
+    // translate/rotate are additive, scale is multiplicative, userData merges.
+    return {
+      translate: {
+        x: parent.translate.x + self.translate.x,
+        y: parent.translate.y + self.translate.y,
+        z: parent.translate.z + self.translate.z,
+      },
+      rotate: {
+        x: parent.rotate.x + self.rotate.x,
+        y: parent.rotate.y + self.rotate.y,
+        z: parent.rotate.z + self.rotate.z,
+      },
+      scale: {
+        x: parent.scale.x * self.scale.x,
+        y: parent.scale.y * self.scale.y,
+        z: parent.scale.z * self.scale.z,
+      },
+      userData: { ...parent.userData, ...self.userData },
     }
-
-    return transform
   }
 
   const callbacksRef = useRef<TransformCallback[]>([])
@@ -155,11 +167,15 @@ export const TransformProvider = forwardRef<
     update()
   }
 
-  // Inherit parent transforms
-  useTransform((transform) => {
-    parentTransformRef.current = structuredClone(transform)
+  // Inherit parent transforms. Stable identity (useEffectEvent) so the
+  // subscription isn't torn down and recreated on every render. getTransform
+  // builds a fresh object per call, so storing the inherited transform by
+  // reference is safe — nothing mutates it after it's handed to callbacks.
+  const inheritParentTransform = useEffectEvent((transform: Transform) => {
+    parentTransformRef.current = transform
     update()
   })
+  useTransform(inheritParentTransform)
 
   useImperativeHandle(ref, () => ({
     setTranslate,
@@ -210,7 +226,7 @@ export const TransformProvider = forwardRef<
  */
 export function useTransform(
   callback?: TransformCallback,
-  deps = [] as unknown[]
+  deps: DependencyList = []
 ) {
   const { getTransform, addCallback, removeCallback } =
     useContext(TransformContext)

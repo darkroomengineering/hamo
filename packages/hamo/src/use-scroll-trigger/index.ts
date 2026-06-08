@@ -1,7 +1,7 @@
 'use client'
 
 import { useLenis } from 'lenis/react'
-import { useEffect, useId, useRef } from 'react'
+import { useEffect, useId } from 'react'
 import { useEffectEvent } from '../use-effect-event'
 import { useLazyState } from '../use-lazy-state'
 import { type Rect, useRect } from '../use-rect'
@@ -24,11 +24,22 @@ function mapRange(
   return ((input - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
 }
 
-function isNumber(value: unknown): value is number {
-  return typeof value === 'number' || !Number.isNaN(value)
+// Resolves a trigger position keyword ('top' | 'center' | 'bottom') to a pixel
+// value against the provided anchors, or parses a numeric string. Falls back to
+// 0 for anything unrecognized.
+function resolveAnchor(
+  keyword: string | number | undefined,
+  anchors: { top: number; center: number; bottom: number }
+): number {
+  if (typeof keyword === 'number') return keyword
+  if (keyword === 'top') return anchors.top
+  if (keyword === 'center') return anchors.center
+  if (keyword === 'bottom') return anchors.bottom
+  const parsed = Number.parseFloat(keyword ?? '')
+  return Number.isFinite(parsed) ? parsed : 0
 }
 
-export function modulo(n: number, d: number) {
+function modulo(n: number, d: number) {
   if (d === 0) return n
   if (d < 0) return Number.NaN
   return ((n % d) + d) % d
@@ -121,7 +132,6 @@ export function useScrollTrigger(
   const lenis = useLenis()
   const autoId = useId()
   const debugId = typeof debug === 'string' ? debug : autoId
-  const debugRef = useRef(debug)
 
   const { height: windowHeight = 0 } = useWindowSize()
 
@@ -132,39 +142,23 @@ export function useScrollTrigger(
   const [elementEndKeyword, viewportEndKeyword] =
     typeof end === 'string' ? end.split(' ') : [end]
 
-  let viewportStart = isNumber(viewportStartKeyword)
-    ? Number.parseFloat(viewportStartKeyword as string)
-    : 0
-  if (viewportStartKeyword === 'top') viewportStart = 0
-  if (viewportStartKeyword === 'center') viewportStart = windowHeight * 0.5
-  if (viewportStartKeyword === 'bottom') viewportStart = windowHeight
+  const viewportAnchors = {
+    top: 0,
+    center: windowHeight * 0.5,
+    bottom: windowHeight,
+  }
+  const viewportStart = resolveAnchor(viewportStartKeyword, viewportAnchors)
+  const viewportEnd = resolveAnchor(viewportEndKeyword, viewportAnchors)
 
-  let viewportEnd = isNumber(viewportEndKeyword)
-    ? Number.parseFloat(viewportEndKeyword as string)
-    : 0
-  if (viewportEndKeyword === 'top') viewportEnd = 0
-  if (viewportEndKeyword === 'center') viewportEnd = windowHeight * 0.5
-  if (viewportEndKeyword === 'bottom') viewportEnd = windowHeight
-
-  let elementStart = isNumber(elementStartKeyword)
-    ? Number.parseFloat(elementStartKeyword as string)
-    : rect?.bottom || 0
-  if (elementStartKeyword === 'top') elementStart = rect?.top || 0
-  if (elementStartKeyword === 'center')
-    elementStart = (rect?.top || 0) + (rect?.height || 0) * 0.5
-  if (elementStartKeyword === 'bottom') elementStart = rect?.bottom || 0
-
-  elementStart += offset
-
-  let elementEnd = isNumber(elementEndKeyword)
-    ? Number.parseFloat(elementEndKeyword as string)
-    : rect?.top || 0
-  if (elementEndKeyword === 'top') elementEnd = rect?.top || 0
-  if (elementEndKeyword === 'center')
-    elementEnd = (rect?.top || 0) + (rect?.height || 0) * 0.5
-  if (elementEndKeyword === 'bottom') elementEnd = rect?.bottom || 0
-
-  elementEnd += offset
+  const elementTop = rect?.top || 0
+  const elementAnchors = {
+    top: elementTop,
+    center: elementTop + (rect?.height || 0) * 0.5,
+    bottom: rect?.bottom || 0,
+  }
+  const elementStart =
+    resolveAnchor(elementStartKeyword, elementAnchors) + offset
+  const elementEnd = resolveAnchor(elementEndKeyword, elementAnchors) + offset
 
   const startValue = elementStart - viewportStart
   const endValue = elementEnd - viewportEnd
@@ -186,7 +180,7 @@ export function useScrollTrigger(
         ),
       })
 
-      if (debugRef.current) {
+      if (debug) {
         const { translate } = getTransform()
         scrollTriggerStore.update(debugId, {
           progress: clampedProgress,
@@ -253,7 +247,8 @@ export function useScrollTrigger(
     const scroll = lenis ? Math.floor(lenis.scroll) : window.scrollY
     const { translate } = getTransform()
 
-    // support for Lenis infinite scroll
+    // modulo wraps the scroll position for Lenis infinite scroll; with no Lenis
+    // limit (limit ?? 0 === 0) modulo is a no-op and this reduces to subtraction
     const progress = mapRange(
       0,
       endValue - startValue,
@@ -285,10 +280,11 @@ export function useScrollTrigger(
   // Recalculate when parent transforms change
   useTransform(update)
 
-  // Run update when deps change
-  useEffect(update, [...deps])
+  // Run update when deps change (update is a stable useEffectEvent)
+  useEffect(update, [update, ...deps])
 
   // Debug: register/unregister from store
+  // biome-ignore lint/correctness/useExhaustiveDependencies: registers a one-time snapshot per trigger; the sync effect below keeps positions/rect current
   useEffect(() => {
     if (!debug) return
 

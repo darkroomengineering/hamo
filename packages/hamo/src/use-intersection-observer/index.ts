@@ -1,6 +1,13 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  type DependencyList,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { useEffectEvent } from '../use-effect-event'
 
 /**
  * @name useIntersectionObserver
@@ -31,7 +38,7 @@ export function useIntersectionObserver<L extends boolean = false>(
     lazy?: L
     callback?: (entry: IntersectionObserverEntry | undefined) => void
   } = {},
-  deps: any[] = []
+  deps: DependencyList = []
 ): [
   (element: HTMLElement | null) => void,
   L extends true
@@ -42,8 +49,7 @@ export function useIntersectionObserver<L extends boolean = false>(
   const [entry, setEntry] = useState<IntersectionObserverEntry>()
   const [element, setElement] = useState<HTMLElement | null>(null)
 
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const onIntersect = useEffectEvent(callback)
 
   useEffect(() => {
     if (!element) return
@@ -56,7 +62,7 @@ export function useIntersectionObserver<L extends boolean = false>(
           setEntry(entry)
         }
 
-        callbackRef.current(entry)
+        onIntersect(entry)
 
         if (once && entry?.isIntersecting) intersection.disconnect()
       },
@@ -71,7 +77,7 @@ export function useIntersectionObserver<L extends boolean = false>(
     return () => {
       intersection.disconnect()
     }
-  }, [element, root, rootMargin, threshold, lazy, once, ...deps])
+  }, [element, root, rootMargin, threshold, lazy, once, onIntersect, ...deps])
 
   const getEntry = useCallback(() => entryRef.current, [])
 

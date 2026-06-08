@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
+import { type DependencyList, useCallback, useEffect, useRef } from 'react'
+import { useEffectEvent } from '../use-effect-event'
 
 /**
  * @name useLazyState
@@ -14,31 +15,29 @@ import { useCallback, useEffect, useRef } from 'react'
 export function useLazyState<T>(
   initialValue: T,
   callback: (value: T, previousValue: T | undefined) => void,
-  deps: any[] = []
+  deps: DependencyList = []
 ) {
   const prevStateRef = useRef<T | undefined>(undefined)
   const stateRef = useRef<T>(initialValue)
-  const callbackRef = useRef(callback)
-
-  callbackRef.current = callback
+  const onChange = useEffectEvent(callback)
 
   // Runs once on mount and again whenever a caller-provided dep changes; reads the
   // latest refs rather than re-subscribing to state.
   useEffect(() => {
-    callbackRef.current(stateRef.current, prevStateRef.current)
-  }, [...deps])
+    onChange(stateRef.current, prevStateRef.current)
+  }, [onChange, ...deps])
 
   function set(value: T | ((prev: T) => T)) {
     if (typeof value === 'function') {
       const nextValue = (value as (prev: T) => T)(stateRef.current)
-      callbackRef.current(nextValue, stateRef.current)
+      onChange(nextValue, stateRef.current)
       prevStateRef.current = stateRef.current
       stateRef.current = nextValue
       return
     }
 
     if (value !== stateRef.current) {
-      callbackRef.current(value, stateRef.current)
+      onChange(value, stateRef.current)
       prevStateRef.current = stateRef.current
       stateRef.current = value
     }

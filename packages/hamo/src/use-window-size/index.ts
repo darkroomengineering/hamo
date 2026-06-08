@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createDebounceConfig } from '../debounce-config'
 import { debounce } from '../use-debounce'
 
 /**
@@ -10,11 +11,7 @@ import { debounce } from '../use-debounce'
  * @returns {object} { width, height, dpr }
  */
 
-let defaultDebounceDelay = 500
-
-function setDebounce(delay: number) {
-  defaultDebounceDelay = delay
-}
+const windowSizeDebounce = createDebounceConfig()
 
 function windowSize(
   callback: ({
@@ -26,7 +23,7 @@ function windowSize(
     height: number
     dpr: number
   }) => void,
-  debounceDelay: number = defaultDebounceDelay
+  debounceDelay: number = windowSizeDebounce.getDelay()
 ) {
   function onWindowResize() {
     const width = Math.min(
@@ -57,7 +54,9 @@ function windowSize(
 
 type WindowSize = { width?: number; height?: number; dpr?: number }
 
-export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
+export function useWindowSize(
+  debounceDelay: number = windowSizeDebounce.getDelay()
+) {
   const [size, setSize] = useState<WindowSize>({})
 
   useEffect(() => {
@@ -67,4 +66,4 @@ export function useWindowSize(debounceDelay: number = defaultDebounceDelay) {
   return size
 }
 
-useWindowSize.setDebounce = setDebounce
+useWindowSize.setDebounce = windowSizeDebounce.setDebounce

@@ -7,13 +7,11 @@ import {
   useRef,
   useState,
 } from 'react'
+import { createDebounceConfig } from '../debounce-config'
 import { debounce } from '../use-debounce'
+import { useEffectEvent } from '../use-effect-event'
 
-let defaultDebounceDelay = 500
-
-function setDebounce(delay: number) {
-  defaultDebounceDelay = delay
-}
+const resizeObserverDebounce = createDebounceConfig()
 
 /**
  * @name useResizeObserver
@@ -52,7 +50,7 @@ function getSharedObserver() {
 function observeElement(
   el: Element,
   callback: (entry: ResizeObserverEntry) => void,
-  debounceDelay: number = defaultDebounceDelay
+  debounceDelay: number = resizeObserverDebounce.getDelay()
 ) {
   if (!el) return () => {}
 
@@ -70,8 +68,8 @@ function observeElement(
   const callbacks = callbacksMap.get(el) || []
   callbacks.push(wrappedCallback)
   callbacksMap.set(el, callbacks)
-  const sharedObserver = getSharedObserver()
-  sharedObserver.observe(el)
+  const observer = getSharedObserver()
+  observer.observe(el)
 
   return () => {
     debouncedCallback.cancel()
@@ -83,11 +81,14 @@ function observeElement(
       }
       if (callbacks.length === 0) {
         callbacksMap.delete(el)
-        sharedObserver.unobserve(el)
+        observer.unobserve(el)
       }
     }
     if (callbacksMap.size === 0) {
-      sharedObserver.disconnect()
+      observer.disconnect()
+      // Reset so a later observe re-creates the observer instead of reusing a
+      // disconnected one.
+      sharedObserver = null
     }
   }
 }
@@ -95,7 +96,7 @@ function observeElement(
 export function useResizeObserver<L extends boolean = false>(
   {
     lazy = false as L,
-    debounce: debounceDelay = defaultDebounceDelay,
+    debounce: debounceDelay = resizeObserverDebounce.getDelay(),
     callback = () => {},
   }: {
     lazy?: L
@@ -113,8 +114,7 @@ export function useResizeObserver<L extends boolean = false>(
   const [entry, setEntry] = useState<ResizeObserverEntry>()
   const entryRef = useRef<ResizeObserverEntry | undefined>(undefined)
 
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const onResize = useEffectEvent(callback)
 
   useEffect(() => {
     if (!element) return
@@ -122,7 +122,7 @@ export function useResizeObserver<L extends boolean = false>(
     return observeElement(
       element,
       (entry: ResizeObserverEntry) => {
-        callbackRef.current(entry)
+        onResize(entry)
         entryRef.current = entry
         if (!lazy) {
           setEntry(entry)
@@ -130,7 +130,7 @@ export function useResizeObserver<L extends boolean = false>(
       },
       debounceDelay
     )
-  }, [element, debounceDelay, lazy, ...deps])
+  }, [element, debounceDelay, lazy, onResize, ...deps])
 
   const getEntryRef = useCallback(() => entryRef.current, [])
 
@@ -142,4 +142,4 @@ export function useResizeObserver<L extends boolean = false>(
   ]
 }
 
-useResizeObserver.setDebounce = setDebounce
+useResizeObserver.setDebounce = resizeObserverDebounce.setDebounce

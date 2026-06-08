@@ -9,13 +9,13 @@ import {
 } from 'react'
 import { useEffectEvent } from '../use-effect-event'
 
-export type DebouncedFunction<T extends (...args: any[]) => void> = ((
+export type DebouncedFunction<T extends (...args: never[]) => void> = ((
   ...args: Parameters<T>
 ) => void) & {
   cancel: () => void
 }
 
-export function debounce<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: never[]) => void>(
   fn: T,
   delay: number
 ): DebouncedFunction<T> {
@@ -39,7 +39,7 @@ export function debounce<T extends (...args: any[]) => void>(
   return debounced as DebouncedFunction<T>
 }
 
-function timeout(callback: (...args: any[]) => void, delay: number) {
+function timeout(callback: () => void, delay: number) {
   const timeout = setTimeout(callback, delay)
 
   return () => clearTimeout(timeout)
@@ -57,8 +57,8 @@ export function useDebouncedEffect(
   }, [delay, callback, ...deps])
 }
 
-export function useDebouncedCallback<T>(
-  _callback: (...args: T[]) => void,
+export function useDebouncedCallback<T extends unknown[] = []>(
+  _callback: (...args: T) => void,
   delay: number,
   deps: DependencyList = []
 ) {
@@ -67,7 +67,7 @@ export function useDebouncedCallback<T>(
   const timeoutRef = useRef<ReturnType<typeof timeout> | null>(null)
 
   const debouncedCallback = useCallback(
-    (...args: T[]) => {
+    (...args: T) => {
       timeoutRef.current?.()
 
       timeoutRef.current = timeout(() => callback(...args), delay)

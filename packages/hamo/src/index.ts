@@ -1,3 +1,4 @@
+export type { DebouncedFunction } from './use-debounce'
 export {
   useDebouncedCallback,
   useDebouncedEffect,

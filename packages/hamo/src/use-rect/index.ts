@@ -1,6 +1,14 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  type DependencyList,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { createDebounceConfig } from '../debounce-config'
+import { useEffectEvent } from '../use-effect-event'
 import { useResizeObserver } from '../use-resize-observer'
 import { emitter } from './emitter'
 import {
@@ -25,11 +33,7 @@ export type Rect = {
   element?: HTMLElement | null
 }
 
-let defaultDebounceDelay = 500
-
-function setDebounce(delay: number) {
-  defaultDebounceDelay = delay
-}
+const rectDebounce = createDebounceConfig()
 
 /**
  * @name useRect
@@ -51,7 +55,7 @@ export function useRect<L extends boolean = false>(
   {
     ignoreTransform = false,
     ignoreSticky = true,
-    debounce: debounceDelay = defaultDebounceDelay,
+    debounce: debounceDelay = rectDebounce.getDelay(),
     lazy = false as L,
     callback,
   }: {
@@ -61,7 +65,7 @@ export function useRect<L extends boolean = false>(
     lazy?: L
     callback?: (rect: Rect) => void
   } = {},
-  deps: any[] = []
+  deps: DependencyList = []
 ): [
   (element: HTMLElement | null) => void,
   L extends true ? () => Rect : Rect,
@@ -70,8 +74,7 @@ export function useRect<L extends boolean = false>(
   const [wrapperElement, setWrapperElement] = useState<HTMLElement | null>(null)
   const [element, setElement] = useState<HTMLElement | null>(null)
 
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
+  const onUpdate = useEffectEvent((rect: Rect) => callback?.(rect))
 
   const updateRect = useCallback(
     ({
@@ -123,13 +126,13 @@ export function useRect<L extends boolean = false>(
         element,
       }
 
-      callbackRef.current?.(rectRef.current)
+      onUpdate(rectRef.current)
 
       if (!lazy) {
         setRect(rectRef.current)
       }
     },
-    [lazy, ...deps]
+    [onUpdate, lazy, ...deps]
   )
 
   const computeCoordinates = useCallback(() => {
@@ -172,8 +175,8 @@ export function useRect<L extends boolean = false>(
     computeDimensions()
   }, [computeCoordinates, computeDimensions])
 
-  const rectRef = useRef<Rect>({} as Rect)
-  const [rect, setRect] = useState<Rect>({} as Rect)
+  const rectRef = useRef<Rect>({})
+  const [rect, setRect] = useState<Rect>({})
 
   useEffect(() => {
     rectRef.current.resize = resize
@@ -253,4 +256,4 @@ export function useRect<L extends boolean = false>(
 
 useRect.resize = () => emitter.emit('resize')
 
-useRect.setDebounce = setDebounce
+useRect.setDebounce = rectDebounce.setDebounce

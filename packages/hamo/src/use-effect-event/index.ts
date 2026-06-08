@@ -1,16 +1,27 @@
-import { useRef, useState } from 'react'
+import { useCallback, useInsertionEffect, useRef } from 'react'
 
-export function useEffectEvent<T extends (...args: any[]) => any>(
+/**
+ * Ponyfill for React's experimental `useEffectEvent`.
+ *
+ * Returns a stable function identity that always calls the latest `callback`,
+ * so the returned event can be omitted from effect dependency arrays without
+ * going stale. The ref is refreshed in `useInsertionEffect` (before any layout
+ * effect reads it), matching React's own internal implementation and avoiding
+ * render-phase ref mutation.
+ */
+export function useEffectEvent<T extends (...args: never[]) => unknown>(
   callback: T
 ): T {
   const callbackRef = useRef(callback)
-  callbackRef.current = callback
 
-  const [memoizedCallback] = useState(
-    () =>
-      (...args: Parameters<T>) =>
-        callbackRef.current(...args)
+  useInsertionEffect(() => {
+    callbackRef.current = callback
+  })
+
+  const stableCallback = useCallback(
+    (...args: Parameters<T>) => callbackRef.current(...args),
+    []
   )
 
-  return memoizedCallback as T
+  return stableCallback as unknown as T
 }
