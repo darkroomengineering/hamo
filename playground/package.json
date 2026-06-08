@@ -16,9 +16,8 @@
     "@types/react-dom": "^19.0.0",
     "astro": "^6.4.4",
     "hamo": "file:..",
-    "lorem-ipsum": "^2.0.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "^5.5.4"
+    "typescript": "^6.0.3"
   }
 }
