@@ -12,13 +12,13 @@
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/react": "^5.0.7",
-    "@types/react": "^18.3.4",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "astro": "^6.4.4",
-    "hamo": "*",
+    "hamo": "file:..",
     "lorem-ipsum": "^2.0.8",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "^5.5.4"
   }
 }
