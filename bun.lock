@@ -14,14 +14,19 @@
         "@testing-library/react": "^16.1.0",
         "@types/react": "^19.0.0",
         "happy-dom": "^20.0.0",
+        "lenis": "^1.3.19",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "tsdown": "^0.21.4",
         "typescript": "^5.4.5",
       },
       "peerDependencies": {
+        "lenis": ">=1.3.0",
         "react": ">=18.0.0",
       },
+      "optionalPeers": [
+        "lenis",
+      ],
     },
     "playground": {
       "name": "playground",
@@ -655,6 +660,8 @@
     "jsonc-parser": ["jsonc-parser@3.3.1", "", {}, "sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ=="],
 
     "kleur": ["kleur@4.1.5", "", {}, "sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ=="],
+
+    "lenis": ["lenis@1.3.23", "", { "peerDependencies": { "@nuxt/kit": ">=3.0.0", "react": ">=17.0.0", "vue": ">=3.0.0" }, "optionalPeers": ["@nuxt/kit", "react", "vue"] }, "sha512-YxYq3TJqj9sJNv0V9SkyQHejt14xwyIwgDaaMK89Uf9SxQfIszu+gTQSSphh6BWlLTNVKvvXAGkg+Zf+oFIevg=="],
 
     "longest-streak": ["longest-streak@3.1.0", "", {}, "sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g=="],
 
