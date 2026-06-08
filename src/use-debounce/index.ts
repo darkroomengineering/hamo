@@ -44,7 +44,10 @@ function timeout(callback: (...args: any[]) => void, delay: number) {
   return () => clearTimeout(timeout)
 }
 
-function useEffectEvent<T extends (...args: any[]) => any>(callback: T): T {
+// A stable-identity callback that always invokes the latest `callback`. Named
+// to avoid shadowing React's reserved `useEffectEvent` API — this is a plain
+// ref-backed wrapper with none of that hook's call-site restrictions.
+function useStableCallback<T extends (...args: any[]) => any>(callback: T): T {
   const callbackRef = useRef(callback)
   callbackRef.current = callback
 
@@ -62,7 +65,7 @@ export function useDebouncedEffect(
   delay: number,
   deps: DependencyList = []
 ) {
-  const callback = useEffectEvent(_callback)
+  const callback = useStableCallback(_callback)
 
   useEffect(() => {
     return timeout(() => callback(), delay)
@@ -74,7 +77,7 @@ export function useDebouncedCallback<T>(
   delay: number,
   deps: DependencyList = []
 ) {
-  const callback = useEffectEvent(_callback)
+  const callback = useStableCallback(_callback)
 
   const timeoutRef = useRef<ReturnType<typeof timeout> | null>(null)
 
