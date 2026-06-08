@@ -1,13 +1,5 @@
 {
-  "exclude": [
-    "dist",
-    "playground",
-    "docs",
-    "plans",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "test"
-  ],
+  "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx", "test"],
   "compilerOptions": {
     /* Base Options: */
     "skipLibCheck": true,

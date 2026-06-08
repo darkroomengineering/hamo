@@ -1,0 +1,85 @@
+{
+  "name": "hamo",
+  "version": "1.0.0",
+  "description": "A collection of performance-oriented React hooks.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/hamo.cjs",
+  "module": "./dist/hamo.mjs",
+  "types": "./dist/hamo.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/hamo.d.ts",
+        "default": "./dist/hamo.mjs"
+      },
+      "require": {
+        "types": "./dist/hamo.d.cts",
+        "default": "./dist/hamo.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "darkroom.engineering",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darkroomengineering/hamo/issues"
+  },
+  "homepage": "https://github.com/darkroomengineering/hamo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darkroomengineering/hamo.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/darkroomengineering"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "bun run --parallel dev:build dev:playground",
+    "dev:build": "tsdown --watch",
+    "dev:playground": "bun --filter playground dev",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "test": "bun test",
+    "prepublishOnly": "tsdown",
+    "version:patch": "npm version patch --force --no-git-tag-version",
+    "version:minor": "npm version minor --force --no-git-tag-version",
+    "version:major": "npm version major --force --no-git-tag-version",
+    "postversion": "bun run build",
+    "publish:main": "npm publish"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "react-hooks",
+    "resize-observer",
+    "intersection-observer",
+    "media-query",
+    "ssr"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "@happy-dom/global-registrator": "^20.0.0",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^19.0.0",
+    "happy-dom": "^20.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsdown": "^0.21.4",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "overrides": {
+    "yaml": "^2.9.0"
+  }
+}

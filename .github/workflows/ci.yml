@@ -35,5 +35,5 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Pin React ${{ matrix.react }}
         if: matrix.react == 18
-        run: bun add -d react@18 react-dom@18 @types/react@18 @types/react-dom@18
-      - run: bun test
+        run: bun add --cwd packages/hamo -d react@18 react-dom@18 @types/react@18 @types/react-dom@18
+      - run: bun run test

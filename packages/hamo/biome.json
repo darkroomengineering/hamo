@@ -3,19 +3,11 @@
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": true
+    "useIgnoreFile": false
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!dist",
-      "!**/node_modules",
-      "!playground",
-      "!docs",
-      "!plans",
-      "!.vscode"
-    ]
+    "includes": ["**", "!dist", "!**/node_modules", "!.vscode"]
   },
   "formatter": {
     "enabled": true,
