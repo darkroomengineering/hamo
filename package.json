@@ -3,6 +3,10 @@
   "private": true,
   "type": "module",
   "workspaces": ["packages/*", "playground"],
+  "overrides": {
+    "yaml": "^2.9.0",
+    "esbuild": "^0.28.1"
+  },
   "scripts": {
     "build": "bun --filter hamo build",
     "dev": "bun --filter hamo dev",

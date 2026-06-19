@@ -95,8 +95,5 @@
     "lenis": {
       "optional": true
     }
-  },
-  "overrides": {
-    "yaml": "^2.9.0"
   }
 }

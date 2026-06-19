@@ -6,6 +6,17 @@ First stable release.
 
 ### Added
 
+- **`useScrollTrigger`** — scroll-progress tracking with GSAP ScrollTrigger-style
+  position syntax (`"bottom bottom"`, `"top center"`, pixel offsets). Integrates
+  with [Lenis](https://github.com/darkroomengineering/lenis) when present and
+  falls back to native scroll otherwise. A debug overlay ships behind the
+  `hamo/scroll-trigger/debugger` subpath.
+- **`useTransform` / `TransformProvider`** — context-based transform accumulation
+  (additive translate/rotate, multiplicative scale) so children can compensate
+  for parent transforms such as parallax offsets.
+- **`useEffectEvent`** — a public, SSR-safe ponyfill of React's experimental
+  `useEffectEvent` (stable identity, always calls the latest callback). The
+  internal hooks now route their stable-callback pattern through it.
 - Dual **ESM + CJS** build with correct `types` resolution for `import` and
   `require` (verified with `publint` and `@arethetypeswrong/cli`).
 - Test suite (`bun test` + `@testing-library/react` + `happy-dom`) covering
@@ -16,15 +27,16 @@ First stable release.
 
 ### Changed
 
-- **Zero runtime dependencies** — the internal resize emitter no longer depends
-  on `nanoevents`.
+- **Zero runtime dependencies** — the internal resize and scroll-trigger emitters
+  are inlined; the `nanoevents` dependency is gone.
 - Per-file `"use client"` directives (via `tsdown` unbundle) instead of a single
   bundle banner, so `useObjectFit` stays usable in Server Components.
 - Minification and polyfilling are delegated to the consuming framework; the
   package ships modern, unminified, sourcemapped output.
 - Toolchain consolidated onto **Biome** (formatter + linter, including
   rules-of-hooks). The unused ESLint config was removed.
-- Source collapsed from a `packages/react` workspace into a single `src/` tree.
+- The library now lives in `packages/hamo/` within a Bun-workspace monorepo;
+  the `playground/` is a sibling workspace that links it via `workspace:*`.
 
 ### Fixed
 
@@ -45,3 +57,7 @@ First stable release.
 ### Peer dependencies
 
 - `react >= 18`.
+- `lenis >= 1.3.0` — **optional**, only needed by `useScrollTrigger` (the hook
+  falls back to native scroll without it).
+</content>
+</invoke>
