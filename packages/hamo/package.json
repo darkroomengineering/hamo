@@ -4,29 +4,16 @@
   "description": "A collection of performance-oriented React hooks.",
   "type": "module",
   "sideEffects": false,
-  "main": "./dist/hamo.cjs",
   "module": "./dist/hamo.mjs",
   "types": "./dist/hamo.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/hamo.d.ts",
-        "default": "./dist/hamo.mjs"
-      },
-      "require": {
-        "types": "./dist/hamo.d.cts",
-        "default": "./dist/hamo.cjs"
-      }
+      "types": "./dist/hamo.d.ts",
+      "default": "./dist/hamo.mjs"
     },
     "./scroll-trigger/debugger": {
-      "import": {
-        "types": "./dist/use-scroll-trigger/debugger.d.ts",
-        "default": "./dist/use-scroll-trigger/debugger.mjs"
-      },
-      "require": {
-        "types": "./dist/use-scroll-trigger/debugger.d.cts",
-        "default": "./dist/use-scroll-trigger/debugger.cjs"
-      }
+      "types": "./dist/use-scroll-trigger/debugger.d.ts",
+      "default": "./dist/use-scroll-trigger/debugger.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -62,9 +49,7 @@
     "prepublishOnly": "tsdown",
     "version:patch": "npm version patch --force --no-git-tag-version",
     "version:minor": "npm version minor --force --no-git-tag-version",
-    "version:major": "npm version major --force --no-git-tag-version",
-    "postversion": "bun run build",
-    "publish:main": "npm publish"
+    "version:major": "npm version major --force --no-git-tag-version"
   },
   "keywords": [
     "react",

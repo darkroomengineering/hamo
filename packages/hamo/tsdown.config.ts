@@ -12,7 +12,7 @@ export default defineConfig({
   outDir: 'dist',
   target: 'es2022',
   platform: 'neutral',
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   // lenis is an optional peer (useScrollTrigger falls back to native scroll);
   // never bundle it.
   external: [/^lenis(\/|$)/],
@@ -23,8 +23,5 @@ export default defineConfig({
   // debugging benefit to consumers.
   sourcemap: false,
   clean: true,
-  outExtensions: ({ format }) => ({
-    js: format === 'es' ? '.mjs' : '.cjs',
-    dts: format === 'es' ? '.d.ts' : '.d.cts',
-  }),
+  outExtensions: () => ({ js: '.mjs', dts: '.d.ts' }),
 })

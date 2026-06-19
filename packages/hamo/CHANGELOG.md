@@ -17,8 +17,10 @@ First stable release.
 - **`useEffectEvent`** — a public, SSR-safe ponyfill of React's experimental
   `useEffectEvent` (stable identity, always calls the latest callback). The
   internal hooks now route their stable-callback pattern through it.
-- Dual **ESM + CJS** build with correct `types` resolution for `import` and
-  `require` (verified with `publint` and `@arethetypeswrong/cli`).
+- **ESM-only** build with correct `types` resolution (verified with `publint`
+  and `@arethetypeswrong/cli`). The target stack (Next.js, React Router,
+  TanStack, Vite) is ESM-native; CJS consumers can load it via dynamic
+  `import()`.
 - Test suite (`bun test` + `@testing-library/react` + `happy-dom`) covering
   every hook: render smoke tests, SSR (`renderToString`) safety, and a
   debounce-cancel-on-unmount leak regression.
