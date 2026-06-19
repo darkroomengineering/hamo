@@ -21,7 +21,7 @@
 npm i hamo
 ```
 
-Requires **React 18 or 19** (declared as a peer dependency). hamo has **zero runtime dependencies**.
+Requires **React 18 or 19** and **Lenis ≥ 1.3** (declared as peer dependencies). hamo ships **zero runtime dependencies** of its own.
 
 ## Hooks
 

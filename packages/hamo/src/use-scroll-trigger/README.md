@@ -172,7 +172,7 @@ function StaggeredList() {
 
 ### With Lenis
 
-When Lenis is installed, the hook automatically uses it. No configuration needed.
+When a Lenis instance is mounted, the hook uses it automatically; otherwise it falls back to native scroll. No configuration needed.
 
 ```jsx
 import { ReactLenis } from 'lenis/react'

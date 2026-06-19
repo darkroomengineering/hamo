@@ -59,7 +59,7 @@ First stable release.
 ### Peer dependencies
 
 - `react >= 18`.
-- `lenis >= 1.3.0` — **optional**, only needed by `useScrollTrigger` (the hook
-  falls back to native scroll without it).
+- `lenis >= 1.3.0` — required peer, used by `useScrollTrigger`. The hook falls
+  back to native scroll when no Lenis instance is mounted.
 </content>
 </invoke>
