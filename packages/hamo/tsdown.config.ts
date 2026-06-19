@@ -18,7 +18,10 @@ export default defineConfig({
   external: [/^lenis(\/|$)/],
   unbundle: true,
   dts: true,
-  sourcemap: true,
+  // No sourcemaps in the published package: the output is modern, unminified
+  // es2022 and tiny, so maps would only bloat the tarball (~2x) for no real
+  // debugging benefit to consumers.
+  sourcemap: false,
   clean: true,
   outExtensions: ({ format }) => ({
     js: format === 'es' ? '.mjs' : '.cjs',
