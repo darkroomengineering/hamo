@@ -6,7 +6,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write # required for npm provenance
+  id-token: write # required for npm provenance + trusted publishing (OIDC)
 
 jobs:
   publish:
@@ -29,6 +29,10 @@ jobs:
       - run: bun run test
       - run: bun run build
 
+      # Trusted publishing (OIDC) needs npm >= 11.5.1; node 20 ships npm 10.
+      - run: npm install -g npm@latest
+
+      # No NODE_AUTH_TOKEN: npm authenticates to the registry via the OIDC
+      # token from `id-token: write`, using the trusted publisher configured
+      # on the hamo package settings. Provenance is attached automatically.
       - run: cd packages/hamo && npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
