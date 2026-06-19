@@ -31,7 +31,7 @@ function resolveAnchor(
   keyword: string | number | undefined,
   anchors: { top: number; center: number; bottom: number }
 ): number {
-  if (typeof keyword === 'number') return keyword
+  if (typeof keyword === 'number') return Number.isFinite(keyword) ? keyword : 0
   if (keyword === 'top') return anchors.top
   if (keyword === 'center') return anchors.center
   if (keyword === 'bottom') return anchors.bottom

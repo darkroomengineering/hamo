@@ -119,7 +119,14 @@ export const TransformProvider = forwardRef<
         y: parent.scale.y * self.scale.y,
         z: parent.scale.z * self.scale.z,
       },
-      userData: { ...parent.userData, ...self.userData },
+      // Deep-clone the parent's userData (so a callback mutating a nested value
+      // can't corrupt provider state) but shallow-merge self's, matching the
+      // pre-cleanup semantics. Skip the clone when the parent has no userData,
+      // which is the common case on the scroll hot path.
+      userData:
+        Object.keys(parent.userData).length > 0
+          ? { ...structuredClone(parent.userData), ...self.userData }
+          : { ...self.userData },
     }
   }
 
