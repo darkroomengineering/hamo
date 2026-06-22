@@ -1,29 +1,38 @@
-name: Publish to NPM
+name: Publish to npm
+
 on:
   release:
     types: [created]
+
+permissions:
+  contents: read
+  id-token: write # required for npm provenance + trusted publishing (OIDC)
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 16
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-          run_install: false
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun run test
+      - run: bun run build
 
-      - name: Install dependencies and build
-        run: pnpm i --frozen-lockfile
-      - name: Publish package on NPM
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Trusted publishing (OIDC) needs npm >= 11.5.1; node 20 ships npm 10.
+      - run: npm install -g npm@latest
+
+      # No NODE_AUTH_TOKEN: npm authenticates to the registry via the OIDC
+      # token from `id-token: write`, using the trusted publisher configured
+      # on the hamo package settings. Provenance is attached automatically.
+      - run: cd packages/hamo && npm publish --provenance --access public

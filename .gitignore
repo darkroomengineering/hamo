@@ -2,4 +2,5 @@ node_modules
 .DS_Store
 dist
 bundled
-bun.lock
+plans
+.claude/settings.local.json
