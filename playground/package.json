@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/react": "^6.0.0",
+    "@astrojs/react": "^5.0.7",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "astro": "^7.0.0",
+    "astro": "^6.4.8",
     "hamo": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
