@@ -35,6 +35,14 @@ $ npm i hamo
 
 [`useIntersectionObserver`](./packages/react/src/use-intersection-observer/README.md) – observes element intersection with the viewport
 
+[`useMediaQuery`](./packages/react/src/use-media-query/README.md) – detects whether a media query matches
+
+[`useEffectEvent`](./packages/react/src/use-effect-event/README.md) – polyfill for React's experimental useEffectEvent, returns a stable function that always calls the latest callback
+
+[`useScrollTrigger`](./packages/react/src/use-scroll-trigger/README.md) – high-performance scroll progress tracker
+
+[`useTransform`](./packages/react/src/use-transform/README.md) – context-based transform accumulation across the component tree
+
 ## License
 
 MIT © [darkroom.engineering](https://github.com/darkroomengineering)
