@@ -4,6 +4,15 @@
 
 `hāmō` means hook in Latin, this package is a collection of custom performance-oriented React hooks.
 
+## Features
+
+- **Render-safe hooks** — a small, tree-shakeable set of performance-oriented React hooks
+- **Measurement hooks** — useRect, useWindowSize, and useResizeObserver track element and viewport size without thrash
+- **useIntersectionObserver** — fire when elements enter or leave the viewport
+- **useLazyState** — update a value through a callback without triggering a re-render
+- **Debounce hooks** — useDebouncedCallback, Effect, and State debounce from one primitive
+- **useObjectFit** — compute object-fit scale from a parent's dimensions
+
 ## Installation
 
 ```bash

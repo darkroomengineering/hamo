@@ -1,29 +1,37 @@
 name: Publish to NPM
+
 on:
   release:
     types: [created]
+
+permissions:
+  contents: read
+  id-token: write # OIDC token for npm trusted publishing (no NPM_TOKEN needed)
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 22
+          registry-url: https://registry.npmjs.org
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-          run_install: false
+      # Trusted publishing needs npm >= 11.5; Node 22 ships npm 10.x.
+      - name: Upgrade npm for OIDC
+        run: npm install -g npm@latest
 
-      - name: Install dependencies and build
-        run: pnpm i --frozen-lockfile
-      - name: Publish package on NPM
+      - name: Install
+        run: bun install
+
+      # tsdown build — npm publish does not build on its own, and `files`
+      # only ships dist/, so this must run before publishing.
+      - name: Build
+        run: bun run build
+
+      - name: Publish to npm (OIDC trusted publishing)
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
