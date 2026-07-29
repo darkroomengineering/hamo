@@ -7,7 +7,17 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(pnpm install:*)",
       "WebSearch",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npx astro:*)",
+      "WebFetch(domain:gsap.com)",
+      "Read(//c/Program Files/GitHub CLI//**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Read(//c/Users/clement/**)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" pr create --title \"feat: useScrollTrigger, useTransform, useEffectEvent\" --body \"$\\(cat <<'EOF'\n## Summary\n\n- **useScrollTrigger** — High-performance scroll progress tracking with GSAP ScrollTrigger-like position syntax. Zero per-frame DOM reads, zero React re-renders. Full control over scroll-driven effects for scrollytelling.\n- **useTransform / TransformProvider** — Context-based transform accumulation so child scroll triggers stay accurate when parents are translated programmatically \\(parallax\\).\n- **useEffectEvent** — Polyfill for React's experimental `useEffectEvent` \\(stable callback ref for React 17+\\).\n- **Dedicated /scroll-trigger playground** with 9 interactive demos: basic progress, direction, enter/leave events, position combinations, steps, offset, disabled toggle, CSS custom properties, and TransformProvider.\n- **Build migration** from pnpm+tsup to bun+tsdown.\n\n### useScrollTrigger features\n- Position syntax: `\"element-position viewport-position\"` \\(`top`, `center`, `bottom`, or pixel values\\)\n- Callbacks: `onEnter`, `onLeave`, `onProgress` with `progress`, `direction`, `isActive`, `height`, `steps`\n- External rect support: share a single `useRect` across multiple triggers on the same element\n- Lenis integration: automatic, with native scroll fallback\n- Infinite scroll support via `modulo`\n- TransformProvider compensation for parallax offsets\n\n## Test plan\n- [ ] Run `bun run build` — verify clean build\n- [ ] Run `bun dev` — verify playground loads at `/scroll-trigger`\n- [ ] Scroll through all 9 demo sections\n- [ ] Verify direction indicator updates in Basic Progress\n- [ ] Verify enter/leave event log shows correct direction arrows\n- [ ] Verify TransformProvider demo shows parallax compensation\n- [ ] Test with Lenis provider wrapping the app\nEOF\n\\)\" 2>&1)",
+      "Bash(\"/c/Program Files/GitHub:*)",
+      "WebFetch(domain:tympanus.net)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page"
     ]
   }
 }

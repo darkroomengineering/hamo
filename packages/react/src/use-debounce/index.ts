@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { useEffectEvent } from '../use-effect-event'
 
 export type DebouncedFunction<T extends (...args: any[]) => void> = ((
   ...args: Parameters<T>
@@ -40,19 +41,6 @@ function timeout(callback: (...args: any[]) => void, delay: number) {
   const timeout = setTimeout(callback, delay)
 
   return () => clearTimeout(timeout)
-}
-
-function useEffectEvent<T extends (...args: any[]) => any>(callback: T): T {
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
-
-  const [memoizedCallback] = useState(
-    () =>
-      (...args: Parameters<T>) =>
-        callbackRef.current(...args)
-  )
-
-  return memoizedCallback as T
 }
 
 export function useDebouncedEffect(
