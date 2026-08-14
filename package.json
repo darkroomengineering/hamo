@@ -1,9 +1,13 @@
 {
   "name": "hamo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "hamo means hook, do the math.",
   "type": "module",
-  "workspaces": ["packages/*", "playground", "playground/*"],
+  "workspaces": [
+    "packages/*",
+    "playground",
+    "playground/*"
+  ],
   "sideEffects": false,
   "unpkg": "./dist/hamo.mjs",
   "main": "./dist/hamo.mjs",
@@ -16,7 +20,9 @@
     },
     "./dist/*": "./dist/*"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "author": "darkroom.engineering",
   "license": "MIT",
   "bugs": {
@@ -44,7 +50,10 @@
     "publish:main": "npm publish",
     "publish:dev": "npm publish --tag dev"
   },
-  "keywords": ["react", "hooks"],
+  "keywords": [
+    "react",
+    "hooks"
+  ],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "tsdown": "^0.21.4",
