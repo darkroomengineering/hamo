@@ -253,11 +253,14 @@ export function useScrollTrigger(
     const scroll = lenis ? Math.floor(lenis.scroll) : window.scrollY
     const { translate } = getTransform()
 
-    // support for Lenis infinite scroll
+    // Wrap the offset only for Lenis infinite scroll — on finite pages the
+    // wrap would turn "above the start" (negative offset) into "past the
+    // end", clamping progress to 1 anywhere before the trigger.
+    const scrollOffset = scroll - translate.y - startValue
     const progress = mapRange(
       0,
       endValue - startValue,
-      modulo(scroll - translate.y - startValue, lenis?.limit ?? 0),
+      lenis?.options.infinite ? modulo(scrollOffset, lenis.limit) : scrollOffset,
       0,
       1
     )
@@ -267,6 +270,7 @@ export function useScrollTrigger(
 
   useEffect(() => {
     if (lenis) {
+      update()
       lenis.on('scroll', update)
       return () => {
         lenis.off('scroll', update)
@@ -285,8 +289,10 @@ export function useScrollTrigger(
   // Recalculate when parent transforms change
   useTransform(update)
 
-  // Run update when deps change
-  useEffect(update, [...deps])
+  // Run update when geometry or deps change — this also fires the initial
+  // onProgress once the rect is measured, before any scroll happens (the
+  // mount-time calls no-op behind the isReady gate).
+  useEffect(update, [isReady, startValue, endValue, ...deps])
 
   // Debug: register/unregister from store
   useEffect(() => {
