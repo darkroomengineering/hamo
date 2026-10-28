@@ -1,6 +1,6 @@
 import { useScrollTrigger, TransformProvider, useRect } from 'hamo'
 import { Debugger } from 'hamo/scroll-trigger/debugger'
-import type { TransformRef } from 'hamo'
+import type { TransformRef, UseScrollTriggerOptions } from 'hamo'
 import { useRef, useState } from 'react'
 
 function Section({
@@ -78,7 +78,7 @@ function HeroSection() {
 // 2. Basic Progress
 function BasicProgressDemo() {
   const progressBarRef = useRef<HTMLDivElement>(null)
-  const boxRef = useRef<HTMLDivElement>(null)
+  const boxRef = useRef<HTMLDivElement | null>(null)
   const progressValueRef = useRef<HTMLSpanElement>(null)
   const activeValueRef = useRef<HTMLSpanElement>(null)
   const heightValueRef = useRef<HTMLSpanElement>(null)
@@ -159,7 +159,7 @@ function BasicProgressDemo() {
 
 // 3. Enter / Leave Events
 function EnterLeaveDemo() {
-  const boxRef = useRef<HTMLDivElement>(null)
+  const boxRef = useRef<HTMLDivElement | null>(null)
   const logRef = useRef<HTMLDivElement>(null)
   const eventsRef = useRef<string[]>([])
 
@@ -237,17 +237,17 @@ function PositionCard({
   endPos,
   label,
 }: {
-  startPos: string
-  endPos: string
+  startPos: UseScrollTriggerOptions['start']
+  endPos: UseScrollTriggerOptions['end']
   label: string
 }) {
   const progressBarRef = useRef<HTMLDivElement>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement | null>(null)
   const valueRef = useRef<HTMLSpanElement>(null)
 
   const [setRef] = useScrollTrigger({
-    start: startPos as `${string} ${string}`,
-    end: endPos as `${string} ${string}`,
+    start: startPos,
+    end: endPos,
     debug: label,
     onEnter: () => {
       if (cardRef.current) cardRef.current.dataset.active = 'true'
@@ -376,8 +376,8 @@ function StepsDemo() {
 
 // 6. Offset
 function OffsetDemo() {
-  const cardARef = useRef<HTMLDivElement>(null)
-  const cardBRef = useRef<HTMLDivElement>(null)
+  const cardARef = useRef<HTMLDivElement | null>(null)
+  const cardBRef = useRef<HTMLDivElement | null>(null)
   const valueARef = useRef<HTMLSpanElement>(null)
   const valueBRef = useRef<HTMLSpanElement>(null)
 
@@ -466,7 +466,7 @@ function OffsetDemo() {
 function DisabledDemo() {
   const [disabled, setDisabled] = useState(false)
   const progressBarRef = useRef<HTMLDivElement>(null)
-  const boxRef = useRef<HTMLDivElement>(null)
+  const boxRef = useRef<HTMLDivElement | null>(null)
   const valueRef = useRef<HTMLSpanElement>(null)
 
   const [setRef] = useScrollTrigger({
@@ -534,7 +534,7 @@ function DisabledDemo() {
 
 // 8. CSS Custom Property
 function CSSPropertyDemo() {
-  const boxRef = useRef<HTMLDivElement>(null)
+  const boxRef = useRef<HTMLDivElement | null>(null)
   const valueRef = useRef<HTMLSpanElement>(null)
 
   const [setRef] = useScrollTrigger({
@@ -585,7 +585,7 @@ function CSSPropertyDemo() {
 function TransformChildTrigger() {
   const progressBarRef = useRef<HTMLDivElement>(null)
   const valueRef = useRef<HTMLSpanElement>(null)
-  const boxRef = useRef<HTMLDivElement>(null)
+  const boxRef = useRef<HTMLDivElement | null>(null)
 
   const [setRectRef, rect] = useRect({
     ignoreTransform: true,
@@ -629,7 +629,7 @@ function TransformChildTrigger() {
 
 function TransformDemo() {
   const transformRef = useRef<TransformRef>(null)
-  const parentRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLDivElement | null>(null)
   const offsetValueRef = useRef<HTMLSpanElement>(null)
 
   const [setRef] = useScrollTrigger({
