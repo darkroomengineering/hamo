@@ -34,6 +34,12 @@ export function modulo(n: number, d: number) {
   return ((n % d) + d) % d
 }
 
+// Lenis 2 names the maximum scroll value `maxScroll`; Lenis 1 and LenisSync
+// name it `limit`.
+function getScrollLimit(lenis: { maxScroll: number } | { limit: number }) {
+  return 'maxScroll' in lenis ? lenis.maxScroll : lenis.limit
+}
+
 type TriggerPosition = 'top' | 'center' | 'bottom' | number
 type TriggerPositionCombination = `${TriggerPosition} ${TriggerPosition}`
 
@@ -260,7 +266,9 @@ export function useScrollTrigger(
     const progress = mapRange(
       0,
       endValue - startValue,
-      lenis?.options.infinite ? modulo(scrollOffset, lenis.limit) : scrollOffset,
+      lenis && 'infinite' in lenis.options && lenis.options.infinite
+        ? modulo(scrollOffset, getScrollLimit(lenis))
+        : scrollOffset,
       0,
       1
     )

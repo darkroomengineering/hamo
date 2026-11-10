@@ -16,6 +16,12 @@ const COLORS = [
 
 const BAR_W = 4
 
+// Lenis 2 names the maximum scroll value `maxScroll`; Lenis 1 and LenisSync
+// name it `limit`.
+function getScrollLimit(lenis: { maxScroll: number } | { limit: number }) {
+  return 'maxScroll' in lenis ? lenis.maxScroll : lenis.limit
+}
+
 interface DebuggerProps {
   theme?: 'light' | 'dark'
 }
@@ -38,7 +44,7 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
     function update() {
       if (!ref.current) return
       const docH = lenis
-        ? lenis.limit + wh
+        ? getScrollLimit(lenis) + wh
         : document.documentElement.scrollHeight
       const scroll = lenis ? lenis.scroll : window.scrollY
       const p = docH > wh ? scroll / (docH - wh) : 0
@@ -76,7 +82,7 @@ export function Debugger({ theme = 'dark' }: DebuggerProps) {
   const vr = ww && wh ? ww / wh : 1
   const h = 200 / vr
   const docH = lenis
-    ? lenis.limit + wh
+    ? getScrollLimit(lenis) + wh
     : typeof document !== 'undefined'
       ? document.documentElement.scrollHeight
       : 1
